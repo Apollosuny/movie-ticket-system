@@ -24,9 +24,9 @@ namespace MovieTicketSystem.Models
         public decimal Price { get; set; }
 
         [ForeignKey("BookingId")]
-        public Booking Booking { get; set; }
+        public Booking? Booking { get; set; }
 
         [ForeignKey("SeatId")]
-        public Seat Seat { get; set; }
+        public Seat? Seat { get; set; }
     }
 }

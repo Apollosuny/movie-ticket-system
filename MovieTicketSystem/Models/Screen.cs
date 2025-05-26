@@ -8,6 +8,7 @@ namespace MovieTicketSystem.Models
     {
         [Key]
         [Column("screen_id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ScreenId { get; set; }
 
         [Required]
@@ -18,5 +19,8 @@ namespace MovieTicketSystem.Models
         [Required]
         [Column("seat_capacity")]
         public int SeatCapacity { get; set; }
+
+        public ICollection<Seat>? Seats { get; set; }
+        public ICollection<Showtime>? Showtimes { get; set; }
     }
 }

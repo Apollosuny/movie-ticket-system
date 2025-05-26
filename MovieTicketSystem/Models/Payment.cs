@@ -26,9 +26,10 @@ namespace MovieTicketSystem.Models
 
         [Required]
         [Column("paid_at", TypeName = "datetime")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime PaidAt { get; set; }
 
         [ForeignKey("BookingId")]
-        public Booking Booking { get; set; }
+        public Booking? Booking { get; set; }
     }
 }

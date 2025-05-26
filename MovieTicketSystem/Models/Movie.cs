@@ -8,6 +8,7 @@ namespace MovieTicketSystem.Models
     {
         [Key]
         [Column("movie_id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MovieId { get; set; }
 
         [Required]
@@ -21,13 +22,15 @@ namespace MovieTicketSystem.Models
 
         [Column("description")]
         [StringLength(500)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Column("rating")]
         [StringLength(10)]
-        public string Rating { get; set; }
+        public string? Rating { get; set; }
 
         [Column("release_date", TypeName = "date")]
         public DateTime? ReleaseDate { get; set; }
+
+        public ICollection<Showtime>? Showtimes { get; set; }
     }
 }

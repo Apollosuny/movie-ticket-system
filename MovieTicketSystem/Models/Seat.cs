@@ -26,10 +26,10 @@ namespace MovieTicketSystem.Models
 
         [Column("type")]
         [StringLength(20)]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         [ForeignKey("ScreenId")]
-        public Screen Screen { get; set; }
-        public ICollection<Ticket> Tickets { get; set; }
+        public Screen? Screen { get; set; }
+        public ICollection<Ticket>? Tickets { get; set; }
     }
 }

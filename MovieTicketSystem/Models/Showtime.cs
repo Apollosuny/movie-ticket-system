@@ -28,11 +28,11 @@ namespace MovieTicketSystem.Models
         public decimal Price { get; set; }
 
         [ForeignKey("MovieId")]
-        public Movie Movie { get; set; }
+        public Movie? Movie { get; set; }
 
         [ForeignKey("ScreenId")]
-        public Screen Screen { get; set; }
+        public Screen? Screen { get; set; }
 
-        public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
     }
 }

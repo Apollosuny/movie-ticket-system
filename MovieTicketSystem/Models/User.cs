@@ -28,8 +28,9 @@ namespace MovieTicketSystem.Models
 
         [Required]
         [Column("created_at", TypeName = "datetime")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedAt { get; set; }
 
-        public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
     }
 }
