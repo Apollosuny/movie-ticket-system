@@ -9,33 +9,33 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MovieTicketSystem.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom mb-4">
+<body>    <header class="sticky-top">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark shadow py-2">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Index">
-                    <i class="bi bi-film me-2 text-primary fs-4"></i>
-                    <span>Movie Ticket System</span>
+                    <i class="bi bi-film me-2 text-primary fs-3"></i>
+                    <span class="fw-bold">Movie Tickets</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
-                </button>                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index"><i class="bi bi-house-door"></i> Home</a>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item mx-1">
+                            <a class="nav-link" asp-area="" asp-page="/Index"><i class="bi bi-house-door"></i> Trang chủ</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Movies/Index"><i class="bi bi-film"></i> Movies</a>
+                        <li class="nav-item mx-1">
+                            <a class="nav-link" asp-area="" asp-page="/Movies/Index"><i class="bi bi-film"></i> Phim</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Screens/Index"><i class="bi bi-display"></i> Screens</a>
+                        <li class="nav-item mx-1">
+                            <a class="nav-link" asp-area="" asp-page="/Showtimes/Index"><i class="bi bi-calendar-event"></i> Lịch chiếu</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Showtimes/Index"><i class="bi bi-calendar-event"></i> Showtimes</a>
+                        <li class="nav-item mx-1">
+                            <a class="nav-link" href="#"><i class="bi bi-ticket-perforated"></i> Khuyến mãi</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy"><i class="bi bi-shield-check"></i> Privacy</a>
+                        <li class="nav-item mx-1">
+                            <a class="nav-link" href="#"><i class="bi bi-info-circle"></i> Về chúng tôi</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -47,22 +47,57 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-    </div>    <footer class="border-top footer text-muted py-3">
+    </div>    <footer class="bg-dark text-white py-5">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <div class="d-flex align-items-center">
-                        <i class="bi bi-film me-2 text-primary"></i>
-                        <span>&copy; 2025 - Movie Ticket System</span>
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-film me-2 text-primary fs-3"></i>
+                        <span class="fs-4 fw-bold">Movie Tickets</span>
+                    </div>
+                    <p>Hệ thống đặt vé xem phim trực tuyến hàng đầu, mang đến cho bạn những trải nghiệm điện ảnh tuyệt vời nhất.</p>
+                    <div class="social-icons mt-3">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-4"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-4"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter-x fs-4"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-youtube fs-4"></i></a>
                     </div>
                 </div>
-                <div class="col-md-6 text-md-end mt-2 mt-md-0">
-                    <a asp-area="" asp-page="/Privacy" class="text-decoration-none">Privacy Policy</a>
-                    <span class="mx-2">|</span>
-                    <a href="#" class="text-decoration-none">Terms of Service</a>
-                    <span class="mx-2">|</span>
-                    <a href="#" class="text-decoration-none">Contact</a>
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 class="fw-bold mb-3">Liên kết</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Trang chủ</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Phim</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Lịch chiếu</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Khuyến mãi</a></li>
+                        <li><a asp-page="/Privacy" class="text-white text-decoration-none">Chính sách</a></li>
+                    </ul>
                 </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h5 class="fw-bold mb-3">Rạp chiếu phim</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Hà Nội</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Hồ Chí Minh</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Đà Nẵng</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Hải Phòng</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Cần Thơ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="fw-bold mb-3">Liên hệ</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> 123 Đường Phim, Quận 1, TP.HCM</li>
+                        <li class="mb-2"><i class="bi bi-telephone me-2"></i> 1900 1234 567</li>
+                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> contact@movietickets.com</li>
+                    </ul>
+                    <div class="mt-3">
+                        <a href="#" class="btn btn-outline-light">Liên hệ ngay</a>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-4 mb-3">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 Movie Tickets. Bản quyền thuộc về công ty TNHH Movie Tickets.</p>
             </div>
         </div>
     </footer>

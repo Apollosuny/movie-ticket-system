@@ -8,20 +8,30 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Xin chào @(UserManager.GetUserAsync(User).Result?.FullName ?? User.Identity?.Name)
+        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            @if (!string.IsNullOrEmpty(UserManager.GetUserAsync(User).Result?.Avatar))
+            {
+                <img src="@UserManager.GetUserAsync(User).Result.Avatar" class="rounded-circle me-2" width="32" height="32" alt="Avatar">
+            }
+            else
+            {
+                <i class="bi bi-person-circle me-2 fs-5"></i>
+            }
+            <span>@(UserManager.GetUserAsync(User).Result?.FullName ?? User.Identity?.Name)</span>
         </a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" asp-area="" asp-page="/Account/Manage/Index">Hồ sơ</a></li>
-            <li><a class="dropdown-item" asp-area="" asp-page="/Account/Manage/ChangePassword">Đổi mật khẩu</a></li>
+        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-light" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" asp-area="" asp-page="/Account/Manage/Index"><i class="bi bi-person me-2"></i>Hồ sơ</a></li>
+            <li><a class="dropdown-item" asp-area="" asp-page="/Account/Manage/ChangePassword"><i class="bi bi-key me-2"></i>Đổi mật khẩu</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-ticket-perforated me-2"></i>Vé của tôi</a></li>
             @if (User.IsInRole("Administrator"))
             {
-                <li><a class="dropdown-item" asp-area="" asp-page="/Admin/Users">Quản lý người dùng</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" asp-area="" asp-page="/Admin/Users"><i class="bi bi-people me-2"></i>Quản lý người dùng</a></li>
             }
             <li><hr class="dropdown-divider"></li>
             <li>
                 <form class="form-inline" asp-area="" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                    <button type="submit" class="btn btn-link dropdown-item">Đăng xuất</button>
+                    <button type="submit" class="btn btn-link dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</button>
                 </form>
             </li>
         </ul>
@@ -29,11 +39,15 @@
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-page="/Account/Register">Đăng ký</a>
+    <li class="nav-item ms-2">
+        <a class="btn btn-outline-primary" asp-area="" asp-page="/Account/Register">
+            <i class="bi bi-person-plus me-2"></i>Đăng ký
+        </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login">Đăng nhập</a>
+    <li class="nav-item ms-2">
+        <a class="btn btn-primary" asp-area="" asp-page="/Account/Login">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập
+        </a>
     </li>
 }
 </ul>
