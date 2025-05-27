@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using MovieTicketSystem.Models;
 
 namespace MovieTicketSystem.Pages.Movies
 {
+    [Authorize(Roles = "Administrator")]
     public class EditModel : PageModel
     {
         private readonly MovieTicketSystem.Data.MovieTicketContext _context;

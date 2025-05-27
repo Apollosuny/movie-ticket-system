@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using MovieTicketSystem.Models;
 
 namespace MovieTicketSystem.Pages.Screens
 {
+    [Authorize(Roles = "Administrator")]
     public class DeleteModel : PageModel
     {
         private readonly MovieTicketSystem.Data.MovieTicketContext _context;

@@ -2,26 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MovieTicketSystem.Models;
 
 namespace MovieTicketSystem.Data
 {
-    public class MovieTicketContext : DbContext
+    public class MovieTicketContext : IdentityDbContext<ApplicationUser>
     {
         public MovieTicketContext (DbContextOptions<MovieTicketContext> options)
             : base(options)
         {
         }
-        
-        public DbSet<MovieTicketSystem.Models.Movie> Movie { get; set; } = default!;
+          public DbSet<MovieTicketSystem.Models.Movie> Movie { get; set; } = default!;
         public DbSet<MovieTicketSystem.Models.Screen> Screen { get; set; } = default!;
         public DbSet<MovieTicketSystem.Models.Showtime> Showtime { get; set; } = default!;
         public DbSet<MovieTicketSystem.Models.Seat> Seat { get; set; } = default!;
         public DbSet<MovieTicketSystem.Models.Booking> Booking { get; set; } = default!;
         public DbSet<MovieTicketSystem.Models.Ticket> Ticket { get; set; } = default!;
-        public DbSet<MovieTicketSystem.Models.User> User { get; set; } = default!;
-        public DbSet<MovieTicketSystem.Models.Payment> Payment { get; set; } = default!;        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public DbSet<MovieTicketSystem.Models.Payment> Payment { get; set; } = default!;protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
@@ -63,14 +63,48 @@ namespace MovieTicketSystem.Data
 
             modelBuilder.Entity<Models.Ticket>()
                 .Property(t => t.Price)
-                .HasPrecision(18, 2);
-
-            // Keep default cascade for simple parent-child relationships
+                .HasPrecision(18, 2);            // Keep default cascade for simple parent-child relationships
             // Seat -> Screen: Cascade (default)
             // Booking -> User: Cascade (default)  
             // Booking -> Showtime: Cascade (default)
             // Payment -> Booking: Cascade (default)
             // Showtime -> Movie: Cascade (default)
+
+            // Cấu hình các bảng Identity
+            modelBuilder.Entity<ApplicationUser>(entity =>
+            {
+                entity.ToTable(name: "AspNetUsers");
+            });
+
+            modelBuilder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable(name: "AspNetRoles");
+            });
+
+            modelBuilder.Entity<IdentityUserRole<string>>(entity =>
+            {
+                entity.ToTable("AspNetUserRoles");
+            });
+
+            modelBuilder.Entity<IdentityUserClaim<string>>(entity =>
+            {
+                entity.ToTable("AspNetUserClaims");
+            });
+
+            modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
+            {
+                entity.ToTable("AspNetUserLogins");
+            });
+
+            modelBuilder.Entity<IdentityRoleClaim<string>>(entity =>
+            {
+                entity.ToTable("AspNetRoleClaims");
+            });
+
+            modelBuilder.Entity<IdentityUserToken<string>>(entity =>
+            {
+                entity.ToTable("AspNetUserTokens");
+            });
         }
     }
 }

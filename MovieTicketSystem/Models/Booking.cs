@@ -13,7 +13,7 @@ namespace MovieTicketSystem.Models
 
         [Required]
         [Column("user_id")]
-        public int UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
         [Required]
         [Column("showtime_id")]
@@ -31,10 +31,10 @@ namespace MovieTicketSystem.Models
         [Required]
         [Column("status")]
         [StringLength(20)]
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty;
 
         [ForeignKey("UserId")]
-        public User? User { get; set; }
+        public ApplicationUser? User { get; set; }
 
         [ForeignKey("ShowtimeId")]
         public Showtime? Showtime { get; set; }
