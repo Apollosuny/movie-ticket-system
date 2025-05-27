@@ -1,10 +1,91 @@
 ﻿@page
-@model IndexModel
+@model MovieTicketSystem.Pages.IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">Movie Ticket System</h1>
+        <p class="lead">Manage your cinema operations efficiently</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Movies</h5>
+                        <i class="bi bi-film fs-3 text-primary"></i>
+                    </div>
+                    <p class="card-text">Manage all movies, including details, showtimes, and more.</p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-page="/Movies/Index" class="btn btn-primary w-100">
+                        <i class="bi bi-arrow-right-circle"></i> Manage Movies
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Screens</h5>
+                        <i class="bi bi-display fs-3 text-success"></i>
+                    </div>
+                    <p class="card-text">Manage all cinema screens, seating arrangements, and capacities.</p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-page="/Screens/Index" class="btn btn-success w-100">
+                        <i class="bi bi-arrow-right-circle"></i> Manage Screens
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Bookings</h5>
+                        <i class="bi bi-calendar-check fs-3 text-info"></i>
+                    </div>
+                    <p class="card-text">Manage ticket bookings, payments, and customer information.</p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a href="#" class="btn btn-info w-100 text-white">
+                        <i class="bi bi-arrow-right-circle"></i> Manage Bookings
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Quick Stats</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col">
+                            <h3>@Model.MovieCount</h3>
+                            <p class="text-muted">Movies</p>
+                        </div>
+                        <div class="col">
+                            <h3>@Model.ScreenCount</h3>
+                            <p class="text-muted">Screens</p>
+                        </div>
+                        <div class="col">
+                            <h3>@Model.ShowtimeCount</h3>
+                            <p class="text-muted">Showtimes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
