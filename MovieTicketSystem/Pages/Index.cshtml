@@ -36,8 +36,7 @@
         
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             @foreach (var movie in Model.Movies)
-            {
-                <div class="col">
+            {                <div class="col">
                     <div class="card h-100 movie-card shadow-sm">
                         <img src="https://via.placeholder.com/350x500?text=@Uri.EscapeDataString(movie.Title)" class="card-img-top" alt="@movie.Title">
                         <div class="card-body">
@@ -50,7 +49,7 @@
                         </div>
                         <div class="card-footer bg-white">
                             <div class="d-grid gap-2">
-                                <a href="#" class="btn btn-primary">
+                                <a asp-page="/Movies/Details" asp-route-id="@movie.MovieId" class="btn btn-primary">
                                     <i class="bi bi-ticket-perforated me-2"></i>Đặt vé
                                 </a>
                                 <a asp-page="/Movies/Details" asp-route-id="@movie.MovieId" class="btn btn-outline-secondary">
@@ -72,8 +71,7 @@
         
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
             @foreach (var movie in Model.ComingSoonMovies)
-            {
-                <div class="col">
+            {                <div class="col">
                     <div class="card h-100 movie-card shadow-sm">
                         <div class="position-relative">
                             <img src="https://via.placeholder.com/300x450?text=@Uri.EscapeDataString(movie.Title)" class="card-img-top" alt="@movie.Title">

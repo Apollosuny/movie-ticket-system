@@ -1,0 +1,120 @@
+@page
+@model MovieTicketSystem.Pages.Account.Bookings.IndexModel
+@{
+    ViewData["Title"] = "Lịch sử đặt vé";
+}
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="/Index">Trang chủ</a></li>
+            <li class="breadcrumb-item active">Lịch sử đặt vé</li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4">Lịch sử đặt vé</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>@TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (!Model.Bookings.Any())
+    {
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle me-2"></i>
+            Bạn chưa có đơn đặt vé nào. <a asp-page="/Showtimes/Index">Xem lịch chiếu</a> và đặt vé ngay!
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var booking in Model.Bookings)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="bi bi-ticket-perforated me-2"></i>
+                                @booking.Showtime?.Movie?.Title
+                            </h5>
+                            @{
+                                var statusClass = booking.Status?.ToLower() switch
+                                {
+                                    "completed" => "bg-success",
+                                    "pending" => "bg-warning text-dark",
+                                    "cancelled" => "bg-danger",
+                                    _ => "bg-secondary"
+                                };
+
+                                var statusText = booking.Status?.ToLower() switch
+                                {
+                                    "completed" => "Đã thanh toán",
+                                    "pending" => "Chờ thanh toán",
+                                    "cancelled" => "Đã hủy",
+                                    _ => booking.Status
+                                };
+                            }
+                            <span class="badge @statusClass">@statusText</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <h6 class="text-muted mb-2">Thông tin suất chiếu:</h6>
+                                <p class="mb-1">
+                                    <i class="bi bi-calendar-event me-2"></i>
+                                    @booking.Showtime?.StartTime.ToString("dd/MM/yyyy HH:mm")
+                                </p>
+                                <p class="mb-1">
+                                    <i class="bi bi-display me-2"></i>
+                                    @booking.Showtime?.Screen?.Name
+                                </p>
+                                <p class="mb-0">
+                                    <i class="bi bi-chair me-2"></i>
+                                    Ghế: @string.Join(", ", booking.Tickets?.Select(t => $"{t.Seat?.Row}{t.Seat?.Number}") ?? Array.Empty<string>())
+                                </p>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="text-muted">Ngày đặt:</small><br/>
+                                    <strong>@booking.BookingTime.ToString("dd/MM/yyyy HH:mm")</strong>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">Tổng tiền:</small><br/>
+                                    <strong class="text-primary">@booking.TotalPrice.ToString("N0") VNĐ</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a asp-page="./Details" asp-route-id="@booking.BookingId" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-info-circle me-1"></i>Chi tiết
+                                </a>
+                                @if (booking.Status?.ToLower() == "pending")
+                                {
+                                    <form method="post" class="d-inline">
+                                        <input type="hidden" name="bookingId" value="@booking.BookingId" />
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn hủy đặt vé này?')">
+                                            <i class="bi bi-x-circle me-1"></i>Hủy đặt vé
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

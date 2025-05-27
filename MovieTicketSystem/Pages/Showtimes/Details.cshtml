@@ -1,42 +1,298 @@
-@page
+@page "{id:int?}"
 @model MovieTicketSystem.Pages.Showtimes.DetailsModel
 
 @{
-    ViewData["Title"] = "Showtime Details";
+    ViewData["Title"] = "Chi tiết suất chiếu";
 }
 
-<h1>Showtime Details</h1>
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="/Index">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a asp-page="./Index">Lịch chiếu</a></li>
+            <li class="breadcrumb-item active">@Model.Showtime.Movie?.Title</li>
+        </ol>
+    </nav>
 
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Movie
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Showtime.Movie!.Title)
-        </dd>
-        <dt class="col-sm-2">
-            Screen
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Showtime.Screen!.Name)
-        </dd>
-        <dt class="col-sm-2">
-            Start Time
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Showtime.StartTime)
-        </dd>
-        <dt class="col-sm-2">
-            Price
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Showtime.Price)
-        </dd>
-    </dl>
+    <div class="row">
+        <!-- Movie & Showtime Info -->
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <img src="https://via.placeholder.com/400x600?text=@Uri.EscapeDataString(Model.Showtime.Movie?.Title ?? "")" class="card-img-top" alt="@Model.Showtime.Movie?.Title">
+                <div class="card-body">
+                    <h4 class="card-title">@Model.Showtime.Movie?.Title</h4>
+                    <p class="text-muted mb-3">@Model.Showtime.Movie?.Duration phút</p>
+                    
+                    <div class="mb-3">
+                        <h6 class="text-muted mb-2">Thời gian chiếu:</h6>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-calendar-event me-2"></i>
+                            <span>@Model.Showtime.StartTime.ToString("dd/MM/yyyy HH:mm")</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6 class="text-muted mb-2">Phòng chiếu:</h6>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-display me-2"></i>
+                            <span>@Model.Showtime.Screen?.Name</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6 class="text-muted mb-2">Giá vé:</h6>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-tag me-2"></i>
+                            <span class="text-primary fw-bold">@Model.Showtime.Price.ToString("N0") VNĐ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seat Selection -->
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="bi bi-grid me-2"></i>Chọn ghế</h5>
+                </div>
+                <div class="card-body">
+                    @if (!User.Identity?.IsAuthenticated ?? true)
+                    {
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Vui lòng <a asp-page="/Account/Login" asp-route-returnUrl="@Request.Path">đăng nhập</a> để đặt vé.
+                        </div>
+                    }
+                    else
+                    {
+                        @if (!ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                            </div>
+                        }
+
+                        <form method="post" id="bookingForm" onsubmit="return validateForm()">
+                            <input type="hidden" asp-for="Id" value="@Model.Showtime.ShowtimeId" />
+                            <input type="hidden" asp-for="SelectedSeats" id="selectedSeatsInput" />
+                            
+                            <!-- Seat Map -->
+                            <div class="text-center mb-4">
+                                <div class="screen mb-4">
+                                    <div class="screen-text">MÀN HÌNH</div>
+                                </div>
+
+                                <div class="seat-map">
+                                    @foreach (var row in Model.SeatRows)
+                                    {
+                                        <div class="seat-row mb-2">
+                                            <div class="row-label me-3">@row.Key</div>
+                                            @foreach (var seat in row.Value)
+                                            {
+                                                string seatClass = "seat";
+                                                if (seat.IsBooked)
+                                                {
+                                                    seatClass += " booked";
+                                                }
+                                                <div class="@seatClass" 
+                                                     data-seat-id="@seat.SeatId" 
+                                                     data-row="@seat.Row" 
+                                                     data-number="@seat.Number"
+                                                     title="@seat.Row@seat.Number">
+                                                    @seat.Number
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Seat Legend -->
+                            <div class="seat-legend text-center mb-4">
+                                <div class="d-inline-flex align-items-center me-4">
+                                    <div class="seat-sample"></div>
+                                    <span class="ms-2">Ghế trống</span>
+                                </div>
+                                <div class="d-inline-flex align-items-center me-4">
+                                    <div class="seat-sample selected"></div>
+                                    <span class="ms-2">Ghế đã chọn</span>
+                                </div>
+                                <div class="d-inline-flex align-items-center">
+                                    <div class="seat-sample booked"></div>
+                                    <span class="ms-2">Ghế đã đặt</span>
+                                </div>
+                            </div>
+
+                            <!-- Booking Summary -->
+                            <div class="booking-summary mb-4">
+                                <h6>Tóm tắt đặt vé:</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p>Số ghế đã chọn: <span id="selectedCount">0</span></p>
+                                        <p>Ghế: <span id="selectedSeats"></span></p>
+                                    </div>
+                                    <div class="col-md-6 text-md-end">
+                                        <p>Giá vé: @Model.Showtime.Price.ToString("N0") VNĐ</p>
+                                        <p>Tổng tiền: <span id="totalPrice">0 VNĐ</span></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <div id="formError" class="alert alert-danger mb-3" style="display: none;">
+                                    Vui lòng chọn ít nhất một ghế trước khi đặt vé
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg px-5" id="bookButton" disabled>
+                                    <i class="bi bi-ticket-perforated me-2"></i>Đặt vé
+                                </button>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Showtime.ShowtimeId" class="btn btn-primary">Edit</a>
-    <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
-</div>
+
+@section Styles {
+    <style>
+        .screen {
+            background: #e9ecef;
+            height: 50px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: perspective(100px) rotateX(-5deg);
+        }
+
+        .screen-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .seat-map {
+            display: inline-block;
+            margin: auto;
+        }
+
+        .seat-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .row-label {
+            width: 30px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .seat {
+            width: 35px;
+            height: 35px;
+            margin: 3px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background-color: #e9ecef;
+            border: 1px solid #dee2e6;
+            transition: all 0.2s;
+            font-size: 0.8rem;
+        }
+
+        .seat:hover:not(.booked) {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .seat.selected {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .seat.booked {
+            background-color: #dc3545;
+            color: white;
+            cursor: not-allowed;
+        }
+
+        .seat-sample {
+            width: 25px;
+            height: 25px;
+            border-radius: 4px;
+            background-color: #e9ecef;
+            border: 1px solid #dee2e6;
+        }
+
+        .seat-sample.selected {
+            background-color: #0d6efd;
+        }
+
+        .seat-sample.booked {
+            background-color: #dc3545;
+        }
+
+        .booking-summary {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            const ticketPrice = @Model.Showtime.Price;
+            let selectedSeats = [];
+
+            $('.seat').click(function() {
+                if ($(this).hasClass('booked')) return;
+                
+                $(this).toggleClass('selected');
+                const seatId = $(this).data('seat-id');
+                const row = $(this).data('row');
+                const number = $(this).data('number');
+                const seatText = row + number;
+                
+                if ($(this).hasClass('selected')) {
+                    selectedSeats.push({id: seatId, text: seatText});
+                } else {
+                    selectedSeats = selectedSeats.filter(s => s.id !== seatId);
+                }
+                
+                updateBookingSummary();
+            });
+
+            function updateBookingSummary() {
+                $('#selectedCount').text(selectedSeats.length);
+                $('#selectedSeats').text(selectedSeats.map(s => s.text).join(', '));
+                $('#totalPrice').text((selectedSeats.length * ticketPrice).toLocaleString('vi-VN') + ' VNĐ');
+                $('#selectedSeatsInput').val(selectedSeats.map(s => s.id).join(','));
+                $('#formError').hide();
+                $('#bookButton').prop('disabled', selectedSeats.length === 0);
+            }
+        });
+
+        function validateForm() {
+            const selectedSeatsInput = $('#selectedSeatsInput').val();
+            if (!selectedSeatsInput) {
+                $('#formError').show();
+                return false;
+            }
+            return true;
+        }
+
+        // Add form submit handler for debugging
+        $('#bookingForm').on('submit', function(e) {
+            console.log('Form submitted');
+            console.log('Selected seats:', $('#selectedSeatsInput').val());
+            // Don't prevent default - let the form submit normally
+        });
+    </script>
+}

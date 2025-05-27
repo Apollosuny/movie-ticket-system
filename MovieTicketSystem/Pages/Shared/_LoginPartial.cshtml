@@ -22,7 +22,7 @@
         <ul class="dropdown-menu dropdown-menu-end shadow-sm border-light" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" asp-area="" asp-page="/Account/Manage/Index"><i class="bi bi-person me-2"></i>Hồ sơ</a></li>
             <li><a class="dropdown-item" asp-area="" asp-page="/Account/Manage/ChangePassword"><i class="bi bi-key me-2"></i>Đổi mật khẩu</a></li>
-            <li><a class="dropdown-item" href="#"><i class="bi bi-ticket-perforated me-2"></i>Vé của tôi</a></li>
+            <li><a class="dropdown-item" asp-area="" asp-page="/Account/Bookings/Index"><i class="bi bi-ticket-perforated me-2"></i>Vé của tôi</a></li>
             @if (User.IsInRole("Administrator"))
             {
                 <li><hr class="dropdown-divider"></li>
