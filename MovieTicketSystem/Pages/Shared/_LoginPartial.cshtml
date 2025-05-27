@@ -26,6 +26,7 @@
             @if (User.IsInRole("Administrator"))
             {
                 <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" asp-area="" asp-page="/Admin/Dashboard"><i class="bi bi-speedometer2 me-2"></i>Bảng điều khiển</a></li>
                 <li><a class="dropdown-item" asp-area="" asp-page="/Admin/Users"><i class="bi bi-people me-2"></i>Quản lý người dùng</a></li>
             }
             <li><hr class="dropdown-divider"></li>

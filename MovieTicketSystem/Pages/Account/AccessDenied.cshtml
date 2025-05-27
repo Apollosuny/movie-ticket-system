@@ -1,0 +1,24 @@
+@page
+@model MovieTicketSystem.Pages.Account.AccessDeniedModel
+@{
+    ViewData["Title"] = "Quyền truy cập bị từ chối";
+}
+<div class="container py-5">    
+  <div class="row justify-content-center">        
+    <div class="col-md-8 text-center">            
+      <div class="mb-4">                
+        <i class="bi bi-shield-lock text-danger" style="font-size: 5rem;"></i>
+                    </div>            
+                    <h1 class="display-4 fw-bold text-danger mb-3">Quyền truy cập bị từ chối</h1>            
+                    <p class="lead mb-4">Bạn không có quyền truy cập vào trang này. Trang này chỉ dành cho quản trị viên.</p>                        
+                    <div class="d-flex justify-content-center gap-3">                
+                      <a asp-page="/Index" class="btn btn-primary">                    
+                      <i class="bi bi-house-door me-2"></i>Về trang chủ                
+                      </a>                
+                      <a href="javascript:history.back()" class="btn btn-outline-secondary">     
+                                       <i class="bi bi-arrow-left me-2"></i>Quay lại               
+                                        </a>           
+                                         </div>       
+                                          </div>   
+                                           </div>
+                                           </div>

@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MovieTicketSystem.Data;
 using Microsoft.AspNetCore.Identity;
 using MovieTicketSystem.Models;
+using MovieTicketSystem.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -93,6 +94,9 @@ app.UseRouting();
 // Add Authentication and Authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Add Admin Authorization middleware
+app.UseAdminAuthorization();
 
 app.MapRazorPages();
 
