@@ -15,13 +15,13 @@ namespace MovieTicketSystem.Data
             : base(options)
         {
         }
-          public DbSet<MovieTicketSystem.Models.Movie> Movie { get; set; } = default!;
-        public DbSet<MovieTicketSystem.Models.Screen> Screen { get; set; } = default!;
-        public DbSet<MovieTicketSystem.Models.Showtime> Showtime { get; set; } = default!;
-        public DbSet<MovieTicketSystem.Models.Seat> Seat { get; set; } = default!;
-        public DbSet<MovieTicketSystem.Models.Booking> Booking { get; set; } = default!;
-        public DbSet<MovieTicketSystem.Models.Ticket> Ticket { get; set; } = default!;
-        public DbSet<MovieTicketSystem.Models.Payment> Payment { get; set; } = default!;protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public DbSet<MovieTicketSystem.Models.Movie> Movies { get; set; } = default!;
+        public DbSet<MovieTicketSystem.Models.Screen> Screens { get; set; } = default!;
+        public DbSet<MovieTicketSystem.Models.Showtime> Showtimes { get; set; } = default!;
+        public DbSet<MovieTicketSystem.Models.Seat> Seats { get; set; } = default!;
+        public DbSet<MovieTicketSystem.Models.Booking> Bookings { get; set; } = default!;
+        public DbSet<MovieTicketSystem.Models.Ticket> Tickets { get; set; } = default!;
+        public DbSet<MovieTicketSystem.Models.Payment> Payments { get; set; } = default!;protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 

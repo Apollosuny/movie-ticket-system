@@ -35,7 +35,7 @@ namespace MovieTicketSystem.Pages.Screens
                 return NotFound();
             }
 
-            var screen = await _context.Screen.FirstOrDefaultAsync(m => m.ScreenId == id);
+            var screen = await _context.Screens.FirstOrDefaultAsync(m => m.ScreenId == id);
             if (screen == null)
             {
                 return NotFound();
@@ -44,7 +44,7 @@ namespace MovieTicketSystem.Pages.Screens
             Screen = screen;
             
             // Check if there are any showtimes scheduled for this screen
-            HasRelatedShowtimes = await _context.Showtime.AnyAsync(s => s.ScreenId == id);
+            HasRelatedShowtimes = await _context.Showtimes.AnyAsync(s => s.ScreenId == id);
             
             return Page();
         }
@@ -54,10 +54,10 @@ namespace MovieTicketSystem.Pages.Screens
         public async Task<IActionResult> OnPostAsync()
         {
             // Check if there are any showtimes for this screen
-            HasRelatedShowtimes = await _context.Showtime.AnyAsync(s => s.ScreenId == Screen.ScreenId);
+            HasRelatedShowtimes = await _context.Showtimes.AnyAsync(s => s.ScreenId == Screen.ScreenId);
             
             // Check if there's already a screen with the same name (excluding current screen)
-            var existingScreen = await _context.Screen
+            var existingScreen = await _context.Screens
                 .FirstOrDefaultAsync(s => s.Name.ToLower() == Screen.Name.ToLower() 
                                        && s.ScreenId != Screen.ScreenId);
             
@@ -77,13 +77,13 @@ namespace MovieTicketSystem.Pages.Screens
             }
 
             // Get the original screen to check if seat capacity is being reduced
-            var originalScreen = await _context.Screen.AsNoTracking()
+            var originalScreen = await _context.Screens.AsNoTracking()
                 .FirstOrDefaultAsync(s => s.ScreenId == Screen.ScreenId);
                 
             if (originalScreen != null && Screen.SeatCapacity < originalScreen.SeatCapacity && HasRelatedShowtimes)
             {
                 // Check if any upcoming showtimes have bookings that would be affected
-                var hasBookings = await _context.Showtime
+                var hasBookings = await _context.Showtimes
                     .Where(s => s.ScreenId == Screen.ScreenId && s.StartTime > DateTime.Now)
                     .Include(s => s.Bookings)
                     .AnyAsync(s => s.Bookings != null && s.Bookings.Any());
@@ -119,7 +119,7 @@ namespace MovieTicketSystem.Pages.Screens
 
         private bool ScreenExists(int id)
         {
-            return _context.Screen.Any(e => e.ScreenId == id);
+            return _context.Screens.Any(e => e.ScreenId == id);
         }
     }
 }

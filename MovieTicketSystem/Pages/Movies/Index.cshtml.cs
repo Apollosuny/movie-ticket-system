@@ -19,11 +19,9 @@ namespace MovieTicketSystem.Pages.Movies
             _context = context;
         }
 
-        public IList<Movie> Movie { get;set; } = default!;
-
-        public async Task OnGetAsync()
+        public IList<Movie> Movie { get;set; } = default!;        public async Task OnGetAsync()
         {
-            Movie = await _context.Movie.ToListAsync();
+            Movie = await _context.Movies.ToListAsync();
         }
     }
 }

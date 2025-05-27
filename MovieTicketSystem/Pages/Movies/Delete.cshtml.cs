@@ -31,7 +31,7 @@ namespace MovieTicketSystem.Pages.Movies
                 return NotFound();
             }
 
-            var movie = await _context.Movie.FirstOrDefaultAsync(m => m.MovieId == id);
+            var movie = await _context.Movies.FirstOrDefaultAsync(m => m.MovieId == id);
 
             if (movie is not null)
             {
@@ -48,13 +48,11 @@ namespace MovieTicketSystem.Pages.Movies
             if (id == null)
             {
                 return NotFound();
-            }
-
-            var movie = await _context.Movie.FindAsync(id);
+            }            var movie = await _context.Movies.FindAsync(id);
             if (movie != null)
             {
                 Movie = movie;
-                _context.Movie.Remove(Movie);
+                _context.Movies.Remove(Movie);
                 await _context.SaveChangesAsync();
             }
 

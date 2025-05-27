@@ -23,14 +23,13 @@ public class IndexModel : PageModel
     public List<Movie> ComingSoonMovies { get; set; } = new List<Movie>();
 
     public async Task OnGetAsync()
-    {
-        // Get dashboard statistics
-        MovieCount = await _context.Movie.CountAsync();
-        ScreenCount = await _context.Screen.CountAsync();
-        ShowtimeCount = await _context.Showtime.CountAsync();
+    {        // Get dashboard statistics
+        MovieCount = await _context.Movies.CountAsync();
+        ScreenCount = await _context.Screens.CountAsync();
+        ShowtimeCount = await _context.Showtimes.CountAsync();
         
         // Try to get movies from the database
-        var dbMovies = await _context.Movie.ToListAsync();
+        var dbMovies = await _context.Movies.ToListAsync();
           // If no movies in the database, create mock data
         if (dbMovies == null || dbMovies.Count == 0)
         {

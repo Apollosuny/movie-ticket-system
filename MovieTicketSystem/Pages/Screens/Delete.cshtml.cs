@@ -33,15 +33,15 @@ namespace MovieTicketSystem.Pages.Screens
                 return NotFound();
             }
 
-            var screen = await _context.Screen.FirstOrDefaultAsync(m => m.ScreenId == id);
+            var screen = await _context.Screens.FirstOrDefaultAsync(m => m.ScreenId == id);
 
             if (screen is not null)
             {
                 Screen = screen;
                 
                 // Check if there are related showtimes or seats
-                HasRelatedData = await _context.Showtime.AnyAsync(s => s.ScreenId == id) ||
-                                await _context.Seat.AnyAsync(s => s.ScreenId == id);
+                HasRelatedData = await _context.Showtimes.AnyAsync(s => s.ScreenId == id) ||
+                                await _context.Seats.AnyAsync(s => s.ScreenId == id);
 
                 return Page();
             }
@@ -56,27 +56,27 @@ namespace MovieTicketSystem.Pages.Screens
                 return NotFound();
             }
 
-            var screen = await _context.Screen.FindAsync(id);
+            var screen = await _context.Screens.FindAsync(id);
             
             if (screen != null)
             {
                 // Check for related data before deleting
-                var relatedShowtimes = await _context.Showtime.Where(s => s.ScreenId == id).ToListAsync();
-                var relatedSeats = await _context.Seat.Where(s => s.ScreenId == id).ToListAsync();
+                var relatedShowtimes = await _context.Showtimes.Where(s => s.ScreenId == id).ToListAsync();
+                var relatedSeats = await _context.Seats.Where(s => s.ScreenId == id).ToListAsync();
                 
                 // Remove related data first
                 if (relatedShowtimes.Any())
                 {
-                    _context.Showtime.RemoveRange(relatedShowtimes);
+                    _context.Showtimes.RemoveRange(relatedShowtimes);
                 }
                 
                 if (relatedSeats.Any())
                 {
-                    _context.Seat.RemoveRange(relatedSeats);
+                    _context.Seats.RemoveRange(relatedSeats);
                 }
                 
                 // Remove the screen
-                _context.Screen.Remove(screen);
+                _context.Screens.Remove(screen);
                 await _context.SaveChangesAsync();
                 
                 TempData["SuccessMessage"] = $"Screen '{screen.Name}' and all related data were successfully deleted.";

@@ -32,7 +32,7 @@ namespace MovieTicketSystem.Pages.Movies
                 return NotFound();
             }
 
-            var movie =  await _context.Movie.FirstOrDefaultAsync(m => m.MovieId == id);
+            var movie =  await _context.Movies.FirstOrDefaultAsync(m => m.MovieId == id);
             if (movie == null)
             {
                 return NotFound();
@@ -69,11 +69,9 @@ namespace MovieTicketSystem.Pages.Movies
             }
 
             return RedirectToPage("./Index");
-        }
-
-        private bool MovieExists(int id)
+        }        private bool MovieExists(int id)
         {
-            return _context.Movie.Any(e => e.MovieId == id);
+            return _context.Movies.Any(e => e.MovieId == id);
         }
     }
 }

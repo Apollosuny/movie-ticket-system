@@ -27,14 +27,13 @@ namespace MovieTicketSystem.Pages.Screens
                 return NotFound();
             }
 
-            var screen = await _context.Screen.FirstOrDefaultAsync(m => m.ScreenId == id);
+            var screen = await _context.Screens.FirstOrDefaultAsync(m => m.ScreenId == id);
 
             if (screen is not null)
             {
                 Screen = screen;
-                
-                // Get upcoming showtimes for this screen
-                UpcomingShowtimes = await _context.Showtime
+                  // Get upcoming showtimes for this screen
+                UpcomingShowtimes = await _context.Showtimes
                     .Include(s => s.Movie)
                     .Where(s => s.ScreenId == id && s.StartTime > DateTime.Now)
                     .OrderBy(s => s.StartTime)

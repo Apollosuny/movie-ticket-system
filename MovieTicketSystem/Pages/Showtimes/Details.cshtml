@@ -1,0 +1,42 @@
+@page
+@model MovieTicketSystem.Pages.Showtimes.DetailsModel
+
+@{
+    ViewData["Title"] = "Showtime Details";
+}
+
+<h1>Showtime Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Movie
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Showtime.Movie!.Title)
+        </dd>
+        <dt class="col-sm-2">
+            Screen
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Showtime.Screen!.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Start Time
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Showtime.StartTime)
+        </dd>
+        <dt class="col-sm-2">
+            Price
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Showtime.Price)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Showtime.ShowtimeId" class="btn btn-primary">Edit</a>
+    <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+</div>

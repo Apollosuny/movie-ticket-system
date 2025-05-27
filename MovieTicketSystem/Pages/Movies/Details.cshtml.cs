@@ -28,7 +28,7 @@ namespace MovieTicketSystem.Pages.Movies
                 return NotFound();
             }
 
-            var movie = await _context.Movie.FirstOrDefaultAsync(m => m.MovieId == id);
+            var movie = await _context.Movies.FirstOrDefaultAsync(m => m.MovieId == id);
 
             if (movie is not null)
             {

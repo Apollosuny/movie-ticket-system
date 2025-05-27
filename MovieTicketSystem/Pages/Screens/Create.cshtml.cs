@@ -30,9 +30,8 @@ namespace MovieTicketSystem.Pages.Screens
         [BindProperty]
         public Screen Screen { get; set; } = default!;        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
-        {
-            // Check if there is already a screen with the same name
-            var existingScreen = await _context.Screen
+        {            // Check if there is already a screen with the same name
+            var existingScreen = await _context.Screens
                 .FirstOrDefaultAsync(s => s.Name.ToLower() == Screen.Name.ToLower());
             
             if (existingScreen != null)
@@ -44,13 +43,12 @@ namespace MovieTicketSystem.Pages.Screens
             {
                 ModelState.AddModelError("Screen.SeatCapacity", "Seating capacity must be greater than zero");
             }
-            
-            if (!ModelState.IsValid)
+              if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Screen.Add(Screen);
+            _context.Screens.Add(Screen);
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = $"Screen '{Screen.Name}' was created successfully!";

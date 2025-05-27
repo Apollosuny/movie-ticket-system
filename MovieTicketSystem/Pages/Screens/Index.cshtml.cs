@@ -19,11 +19,9 @@ namespace MovieTicketSystem.Pages.Screens
             _context = context;
         }
 
-        public IList<Screen> Screen { get;set; } = default!;
-
-        public async Task OnGetAsync()
+        public IList<Screen> Screen { get;set; } = default!;        public async Task OnGetAsync()
         {
-            Screen = await _context.Screen.ToListAsync();
+            Screen = await _context.Screens.ToListAsync();
         }
     }
 }

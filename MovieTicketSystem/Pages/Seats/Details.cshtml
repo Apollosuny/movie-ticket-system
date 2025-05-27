@@ -1,0 +1,42 @@
+@page
+@model MovieTicketSystem.Pages.Seats.DetailsModel
+
+@{
+    ViewData["Title"] = "Seat Details";
+}
+
+<h1>Seat Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Screen
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Seat.Screen!.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Row
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Seat.Row)
+        </dd>
+        <dt class="col-sm-2">
+            Number
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Seat.Number)
+        </dd>
+        <dt class="col-sm-2">
+            Type
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Seat.Type)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Seat.SeatId" class="btn btn-primary">Edit</a>
+    <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+</div>

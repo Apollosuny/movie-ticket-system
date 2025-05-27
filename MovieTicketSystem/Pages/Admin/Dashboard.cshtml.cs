@@ -35,13 +35,13 @@ namespace MovieTicketSystem.Pages.Admin
         public async Task OnGetAsync()
         {
             // Đếm số lượng các bản ghi
-            MovieCount = await _context.Movie.CountAsync();
-            ScreenCount = await _context.Screen.CountAsync();
-            ShowtimeCount = await _context.Showtime.CountAsync();
+            MovieCount = await _context.Movies.CountAsync();
+            ScreenCount = await _context.Screens.CountAsync();
+            ShowtimeCount = await _context.Showtimes.CountAsync();
             UserCount = await _userManager.Users.CountAsync();
 
             // Lấy 5 phim mới nhất
-            LatestMovies = await _context.Movie
+            LatestMovies = await _context.Movies
                 .OrderByDescending(m => m.MovieId)
                 .Take(5)
                 .ToListAsync();
