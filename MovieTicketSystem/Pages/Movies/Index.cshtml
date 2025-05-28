@@ -24,9 +24,11 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Movie[0].Rating)
+            </th>            <th>
+                @Html.DisplayNameFor(model => model.Movie[0].ReleaseDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movie[0].ReleaseDate)
+                @Html.DisplayNameFor(model => model.Movie[0].ImageBanner)
             </th>
             <th></th>
         </tr>
@@ -48,6 +50,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.ImageBanner))
+                {
+                    <img src="@item.ImageBanner" alt="@item.Title" height="50" />
+                }
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.MovieId">Edit</a> |

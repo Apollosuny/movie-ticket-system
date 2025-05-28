@@ -11,9 +11,10 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Movie.MovieId" />
+            <input type="hidden" asp-for="Movie.ImageBanner" />
             <div class="form-group">
                 <span class="text-danger">*</span>
                 <label asp-for="Movie.Title" class="control-label"></label>
@@ -37,13 +38,26 @@
                 <label asp-for="Movie.Rating" class="control-label"></label>
                 <input asp-for="Movie.Rating" class="form-control" />
                 <span asp-validation-for="Movie.Rating" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>            <div class="form-group">
                 
                 <label asp-for="Movie.ReleaseDate" class="control-label"></label>
                 <input asp-for="Movie.ReleaseDate" class="form-control" />
                 <span asp-validation-for="Movie.ReleaseDate" class="text-danger"></span>
+            </div>            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label">Image Banner</label>
+                <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
+            
+            @if (!string.IsNullOrEmpty(Model.Movie.ImageBanner))
+            {
+                <div class="form-group">
+                    <label>Current Image:</label>
+                    <div>
+                        <img src="@Model.Movie.ImageBanner" style="max-height: 150px;" alt="Movie banner" />
+                    </div>
+                </div>
+            }
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

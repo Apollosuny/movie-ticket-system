@@ -38,7 +38,14 @@
             @foreach (var movie in Model.Movies)
             {                <div class="col">
                     <div class="card h-100 movie-card shadow-sm">
-                        <img src="https://via.placeholder.com/350x500?text=@Uri.EscapeDataString(movie.Title)" class="card-img-top" alt="@movie.Title">
+                        @if (string.IsNullOrEmpty(movie.ImageBanner))
+                        {
+                            <img src="https://via.placeholder.com/350x500?text=@Uri.EscapeDataString(movie.Title)" class="card-img-top" alt="@movie.Title">
+                        }
+                        else
+                        {
+                            <img src="@movie.ImageBanner" class="card-img-top" alt="@movie.Title">
+                        }
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <h5 class="card-title mb-0">@movie.Title</h5>
@@ -74,7 +81,14 @@
             {                <div class="col">
                     <div class="card h-100 movie-card shadow-sm">
                         <div class="position-relative">
-                            <img src="https://via.placeholder.com/300x450?text=@Uri.EscapeDataString(movie.Title)" class="card-img-top" alt="@movie.Title">
+                            @if (string.IsNullOrEmpty(movie.ImageBanner))
+                            {
+                                <img src="https://via.placeholder.com/300x450?text=@Uri.EscapeDataString(movie.Title)" class="card-img-top" alt="@movie.Title">
+                            }
+                            else
+                            {
+                                <img src="@movie.ImageBanner" class="card-img-top" alt="@movie.Title">
+                            }
                             <div class="position-absolute top-0 end-0 m-2">
                                 <span class="badge bg-danger">Sắp chiếu</span>
                             </div>

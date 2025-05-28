@@ -17,6 +17,7 @@ Table movies {
   description  nvarchar[500]
   rating       nvarchar[10]
   release_date date
+  image_banner nvarchar[255]
 }
 
 Table screens {

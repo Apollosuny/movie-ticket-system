@@ -15,10 +15,16 @@
         </ol>
     </nav>
 
-    <div class="row">
-        <div class="col-md-4">
+    <div class="row">        <div class="col-md-4">
             <div class="card shadow-sm mb-4">
-                <img src="https://via.placeholder.com/400x600?text=@Uri.EscapeDataString(Model.Movie?.Title ?? "")" class="card-img-top" alt="@Model.Movie?.Title">
+                @if (string.IsNullOrEmpty(Model.Movie?.ImageBanner))
+                {
+                    <img src="https://via.placeholder.com/400x600?text=@Uri.EscapeDataString(Model.Movie?.Title ?? "")" class="card-img-top" alt="@Model.Movie?.Title">
+                }
+                else
+                {
+                    <img src="@Model.Movie.ImageBanner" class="card-img-top" alt="@Model.Movie?.Title">
+                }
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="card-title mb-0">@Model.Movie?.Title</h4>

@@ -14,7 +14,7 @@ namespace MovieTicketSystem.Models
         [Required]
         [Column("title")]
         [StringLength(200)]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         [Required]
         [Column("duration")]
@@ -30,6 +30,10 @@ namespace MovieTicketSystem.Models
 
         [Column("release_date", TypeName = "date")]
         public DateTime? ReleaseDate { get; set; }
+
+        [Column("image_banner")]
+        [StringLength(255)]
+        public string? ImageBanner { get; set; }
 
         public ICollection<Showtime>? Showtimes { get; set; }
     }

@@ -92,4 +92,10 @@ ehthumbs.db
 # Optional: if you use Entity Framework Core design-time factory
 # MovieTicketContextFactory.cs
 
+# images
+*.jpeg
+*.jpg
+*.png
+
+
 # End of .gitignore
