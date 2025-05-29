@@ -4,126 +4,152 @@
     ViewData["Title"] = "Bảng điều khiển quản trị";
 }
 
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mb-0"><i class="bi bi-speedometer2 me-2"></i>Bảng điều khiển quản trị</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a asp-page="/Index">Trang chủ</a></li>
-                <li class="breadcrumb-item active">Bảng điều khiển</li>
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+        <h1 class="text-2xl font-bold flex items-center"><i class="bi bi-speedometer2 mr-2"></i>Bảng điều khiển quản trị</h1>
+        <nav class="mt-2 md:mt-0">
+            <ol class="flex space-x-2 text-sm">
+                <li><a href="/" class="text-primary hover:underline">Trang chủ</a></li>
+                <li><span class="text-gray-500 mx-1">/</span></li>
+                <li class="text-gray-700">Bảng điều khiển</li>
             </ol>
         </nav>
     </div>
     
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card bg-primary text-white shadow h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div>
+            <div class="bg-primary text-white rounded-lg shadow-md h-full">
+                <div class="p-6">
+                    <div class="flex justify-between items-center">
                         <div>
-                            <h5 class="card-title">Phim</h5>
-                            <h2 class="mb-0">@Model.MovieCount</h2>
+                            <h5 class="text-lg font-medium mb-1">Phim</h5>
+                            <h2 class="text-3xl font-bold">@Model.MovieCount</h2>
                         </div>
-                        <i class="bi bi-film fs-1"></i>
+                        <i class="bi bi-film text-4xl opacity-80"></i>
                     </div>
                 </div>
-                <div class="card-footer bg-transparent border-0">
-                    <a asp-page="/Movies/Index" class="text-white text-decoration-none">
-                        Chi tiết <i class="bi bi-arrow-right"></i>
+                <div class="px-6 py-4 border-t border-white border-opacity-20">
+                    <a asp-page="/Movies/Index" class="text-white hover:underline flex items-center">
+                        Chi tiết <i class="bi bi-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-success text-white shadow h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
+        
+        <div>
+            <div class="bg-success text-white rounded-lg shadow-md h-full">
+                <div class="p-6">
+                    <div class="flex justify-between items-center">
                         <div>
-                            <h5 class="card-title">Màn hình</h5>
-                            <h2 class="mb-0">@Model.ScreenCount</h2>
+                            <h5 class="text-lg font-medium mb-1">Màn hình</h5>
+                            <h2 class="text-3xl font-bold">@Model.ScreenCount</h2>
                         </div>
-                        <i class="bi bi-display fs-1"></i>
+                        <i class="bi bi-display text-4xl opacity-80"></i>
                     </div>
                 </div>
-                <div class="card-footer bg-transparent border-0">
-                    <a asp-page="/Screens/Index" class="text-white text-decoration-none">
-                        Chi tiết <i class="bi bi-arrow-right"></i>
+                <div class="px-6 py-4 border-t border-white border-opacity-20">
+                    <a asp-page="/Screens/Index" class="text-white hover:underline flex items-center">
+                        Chi tiết <i class="bi bi-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-info text-white shadow h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
+        
+        <div>
+            <div class="bg-info text-white rounded-lg shadow-md h-full">
+                <div class="p-6">
+                    <div class="flex justify-between items-center">
                         <div>
-                            <h5 class="card-title">Suất chiếu</h5>
-                            <h2 class="mb-0">@Model.ShowtimeCount</h2>
+                            <h5 class="text-lg font-medium mb-1">Suất chiếu</h5>
+                            <h2 class="text-3xl font-bold">@Model.ShowtimeCount</h2>
                         </div>
-                        <i class="bi bi-calendar-event fs-1"></i>
+                        <i class="bi bi-calendar-event text-4xl opacity-80"></i>
                     </div>
                 </div>
-                <div class="card-footer bg-transparent border-0">
-                    <a asp-page="/Showtimes/Index" class="text-white text-decoration-none">
-                        Chi tiết <i class="bi bi-arrow-right"></i>
+                <div class="px-6 py-4 border-t border-white border-opacity-20">
+                    <a asp-page="/Showtimes/Index" class="text-white hover:underline flex items-center">
+                        Chi tiết <i class="bi bi-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-warning text-white shadow h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
+        
+        <div>
+            <div class="bg-warning text-white rounded-lg shadow-md h-full">
+                <div class="p-6">
+                    <div class="flex justify-between items-center">
                         <div>
-                            <h5 class="card-title">Người dùng</h5>
-                            <h2 class="mb-0">@Model.UserCount</h2>
+                            <h5 class="text-lg font-medium mb-1">Người dùng</h5>
+                            <h2 class="text-3xl font-bold">@Model.UserCount</h2>
                         </div>
-                        <i class="bi bi-people fs-1"></i>
+                        <i class="bi bi-people text-4xl opacity-80"></i>
                     </div>
                 </div>
-                <div class="card-footer bg-transparent border-0">
-                    <a asp-page="/Admin/Users" class="text-white text-decoration-none">
-                        Chi tiết <i class="bi bi-arrow-right"></i>
+                <div class="px-6 py-4 border-t border-white border-opacity-20">
+                    <a asp-page="/Admin/Users" class="text-white hover:underline flex items-center">
+                        Chi tiết <i class="bi bi-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
         </div>
     </div>
     
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h5 class="m-0 fw-bold">Phim mới nhất</h5>
-                    <a asp-page="/Movies/Create" class="btn btn-sm btn-primary">
-                        <i class="bi bi-plus-circle me-1"></i>Thêm phim mới
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-md mb-6">
+                <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                    <h5 class="font-bold">Phim mới nhất</h5>
+                    <a asp-page="/Movies/Create" class="bg-primary text-white px-4 py-2 rounded-md text-sm flex items-center hover:bg-opacity-90 transition-colors">
+                        <i class="bi bi-plus-circle mr-1"></i>Thêm phim mới
                     </a>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
+                <div class="p-6">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
                                 <tr>
-                                    <th>Tên phim</th>
-                                    <th>Thời lượng</th>
-                                    <th>Ngày phát hành</th>
-                                    <th>Xếp hạng</th>
-                                    <th>Hành động</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tên phim
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Thời lượng
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Ngày phát hành
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Xếp hạng
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Hành động
+                                    </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach (var movie in Model.LatestMovies)
                                 {
-                                    <tr>
-                                        <td>@movie.Title</td>
-                                        <td>@movie.Duration phút</td>
-                                        <td>@(movie.ReleaseDate?.ToString("dd/MM/yyyy"))</td>
-                                        <td>@movie.Rating</td>
-                                        <td>
-                                            <a asp-page="/Movies/Details" asp-route-id="@movie.MovieId" class="btn btn-sm btn-info">
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="font-medium text-gray-900">@movie.Title</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-gray-700">@movie.Duration phút</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-gray-700">@(movie.ReleaseDate?.ToString("dd/MM/yyyy"))</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary text-white">
+                                                @movie.Rating
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap flex space-x-2">
+                                            <a asp-page="/Movies/Details" asp-route-id="@movie.MovieId" 
+                                               class="bg-blue-500 text-white p-1.5 rounded hover:bg-blue-600 transition-colors">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a asp-page="/Movies/Edit" asp-route-id="@movie.MovieId" class="btn btn-sm btn-warning">
+                                            <a asp-page="/Movies/Edit" asp-route-id="@movie.MovieId"
+                                               class="bg-yellow-500 text-white p-1.5 rounded hover:bg-yellow-600 transition-colors">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                         </td>
@@ -136,55 +162,55 @@
             </div>
         </div>
         
-        <div class="col-md-4">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h5 class="m-0 fw-bold">Người dùng mới nhất</h5>
+        <div>
+            <div class="bg-white rounded-lg shadow-md mb-6">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h5 class="font-bold">Người dùng mới nhất</h5>
                 </div>
-                <div class="card-body">
-                    <div class="list-group">
+                <div class="p-6">
+                    <div class="space-y-3">
                         @foreach (var user in Model.LatestUsers)
                         {
-                            <div class="list-group-item list-group-item-action d-flex align-items-center">
+                            <div class="flex items-center p-3 rounded-md hover:bg-gray-50 transition-colors">
                                 @if (!string.IsNullOrEmpty(user.Avatar))
                                 {
-                                    <img src="@user.Avatar" class="rounded-circle me-3" width="40" height="40" alt="@user.FullName">
+                                    <img src="@user.Avatar" class="rounded-full mr-3 w-10 h-10 object-cover" alt="@user.FullName">
                                 }
                                 else
                                 {
-                                    <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-3" style="width:40px;height:40px">
+                                    <div class="rounded-full bg-gray-500 text-white flex items-center justify-center w-10 h-10 mr-3">
                                         <i class="bi bi-person"></i>
                                     </div>
                                 }
                                 <div>
-                                    <h6 class="mb-0">@user.FullName</h6>
-                                    <small class="text-muted">@user.Email</small>
+                                    <h6 class="font-medium text-gray-900">@user.FullName</h6>
+                                    <p class="text-sm text-gray-500">@user.Email</p>
                                 </div>
                             </div>
                         }
                     </div>
                 </div>
-                <div class="card-footer bg-transparent">
-                    <a asp-page="/Admin/Users" class="btn btn-sm btn-outline-primary w-100">
+                <div class="px-6 py-4 border-t border-gray-200">
+                    <a asp-page="/Admin/Users" class="block w-full py-2 px-4 border border-primary text-primary hover:bg-primary hover:text-white text-center rounded-md transition-colors">
                         Xem tất cả người dùng
                     </a>
                 </div>
             </div>
             
-            <div class="card shadow">
-                <div class="card-header py-3">
-                    <h5 class="m-0 fw-bold">Liên kết nhanh</h5>
+            <div class="bg-white rounded-lg shadow-md">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h5 class="font-bold">Liên kết nhanh</h5>
                 </div>
-                <div class="card-body">
-                    <div class="d-grid gap-2">
-                        <a asp-page="/Movies/Create" class="btn btn-outline-primary">
-                            <i class="bi bi-film me-2"></i>Thêm phim mới
+                <div class="p-6">
+                    <div class="space-y-3">
+                        <a asp-page="/Movies/Create" class="flex items-center py-2 px-4 border border-primary text-primary hover:bg-primary hover:text-white rounded-md transition-colors">
+                            <i class="bi bi-film mr-2"></i>Thêm phim mới
                         </a>
-                        <a asp-page="/Screens/Create" class="btn btn-outline-success">
-                            <i class="bi bi-display me-2"></i>Thêm màn hình mới
+                        <a asp-page="/Screens/Create" class="flex items-center py-2 px-4 border border-success text-success hover:bg-success hover:text-white rounded-md transition-colors">
+                            <i class="bi bi-display mr-2"></i>Thêm màn hình mới
                         </a>
-                        <a asp-page="/Showtimes/Create" class="btn btn-outline-info">
-                            <i class="bi bi-calendar-plus me-2"></i>Thêm suất chiếu mới
+                        <a asp-page="/Showtimes/Create" class="flex items-center py-2 px-4 border border-info text-info hover:bg-info hover:text-white rounded-md transition-colors">
+                            <i class="bi bi-calendar-plus mr-2"></i>Thêm suất chiếu mới
                         </a>
                     </div>
                 </div>

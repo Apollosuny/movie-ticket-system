@@ -5,39 +5,51 @@
     ViewData["Title"] = "Edit Seat";
 }
 
-<h1>Edit Seat</h1>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">Edit Seat</h1>
 
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Seat.SeatId" />
-            <div class="form-group">
-                <label asp-for="Seat.ScreenId" class="control-label">Screen</label>
-                <select asp-for="Seat.ScreenId" class="form-control" asp-items="ViewBag.ScreenId"></select>
-                <span asp-validation-for="Seat.ScreenId" class="text-danger"></span>
+    <div class="flex justify-center">
+        <div class="w-full md:w-2/3 lg:w-1/2">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="bg-red-50 text-red-600 p-4 rounded-md mb-6"></div>
+                    <input type="hidden" asp-for="Seat.SeatId" />
+                    
+                    <div class="mb-6">
+                        <label asp-for="Seat.ScreenId" class="block text-sm font-medium text-gray-700 mb-1">Screen</label>
+                        <select asp-for="Seat.ScreenId" class="block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent px-4 py-2" asp-items="ViewBag.ScreenId"></select>
+                        <span asp-validation-for="Seat.ScreenId" class="text-sm text-red-600"></span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label asp-for="Seat.Row" class="block text-sm font-medium text-gray-700 mb-1">Row</label>
+                        <input asp-for="Seat.Row" class="block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent px-4 py-2" maxlength="1" />
+                        <span asp-validation-for="Seat.Row" class="text-sm text-red-600"></span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label asp-for="Seat.Number" class="block text-sm font-medium text-gray-700 mb-1">Number</label>
+                        <input asp-for="Seat.Number" class="block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent px-4 py-2" type="number" />
+                        <span asp-validation-for="Seat.Number" class="text-sm text-red-600"></span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label asp-for="Seat.Type" class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                        <input asp-for="Seat.Type" class="block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent px-4 py-2" />
+                        <span asp-validation-for="Seat.Type" class="text-sm text-red-600"></span>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 mt-8">
+                        <button type="submit" class="bg-primary hover:bg-opacity-90 text-white py-2 px-6 rounded-md transition-colors">
+                            Save
+                        </button>
+                        <a asp-page="./Index" class="text-gray-600 hover:text-gray-900 py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                            Back to List
+                        </a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Seat.Row" class="control-label">Row</label>
-                <input asp-for="Seat.Row" class="form-control" maxlength="1" />
-                <span asp-validation-for="Seat.Row" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Seat.Number" class="control-label">Number</label>
-                <input asp-for="Seat.Number" class="form-control" type="number" />
-                <span asp-validation-for="Seat.Number" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Seat.Type" class="control-label">Type</label>
-                <input asp-for="Seat.Type" class="form-control" />
-                <span asp-validation-for="Seat.Type" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 

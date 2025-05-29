@@ -2,67 +2,97 @@
 @model MovieTicketSystem.Pages.Movies.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Phim";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Movie[0].Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Movie[0].Duration)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Movie[0].Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Movie[0].Rating)
-            </th>            <th>
-                @Html.DisplayNameFor(model => model.Movie[0].ReleaseDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Movie[0].ImageBanner)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Movie) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Duration)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                @if (!string.IsNullOrEmpty(item.ImageBanner))
-                {
-                    <img src="@item.ImageBanner" alt="@item.Title" height="50" />
+<div class="mb-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Danh sách phim</h1>
+        
+        @if (User.IsInRole("Administrator"))
+        {
+            <a asp-page="Create" class="bg-primary hover:bg-opacity-90 text-white font-medium py-2 px-4 rounded-md inline-flex items-center transition-colors">
+                <i class="bi bi-plus mr-2"></i>Thêm phim mới
+            </a>
+        }
+    </div>
+    
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            @Html.DisplayNameFor(model => model.Movie[0].Title)
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            @Html.DisplayNameFor(model => model.Movie[0].Duration)
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            @Html.DisplayNameFor(model => model.Movie[0].Description)
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            @Html.DisplayNameFor(model => model.Movie[0].Rating)
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            @Html.DisplayNameFor(model => model.Movie[0].ReleaseDate)
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            @Html.DisplayNameFor(model => model.Movie[0].ImageBanner)
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                @foreach (var item in Model.Movie) {
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="font-medium text-gray-900">@Html.DisplayFor(modelItem => item.Title)</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-gray-700">@Html.DisplayFor(modelItem => item.Duration) phút</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-gray-700 truncate max-w-xs">@Html.DisplayFor(modelItem => item.Description)</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary text-white">
+                                @Html.DisplayFor(modelItem => item.Rating)
+                            </span>
+                        </td>                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-gray-700">@Html.DisplayFor(modelItem => item.ReleaseDate)</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @if (!string.IsNullOrEmpty(item.ImageBanner))
+                            {
+                                <img src="@item.ImageBanner" alt="@item.Title" class="h-12 w-auto object-cover rounded" />
+                            }
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex space-x-2">
+                                <a asp-page="./Details" asp-route-id="@item.MovieId" class="text-primary hover:text-indigo-900">
+                                    <i class="bi bi-info-circle mr-1"></i>Chi tiết
+                                </a>
+                                
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <span class="text-gray-300">|</span>
+                                    <a asp-page="./Edit" asp-route-id="@item.MovieId" class="text-blue-600 hover:text-blue-900">
+                                        <i class="bi bi-pencil mr-1"></i>Sửa
+                                    </a>
+                                    <span class="text-gray-300">|</span>
+                                    <a asp-page="./Delete" asp-route-id="@item.MovieId" class="text-red-600 hover:text-red-900">
+                                        <i class="bi bi-trash mr-1"></i>Xóa
+                                    </a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
                 }
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.MovieId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.MovieId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.MovieId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

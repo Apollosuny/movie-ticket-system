@@ -4,50 +4,72 @@
     ViewData["Title"] = "Seats";
 }
 
-<h1>Seats</h1>
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold mb-4 md:mb-0">Seats</h1>
+        <a asp-page="Create" class="bg-primary hover:bg-opacity-90 text-white py-2 px-4 rounded-md inline-flex items-center transition-colors">
+            <i class="bi bi-plus-circle mr-2"></i> Create New
+        </a>
+    </div>
 
-<p>
-    <a asp-page="Create" class="btn btn-primary">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Screen
-            </th>
-            <th>
-                Row
-            </th>
-            <th>
-                Number
-            </th>
-            <th>
-                Type
-            </th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Seats) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Screen!.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Row)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.SeatId" class="btn btn-sm btn-primary">Edit</a>
-                <a asp-page="./Details" asp-route-id="@item.SeatId" class="btn btn-sm btn-info">Details</a>
-                <a asp-page="./Delete" asp-route-id="@item.SeatId" class="btn btn-sm btn-danger">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Screen
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Row
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Number
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Type
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var item in Model.Seats)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-gray-900">@Html.DisplayFor(modelItem => item.Screen!.Name)</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-gray-900">@Html.DisplayFor(modelItem => item.Row)</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-gray-900">@Html.DisplayFor(modelItem => item.Number)</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-gray-900">@Html.DisplayFor(modelItem => item.Type)</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex space-x-2">
+                                    <a asp-page="./Edit" asp-route-id="@item.SeatId" 
+                                       class="bg-blue-600 text-white px-2.5 py-1.5 text-xs rounded hover:bg-blue-700 transition-colors">
+                                        Edit
+                                    </a>
+                                    <a asp-page="./Details" asp-route-id="@item.SeatId" 
+                                       class="bg-blue-500 text-white px-2.5 py-1.5 text-xs rounded hover:bg-blue-600 transition-colors">
+                                        Details
+                                    </a>
+                                    <a asp-page="./Delete" asp-route-id="@item.SeatId"
+                                       class="bg-red-600 text-white px-2.5 py-1.5 text-xs rounded hover:bg-red-700 transition-colors">
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

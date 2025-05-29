@@ -5,66 +5,80 @@
     ViewData["Title"] = "Screens";
 }
 
-<div class="container py-4">    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mb-0">Movie Screens</h1>
-        <a asp-page="Create" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Add New Screen
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold mb-4 md:mb-0">Movie Screens</h1>
+        <a asp-page="Create" class="bg-primary hover:bg-opacity-90 text-white py-2 px-4 rounded-md inline-flex items-center transition-colors">
+            <i class="bi bi-plus-circle mr-2"></i> Add New Screen
         </a>
     </div>
     
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded flex items-start" role="alert">
+            <i class="bi bi-check-circle-fill mt-0.5 mr-2"></i>
+            <span>@TempData["SuccessMessage"]</span>
+            <button type="button" class="ml-auto" onclick="this.parentElement.style.display='none'">
+                <i class="bi bi-x"></i>
+            </button>
         </div>
     }
 
-    <div class="card shadow-sm">
-        <div class="card-header bg-light">
-            <h5 class="mb-0">Available Screens</h5>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+            <h5 class="font-semibold">Available Screens</h5>
         </div>
-        <div class="card-body p-0">
-            <table class="table table-hover table-striped mb-0">
-                <thead class="table-light">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
                     <tr>
-                        <th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             @Html.DisplayNameFor(model => model.Screen[0].Name)
                         </th>
-                        <th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             @Html.DisplayNameFor(model => model.Screen[0].SeatCapacity)
                         </th>
-                        <th>Actions</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                        </th>
                     </tr>
                 </thead>
-    <tbody>
-@foreach (var item in Model.Screen) {        <tr>
-            <td>
-                <strong>@Html.DisplayFor(modelItem => item.Name)</strong>
-            </td>
-            <td>
-                <span class="badge bg-info text-dark">@Html.DisplayFor(modelItem => item.SeatCapacity) seats</span>
-            </td>
-            <td>
-                <div class="btn-group btn-group-sm">
-                    <a asp-page="./Edit" asp-route-id="@item.ScreenId" class="btn btn-outline-primary">
-                        <i class="bi bi-pencil"></i> Edit
-                    </a>
-                    <a asp-page="./Details" asp-route-id="@item.ScreenId" class="btn btn-outline-info">
-                        <i class="bi bi-info-circle"></i> Details
-                    </a>
-                    <a asp-page="./Delete" asp-route-id="@item.ScreenId" class="btn btn-outline-danger">
-                        <i class="bi bi-trash"></i> Delete
-                    </a>
-                </div>
-            </td>
-        </tr>
-}    </tbody>
-</table>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var item in Model.Screen)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="font-medium text-gray-900">@Html.DisplayFor(modelItem => item.Name)</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2.5 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                                    @Html.DisplayFor(modelItem => item.SeatCapacity) seats
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex space-x-2">
+                                    <a asp-page="./Edit" asp-route-id="@item.ScreenId" 
+                                       class="inline-flex items-center px-3 py-1.5 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-600 hover:text-white transition-colors">
+                                        <i class="bi bi-pencil mr-1"></i> Edit
+                                    </a>
+                                    <a asp-page="./Details" asp-route-id="@item.ScreenId"
+                                       class="inline-flex items-center px-3 py-1.5 border border-blue-400 text-blue-500 rounded-md hover:bg-blue-400 hover:text-white transition-colors">
+                                        <i class="bi bi-info-circle mr-1"></i> Details
+                                    </a>
+                                    <a asp-page="./Delete" asp-route-id="@item.ScreenId"
+                                       class="inline-flex items-center px-3 py-1.5 border border-red-500 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition-colors">
+                                        <i class="bi bi-trash mr-1"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
     
-    <div class="mt-4 text-muted">
-        <p><small>Total screens: @Model.Screen.Count</small></p>
+    <div class="mt-4 text-gray-500 text-sm">
+        <p>Total screens: @Model.Screen.Count</p>
     </div>
 </div>

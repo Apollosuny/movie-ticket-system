@@ -4,67 +4,87 @@
     ViewData["Title"] = "Xác nhận đặt vé";
 }
 
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-body text-center p-5">
-                    <div class="display-1 text-success mb-4">
-                        <i class="bi bi-check-circle"></i>
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-center">
+        <div class="w-full max-w-3xl">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-8 text-center">
+                    <div class="text-6xl text-green-500 mb-6">
+                        <svg class="w-24 h-24 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
                     </div>
-                    <h2 class="mb-4">Đặt vé thành công!</h2>
+                    <h2 class="text-3xl font-bold mb-6">Đặt vé thành công!</h2>
                     
-                    <div class="alert alert-warning mb-4">
-                        <i class="bi bi-clock me-2"></i>
-                        Vui lòng thanh toán trong vòng <strong>15 phút</strong> để hoàn tất đặt vé
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-yellow-700">
+                                    Vui lòng thanh toán trong vòng <span class="font-bold">15 phút</span> để hoàn tất đặt vé
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title mb-4">Thông tin đặt vé</h5>
-                            <div class="row">
-                                <div class="col-md-6 text-start">
-                                    <p class="mb-2">
-                                        <strong>Phim:</strong><br/>
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg mb-6">
+                        <div class="p-5">
+                            <h5 class="font-bold text-lg mb-4 text-center">Thông tin đặt vé</h5>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="text-left">
+                                    <p class="mb-3">
+                                        <span class="font-medium text-gray-700 block mb-1">Phim:</span>
                                         @Model.Booking.Showtime?.Movie?.Title
                                     </p>
-                                    <p class="mb-2">
-                                        <strong>Suất chiếu:</strong><br/>
+                                    <p class="mb-3">
+                                        <span class="font-medium text-gray-700 block mb-1">Suất chiếu:</span>
                                         @Model.Booking.Showtime?.StartTime.ToString("dd/MM/yyyy HH:mm")
                                     </p>
                                     <p class="mb-0">
-                                        <strong>Phòng chiếu:</strong><br/>
+                                        <span class="font-medium text-gray-700 block mb-1">Phòng chiếu:</span>
                                         @Model.Booking.Showtime?.Screen?.Name
                                     </p>
                                 </div>
-                                <div class="col-md-6 text-start">
-                                    <p class="mb-2">
-                                        <strong>Số ghế:</strong><br/>
+                                <div class="text-left">
+                                    <p class="mb-3">
+                                        <span class="font-medium text-gray-700 block mb-1">Số ghế:</span>
                                         @string.Join(", ", Model.Booking.Tickets?.Select(t => $"{t.Seat?.Row}{t.Seat?.Number}") ?? Array.Empty<string>())
                                     </p>
-                                    <p class="mb-2">
-                                        <strong>Tổng tiền:</strong><br/>
-                                        <span class="text-primary">@Model.Booking.TotalPrice.ToString("N0") VNĐ</span>
+                                    <p class="mb-3">
+                                        <span class="font-medium text-gray-700 block mb-1">Tổng tiền:</span>
+                                        <span class="text-blue-600 font-medium">@Model.Booking.TotalPrice.ToString("N0") VNĐ</span>
                                     </p>
                                     <p class="mb-0">
-                                        <strong>Mã đặt vé:</strong><br/>
-                                        <span class="badge bg-secondary">@Model.Booking.BookingId</span>
+                                        <span class="font-medium text-gray-700 block mb-1">Mã đặt vé:</span>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-500 text-white">
+                                            @Model.Booking.BookingId
+                                        </span>
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <form method="post" class="mb-3">
+                    <form method="post" class="mb-5">
                         <input type="hidden" asp-for="Booking.BookingId" />
-                        <button type="submit" class="btn btn-primary btn-lg px-5">
-                            <i class="bi bi-credit-card me-2"></i>Thanh toán ngay
+                        <button type="submit" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                            </svg>
+                            Thanh toán ngay
                         </button>
                     </form>
 
-                    <div class="text-muted">
-                        <a asp-page="./Index" class="text-decoration-none">
-                            <i class="bi bi-arrow-left me-1"></i>Xem lịch sử đặt vé
+                    <div class="text-gray-500">
+                        <a asp-page="./Index" class="inline-flex items-center text-blue-600 hover:text-blue-800">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                            </svg>
+                            Xem lịch sử đặt vé
                         </a>
                     </div>
                 </div>

@@ -5,57 +5,57 @@
     ViewData["Title"] = "Delete Screen";
 }
 
-<div class="container py-4">
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-page="/Index">Home</a></li>
-            <li class="breadcrumb-item"><a asp-page="./Index">Screens</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Delete Screen</li>
+<div class="container mx-auto px-4 py-8">
+    <nav class="flex mb-6" aria-label="breadcrumb">
+        <ol class="flex space-x-2 text-sm">
+            <li><a href="/" class="text-primary hover:underline">Home</a></li>
+            <li><span class="text-gray-500 mx-1">/</span></li>
+            <li><a asp-page="./Index" class="text-primary hover:underline">Screens</a></li>
+            <li><span class="text-gray-500 mx-1">/</span></li>
+            <li class="text-gray-700">Delete Screen</li>
         </ol>
     </nav>
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card border-danger shadow">
-                <div class="card-header bg-danger text-white">
-                    <h4 class="mb-0"><i class="bi bi-exclamation-triangle-fill me-2"></i> Confirm Deletion</h4>
+    <div class="flex justify-center">
+        <div class="w-full md:w-3/4 lg:w-2/3">
+            <div class="bg-white border border-red-300 rounded-lg shadow-md overflow-hidden">
+                <div class="px-6 py-4 bg-red-600 text-white">
+                    <h4 class="font-bold flex items-center"><i class="bi bi-exclamation-triangle-fill mr-2"></i> Confirm Deletion</h4>
                 </div>
-                <div class="card-body">
+                <div class="p-6">
                     @if (Model.HasRelatedData)
                     {
-                        <div class="alert alert-warning" role="alert">
-                            <h5><i class="bi bi-exclamation-circle-fill me-2"></i> Warning!</h5>
-                            <p>This screen has related showtimes or seats. Deleting it will also remove all associated data.</p>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-md">
+                            <h5 class="text-yellow-800 font-medium flex items-center"><i class="bi bi-exclamation-circle-fill mr-2"></i> Warning!</h5>
+                            <p class="text-yellow-700">This screen has related showtimes or seats. Deleting it will also remove all associated data.</p>
                         </div>
                     }
                     
-                    <h5 class="mb-3">Are you sure you want to delete this screen?</h5>
+                    <h5 class="text-lg font-medium mb-4">Are you sure you want to delete this screen?</h5>
                     
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p class="mb-2 text-muted">Screen Name:</p>
-                                    <h5>@Model.Screen.Name</h5>
-                                </div>
-                                <div class="col-md-6">
-                                    <p class="mb-2 text-muted">Seating Capacity:</p>
-                                    <h5>@Model.Screen.SeatCapacity seats</h5>
-                                </div>
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">Screen Name:</p>
+                                <h5 class="font-medium">@Model.Screen.Name</h5>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">Seating Capacity:</p>
+                                <h5 class="font-medium">@Model.Screen.SeatCapacity seats</h5>
                             </div>
                         </div>
                     </div>
                     
-                    <p class="text-danger">This action cannot be undone.</p>
+                    <p class="text-red-600 font-medium mb-6">This action cannot be undone.</p>
                     
                     <form method="post">
                         <input type="hidden" asp-for="Screen.ScreenId" />
-                        <div class="d-flex justify-content-between">
-                            <a asp-page="./Index" class="btn btn-outline-secondary">
-                                <i class="bi bi-arrow-left"></i> Back to List
+                        <div class="flex justify-between items-center">
+                            <a asp-page="./Index" class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 bg-white rounded-md hover:bg-gray-50 transition-colors">
+                                <i class="bi bi-arrow-left mr-2"></i> Back to List
                             </a>
-                            <button type="submit" class="btn btn-danger">
-                                <i class="bi bi-trash"></i> Delete
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+                                <i class="bi bi-trash mr-2"></i> Delete
                             </button>
                         </div>
                     </form>
