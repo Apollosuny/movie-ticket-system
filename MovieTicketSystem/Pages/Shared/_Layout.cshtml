@@ -4,107 +4,215 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Movie Ticket System</title>    
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0d6efd',
+                        secondary: '#6c757d',
+                        success: '#198754',
+                        danger: '#dc3545',
+                        warning: '#ffc107',
+                        info: '#0dcaf0',
+                        light: '#f8f9fa',
+                        dark: '#212529'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif']
+                    },
+                    boxShadow: {
+                        sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                        DEFAULT: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+                        md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Any global styles that need to be included */
+        [x-cloak] { display: none !important; }
+    </style>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MovieTicketSystem.styles.css" asp-append-version="true" />
 </head>
-<body>    <header class="sticky-top">
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark shadow py-2">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Index">
-                    <i class="bi bi-film me-2 text-primary fs-3"></i>
-                    <span class="fw-bold">Movie Tickets</span>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item mx-1">
-                            <a class="nav-link" asp-area="" asp-page="/Index"><i class="bi bi-house-door"></i> Trang chủ</a>
+<body>    <header class="sticky top-0 z-50">
+        <nav class="bg-gray-900 shadow-md py-2">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center">
+                    <a class="flex items-center" asp-area="" asp-page="/Index">
+                        <i class="bi bi-film mr-2 text-primary text-2xl"></i>
+                        <span class="font-bold text-white">Movie Tickets</span>
+                    </a>
+                    <div class="hidden md:block">
+                        <ul class="flex space-x-4">
+                            <li>
+                                <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" asp-area="" asp-page="/Index">
+                                    <i class="bi bi-house-door mr-2"></i> Trang chủ
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" asp-area="" asp-page="/Movies/Index">
+                                    <i class="bi bi-film mr-2"></i> Phim
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" asp-area="" asp-page="/Showtimes/Index">
+                                    <i class="bi bi-calendar-event mr-2"></i> Lịch chiếu
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" href="#">
+                                    <i class="bi bi-ticket-perforated mr-2"></i> Khuyến mãi
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" href="#">
+                                    <i class="bi bi-info-circle mr-2"></i> Về chúng tôi
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="hidden md:block">
+                        <partial name="_LoginPartial" />
+                    </div>
+                    <button class="md:hidden text-white" id="mobile-menu-button">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Mobile menu -->
+                <div class="md:hidden hidden" id="mobile-menu">
+                    <ul class="pt-4 pb-3 space-y-1">
+                        <li>
+                            <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" asp-area="" asp-page="/Index">
+                                <i class="bi bi-house-door mr-2"></i> Trang chủ
+                            </a>
                         </li>
-                        <li class="nav-item mx-1">
-                            <a class="nav-link" asp-area="" asp-page="/Movies/Index"><i class="bi bi-film"></i> Phim</a>
+                        <li>
+                            <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" asp-area="" asp-page="/Movies/Index">
+                                <i class="bi bi-film mr-2"></i> Phim
+                            </a>
                         </li>
-                        <li class="nav-item mx-1">
-                            <a class="nav-link" asp-area="" asp-page="/Showtimes/Index"><i class="bi bi-calendar-event"></i> Lịch chiếu</a>
+                        <li>
+                            <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" asp-area="" asp-page="/Showtimes/Index">
+                                <i class="bi bi-calendar-event mr-2"></i> Lịch chiếu
+                            </a>
                         </li>
-                        <li class="nav-item mx-1">
-                            <a class="nav-link" href="#"><i class="bi bi-ticket-perforated"></i> Khuyến mãi</a>
+                        <li>
+                            <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" href="#">
+                                <i class="bi bi-ticket-perforated mr-2"></i> Khuyến mãi
+                            </a>
                         </li>
-                        <li class="nav-item mx-1">
-                            <a class="nav-link" href="#"><i class="bi bi-info-circle"></i> Về chúng tôi</a>
+                        <li>
+                            <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" href="#">
+                                <i class="bi bi-info-circle mr-2"></i> Về chúng tôi
+                            </a>
                         </li>
                     </ul>
-                    <partial name="_LoginPartial" />
+                    <div class="pt-2 pb-4 border-t border-gray-700">
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    </header>    <div class="container mx-auto px-4">
+        <main role="main" class="pb-8">
             @RenderBody()
         </main>
-    </div>    <footer class="bg-dark text-white py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <div class="d-flex align-items-center mb-3">
-                        <i class="bi bi-film me-2 text-primary fs-3"></i>
-                        <span class="fs-4 fw-bold">Movie Tickets</span>
+    </div>    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <div class="md:col-span-4">
+                    <div class="flex items-center mb-3">
+                        <i class="bi bi-film mr-2 text-primary text-2xl"></i>
+                        <span class="text-2xl font-bold">Movie Tickets</span>
                     </div>
-                    <p>Hệ thống đặt vé xem phim trực tuyến hàng đầu, mang đến cho bạn những trải nghiệm điện ảnh tuyệt vời nhất.</p>
-                    <div class="social-icons mt-3">
-                        <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-4"></i></a>
-                        <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-4"></i></a>
-                        <a href="#" class="text-white me-3"><i class="bi bi-twitter-x fs-4"></i></a>
-                        <a href="#" class="text-white"><i class="bi bi-youtube fs-4"></i></a>
+                    <p class="text-gray-300">Hệ thống đặt vé xem phim trực tuyến hàng đầu, mang đến cho bạn những trải nghiệm điện ảnh tuyệt vời nhất.</p>
+                    <div class="mt-4 flex space-x-4">
+                        <a href="#" class="text-white hover:text-primary transition-colors"><i class="bi bi-facebook text-xl"></i></a>
+                        <a href="#" class="text-white hover:text-primary transition-colors"><i class="bi bi-instagram text-xl"></i></a>
+                        <a href="#" class="text-white hover:text-primary transition-colors"><i class="bi bi-twitter-x text-xl"></i></a>
+                        <a href="#" class="text-white hover:text-primary transition-colors"><i class="bi bi-youtube text-xl"></i></a>
                     </div>
                 </div>
-                <div class="col-md-2 mb-4 mb-md-0">
-                    <h5 class="fw-bold mb-3">Liên kết</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Trang chủ</a></li>
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Phim</a></li>
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Lịch chiếu</a></li>
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Khuyến mãi</a></li>
-                        <li><a asp-page="/Privacy" class="text-white text-decoration-none">Chính sách</a></li>
+                <div class="md:col-span-2">
+                    <h5 class="font-bold text-lg mb-4">Liên kết</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Trang chủ</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Phim</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Lịch chiếu</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Khuyến mãi</a></li>
+                        <li><a asp-page="/Privacy" class="text-gray-300 hover:text-white transition-colors">Chính sách</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-4 mb-md-0">
-                    <h5 class="fw-bold mb-3">Rạp chiếu phim</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Hà Nội</a></li>
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Hồ Chí Minh</a></li>
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Đà Nẵng</a></li>
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Hải Phòng</a></li>
-                        <li><a href="#" class="text-white text-decoration-none">Cần Thơ</a></li>
+                <div class="md:col-span-3">
+                    <h5 class="font-bold text-lg mb-4">Rạp chiếu phim</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Hà Nội</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Hồ Chí Minh</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Đà Nẵng</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Hải Phòng</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Cần Thơ</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3">
-                    <h5 class="fw-bold mb-3">Liên hệ</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> 123 Đường Phim, Quận 1, TP.HCM</li>
-                        <li class="mb-2"><i class="bi bi-telephone me-2"></i> 1900 1234 567</li>
-                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> contact@movietickets.com</li>
+                <div class="md:col-span-3">
+                    <h5 class="font-bold text-lg mb-4">Liên hệ</h5>
+                    <ul class="space-y-2">
+                        <li class="flex items-start"><i class="bi bi-geo-alt mr-2 mt-1"></i> 123 Đường Phim, Quận 1, TP.HCM</li>
+                        <li class="flex items-center"><i class="bi bi-telephone mr-2"></i> 1900 1234 567</li>
+                        <li class="flex items-center"><i class="bi bi-envelope mr-2"></i> contact@movietickets.com</li>
                     </ul>
-                    <div class="mt-3">
-                        <a href="#" class="btn btn-outline-light">Liên hệ ngay</a>
+                    <div class="mt-4">
+                        <a href="#" class="inline-block px-4 py-2 border border-white rounded-md hover:bg-white hover:text-gray-900 transition-colors">Liên hệ ngay</a>
                     </div>
                 </div>
             </div>
-            <hr class="mt-4 mb-3">
+            <hr class="border-gray-700 my-6">
             <div class="text-center">
-                <p class="mb-0">&copy; 2025 Movie Tickets. Bản quyền thuộc về công ty TNHH Movie Tickets.</p>
+                <p class="text-gray-400">&copy; 2025 Movie Tickets. Bản quyền thuộc về công ty TNHH Movie Tickets.</p>
             </div>
         </div>
-    </footer>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    </footer>    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            // User dropdown toggle for desktop
+            const userMenuButton = document.getElementById('user-menu-button');
+            const userMenuDropdown = document.querySelector('[role="menu"]');
+            
+            if (userMenuButton && userMenuDropdown) {
+                userMenuButton.addEventListener('click', function() {
+                    userMenuDropdown.classList.toggle('hidden');
+                });
+                
+                // Close the dropdown when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!userMenuButton.contains(event.target) && !userMenuDropdown.contains(event.target)) {
+                        userMenuDropdown.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

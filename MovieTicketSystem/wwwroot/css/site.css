@@ -1,152 +1,21 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn-link.nav-link:focus,
-.form-control:focus,
-.form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
+/* Custom styles that are not easily replaced by Tailwind */
 
 html {
   position: relative;
   min-height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
-  margin-bottom: 60px;
-  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
-/* Custom styles for Movie Ticket System */
-.navbar-brand {
-  font-weight: 600;
-}
+/* Any custom styles that can't be easily achieved with Tailwind */
+/* You might need to keep some styles for third-party components */
 
-.card {
-  border-radius: 0.5rem;
-  transition: all 0.3s ease;
-  overflow: hidden;
-  border: none;
-}
+/* Custom animations that might be hard to achieve with Tailwind */
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
-}
+/* You can add any custom transitions or animations here if needed */
 
-.table {
-  vertical-align: middle;
-}
-
-/* Movie card styles */
-.movie-card {
-  border-radius: 10px;
-  border: none;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.movie-card img {
-  transition: all 0.5s ease;
-  height: 400px;
-  object-fit: cover;
-}
-
-.movie-card:hover img {
-  transform: scale(1.05);
-}
-
-.movie-card .card-body {
-  padding: 1.5rem;
-}
-
-.badge {
-  font-weight: 500;
-  padding: 0.5em 0.75em;
-  font-size: 0.7em;
-}
-
-.hero {
-  background: linear-gradient(135deg, #172a74, #21a9af);
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1;
-}
-
-.hero .container {
-  position: relative;
-  z-index: 2;
-}
-
-/* Navbar customization */
-.navbar-dark .nav-link {
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  transition: all 0.3s ease;
-}
-
-.navbar-dark .nav-link:hover {
-  color: #ffffff;
-}
-
-/* Button styles */
-.btn {
-  border-radius: 5px;
-  padding: 0.5rem 1.25rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.btn-primary {
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-}
-
-.btn-primary:hover {
-  background-color: #0b5ed7;
-  border-color: #0a58ca;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(13, 110, 253, 0.2);
-}
-
-.btn {
-  border-radius: 0.375rem;
-}
-
-.form-control:focus {
-  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-  border-color: #86b7fe;
-}
-
-/* Badge colors */
-.badge.bg-info {
-  color: #fff !important;
-}
-
-/* Footer styles */
-.footer {
-  background-color: #ffffff;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-  padding: 1rem 0;
-}
+/* Styles for elements that are not directly controlled by your code
+   (e.g., third-party components, framework-specific elements) */
