@@ -1,28 +1,29 @@
 @page
 @model MovieTicketSystem.Pages.Admin.DashboardModel
 @{
-    ViewData["Title"] = "Bảng điều khiển quản trị";
+    ViewData["Title"] = "Admin Dashboard";
 }
 
 <div class="container mx-auto px-4 py-8">
     <div class="flex flex-col md:flex-row justify-between items-center mb-8">
-        <h1 class="text-2xl font-bold flex items-center"><i class="bi bi-speedometer2 mr-2"></i>Bảng điều khiển quản trị</h1>
+        <h1 class="text-2xl font-bold flex items-center"><i class="bi bi-speedometer2 mr-2"></i>Admin Dashboard</h1>
         <nav class="mt-2 md:mt-0">
             <ol class="flex space-x-2 text-sm">
-                <li><a href="/" class="text-primary hover:underline">Trang chủ</a></li>
+                <li><a href="/" class="text-primary hover:underline">Home</a></li>
                 <li><span class="text-gray-500 mx-1">/</span></li>
-                <li class="text-gray-700">Bảng điều khiển</li>
+                <li class="text-gray-700">Dashboard</li>
             </ol>
         </nav>
     </div>
     
+    <!-- Quick Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div>
             <div class="bg-primary text-white rounded-lg shadow-md h-full">
                 <div class="p-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h5 class="text-lg font-medium mb-1">Phim</h5>
+                            <h5 class="text-lg font-medium mb-1">Movies</h5>
                             <h2 class="text-3xl font-bold">@Model.MovieCount</h2>
                         </div>
                         <i class="bi bi-film text-4xl opacity-80"></i>
@@ -30,7 +31,7 @@
                 </div>
                 <div class="px-6 py-4 border-t border-white border-opacity-20">
                     <a asp-page="/Movies/Index" class="text-white hover:underline flex items-center">
-                        Chi tiết <i class="bi bi-arrow-right ml-2"></i>
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
@@ -41,7 +42,7 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h5 class="text-lg font-medium mb-1">Màn hình</h5>
+                            <h5 class="text-lg font-medium mb-1">Screens</h5>
                             <h2 class="text-3xl font-bold">@Model.ScreenCount</h2>
                         </div>
                         <i class="bi bi-display text-4xl opacity-80"></i>
@@ -49,7 +50,7 @@
                 </div>
                 <div class="px-6 py-4 border-t border-white border-opacity-20">
                     <a asp-page="/Screens/Index" class="text-white hover:underline flex items-center">
-                        Chi tiết <i class="bi bi-arrow-right ml-2"></i>
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
@@ -60,7 +61,7 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h5 class="text-lg font-medium mb-1">Suất chiếu</h5>
+                            <h5 class="text-lg font-medium mb-1">Showtimes</h5>
                             <h2 class="text-3xl font-bold">@Model.ShowtimeCount</h2>
                         </div>
                         <i class="bi bi-calendar-event text-4xl opacity-80"></i>
@@ -68,7 +69,7 @@
                 </div>
                 <div class="px-6 py-4 border-t border-white border-opacity-20">
                     <a asp-page="/Showtimes/Index" class="text-white hover:underline flex items-center">
-                        Chi tiết <i class="bi bi-arrow-right ml-2"></i>
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
@@ -79,7 +80,7 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h5 class="text-lg font-medium mb-1">Người dùng</h5>
+                            <h5 class="text-lg font-medium mb-1">Users</h5>
                             <h2 class="text-3xl font-bold">@Model.UserCount</h2>
                         </div>
                         <i class="bi bi-people text-4xl opacity-80"></i>
@@ -87,20 +88,118 @@
                 </div>
                 <div class="px-6 py-4 border-t border-white border-opacity-20">
                     <a asp-page="/Admin/Users" class="text-white hover:underline flex items-center">
-                        Chi tiết <i class="bi bi-arrow-right ml-2"></i>
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
         </div>
     </div>
     
+    <!-- Activity Summary -->
+    <div class="bg-white rounded-lg shadow-md mb-8 overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h5 class="font-bold">Activity Summary</h5>
+            <div class="flex space-x-2">
+                <button class="bg-gray-100 text-gray-700 px-3 py-1 rounded-md text-sm hover:bg-gray-200 transition-colors">Weekly</button>
+                <button class="bg-primary text-white px-3 py-1 rounded-md text-sm hover:bg-opacity-90 transition-colors">Monthly</button>
+            </div>
+        </div>
+        <div class="p-6">
+            <div class="h-64">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const ctx = document.getElementById('salesChart').getContext('2d');
+                const salesChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Ticket Sales',
+                            data: [
+                                @(Model.WeeklyBookings.ContainsKey("Mon") ? Model.WeeklyBookings["Mon"] : 0),
+                                @(Model.WeeklyBookings.ContainsKey("Tue") ? Model.WeeklyBookings["Tue"] : 0),
+                                @(Model.WeeklyBookings.ContainsKey("Wed") ? Model.WeeklyBookings["Wed"] : 0),
+                                @(Model.WeeklyBookings.ContainsKey("Thu") ? Model.WeeklyBookings["Thu"] : 0),
+                                @(Model.WeeklyBookings.ContainsKey("Fri") ? Model.WeeklyBookings["Fri"] : 0),
+                                @(Model.WeeklyBookings.ContainsKey("Sat") ? Model.WeeklyBookings["Sat"] : 0),
+                                @(Model.WeeklyBookings.ContainsKey("Sun") ? Model.WeeklyBookings["Sun"] : 0)
+                            ],
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true
+                        }, {
+                            label: 'Revenue ($)',
+                            data: [
+                                @(Model.MonthlyRevenue.ContainsKey("Mon") ? Model.MonthlyRevenue["Mon"] : 0),
+                                @(Model.MonthlyRevenue.ContainsKey("Tue") ? Model.MonthlyRevenue["Tue"] : 0),
+                                @(Model.MonthlyRevenue.ContainsKey("Wed") ? Model.MonthlyRevenue["Wed"] : 0),
+                                @(Model.MonthlyRevenue.ContainsKey("Thu") ? Model.MonthlyRevenue["Thu"] : 0),
+                                @(Model.MonthlyRevenue.ContainsKey("Fri") ? Model.MonthlyRevenue["Fri"] : 0),
+                                @(Model.MonthlyRevenue.ContainsKey("Sat") ? Model.MonthlyRevenue["Sat"] : 0),
+                                @(Model.MonthlyRevenue.ContainsKey("Sun") ? Model.MonthlyRevenue["Sun"] : 0)
+                            ],
+                            backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                            borderColor: 'rgba(16, 185, 129, 1)',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true,
+                            yAxisID: 'y1'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Ticket Count'
+                                }
+                            },
+                            y1: {
+                                position: 'right',
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Revenue ($)'
+                                },
+                                grid: {
+                                    drawOnChartArea: false
+                                }
+                            }
+                        },
+                        interaction: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+    </div>
+    
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2">
             <div class="bg-white rounded-lg shadow-md mb-6">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                    <h5 class="font-bold">Phim mới nhất</h5>
+                    <h5 class="font-bold">Latest Movies</h5>
                     <a asp-page="/Movies/Create" class="bg-primary text-white px-4 py-2 rounded-md text-sm flex items-center hover:bg-opacity-90 transition-colors">
-                        <i class="bi bi-plus-circle mr-1"></i>Thêm phim mới
+                        <i class="bi bi-plus-circle mr-1"></i>Add New Movie
                     </a>
                 </div>
                 <div class="p-6">
@@ -109,19 +208,19 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Tên phim
+                                        Movie Title
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Thời lượng
+                                        Duration
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Ngày phát hành
+                                        Release Date
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Xếp hạng
+                                        Rating
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Hành động
+                                        Actions
                                     </th>
                                 </tr>
                             </thead>
@@ -133,10 +232,10 @@
                                             <div class="font-medium text-gray-900">@movie.Title</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-gray-700">@movie.Duration phút</div>
+                                            <div class="text-gray-700">@movie.Duration minutes</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-gray-700">@(movie.ReleaseDate?.ToString("dd/MM/yyyy"))</div>
+                                            <div class="text-gray-700">@(movie.ReleaseDate?.ToString("MM/dd/yyyy"))</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary text-white">
@@ -145,11 +244,11 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap flex space-x-2">
                                             <a asp-page="/Movies/Details" asp-route-id="@movie.MovieId" 
-                                               class="bg-blue-500 text-white p-1.5 rounded hover:bg-blue-600 transition-colors">
+                                               class="bg-blue-500 text-white p-1.5 rounded hover:bg-blue-600 transition-colors" title="View Details">
                                                 <i class="bi bi-eye"></i>
                                             </a>
                                             <a asp-page="/Movies/Edit" asp-route-id="@movie.MovieId"
-                                               class="bg-yellow-500 text-white p-1.5 rounded hover:bg-yellow-600 transition-colors">
+                                               class="bg-yellow-500 text-white p-1.5 rounded hover:bg-yellow-600 transition-colors" title="Edit Movie">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                         </td>
@@ -160,12 +259,87 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Recent Bookings -->
+            <div class="bg-white rounded-lg shadow-md">
+                <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                    <h5 class="font-bold">Recent Bookings</h5>
+                    <a href="#" class="text-primary hover:underline text-sm">View All</a>
+                </div>
+                <div class="p-6">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Reference #
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Movie
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Customer
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Amount
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <!-- Dummy data since we don't have actual bookings in the model -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        BK-12345
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Avengers: Endgame</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">John Smith</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">$25.00</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Completed
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        BK-12344
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Spider-Man: No Way Home</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Sarah Johnson</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">$18.00</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Pending
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <div>
+            <!-- Latest Users -->
             <div class="bg-white rounded-lg shadow-md mb-6">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h5 class="font-bold">Người dùng mới nhất</h5>
+                    <h5 class="font-bold">Latest Users</h5>
                 </div>
                 <div class="p-6">
                     <div class="space-y-3">
@@ -192,28 +366,115 @@
                 </div>
                 <div class="px-6 py-4 border-t border-gray-200">
                     <a asp-page="/Admin/Users" class="block w-full py-2 px-4 border border-primary text-primary hover:bg-primary hover:text-white text-center rounded-md transition-colors">
-                        Xem tất cả người dùng
+                        View All Users
                     </a>
                 </div>
             </div>
             
+            <!-- System Health -->
+            <div class="bg-white rounded-lg shadow-md mb-6">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h5 class="font-bold">System Health</h5>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-gray-700">Server Load</span>
+                                <span class="text-sm font-medium text-gray-700">45%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-gray-700">Database Usage</span>
+                                <span class="text-sm font-medium text-gray-700">72%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 72%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-gray-700">Storage</span>
+                                <span class="text-sm font-medium text-gray-700">23%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: 23%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Links -->
             <div class="bg-white rounded-lg shadow-md">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h5 class="font-bold">Liên kết nhanh</h5>
+                    <h5 class="font-bold">Quick Links</h5>
                 </div>
                 <div class="p-6">
                     <div class="space-y-3">
                         <a asp-page="/Movies/Create" class="flex items-center py-2 px-4 border border-primary text-primary hover:bg-primary hover:text-white rounded-md transition-colors">
-                            <i class="bi bi-film mr-2"></i>Thêm phim mới
+                            <i class="bi bi-film mr-2"></i>Add New Movie
                         </a>
                         <a asp-page="/Screens/Create" class="flex items-center py-2 px-4 border border-success text-success hover:bg-success hover:text-white rounded-md transition-colors">
-                            <i class="bi bi-display mr-2"></i>Thêm màn hình mới
+                            <i class="bi bi-display mr-2"></i>Add New Screen
                         </a>
                         <a asp-page="/Showtimes/Create" class="flex items-center py-2 px-4 border border-info text-info hover:bg-info hover:text-white rounded-md transition-colors">
-                            <i class="bi bi-calendar-plus mr-2"></i>Thêm suất chiếu mới
+                            <i class="bi bi-calendar-plus mr-2"></i>Add New Showtime
                         </a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Today's Schedule -->
+    <div class="bg-white rounded-lg shadow-md mb-8">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h5 class="font-bold">Today's Schedule</h5>
+            <a asp-page="/Showtimes/Index" class="text-sm text-primary hover:underline">View All Showtimes</a>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                @if (Model.TodaysShowtimes.Any())
+                {
+                    foreach (var showtime in Model.TodaysShowtimes)
+                    {
+                        <div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h6 class="font-medium">@showtime.Movie?.Title</h6>
+                                    <p class="text-sm text-gray-600">Screen @showtime.Screen?.Name</p>
+                                </div>
+                                <span class="px-2 py-1 bg-blue-200 text-blue-800 text-xs rounded-full">
+                                    @showtime.StartTime.ToString("h:mm tt")
+                                </span>
+                            </div>
+                            <div class="mt-3 flex justify-between items-center">
+                                <span class="text-xs text-gray-500">Duration: @(showtime.Movie?.Duration ?? 0) minutes</span>
+                                @{
+                                    // This would normally calculate based on booked seats, using placeholder for now
+                                    var random = new Random();
+                                    var percentBooked = random.Next(25, 95);
+                                    var textColor = percentBooked > 80 ? "text-green-600" : (percentBooked > 50 ? "text-yellow-600" : "text-blue-600");
+                                }
+                                <span class="text-xs font-medium @textColor">@percentBooked% Booked</span>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-span-3 text-center py-8">
+                        <p class="text-gray-500">No showtimes scheduled for today.</p>
+                        <a asp-page="/Showtimes/Create" class="inline-block mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition-colors">
+                            <i class="bi bi-plus-circle mr-1"></i>Add New Showtime
+                        </a>
+                    </div>
+                }
             </div>
         </div>
     </div>
