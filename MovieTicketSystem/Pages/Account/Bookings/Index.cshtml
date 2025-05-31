@@ -1,25 +1,25 @@
 @page
 @model MovieTicketSystem.Pages.Account.Bookings.IndexModel
 @{
-    ViewData["Title"] = "Lịch sử đặt vé";
+    ViewData["Title"] = "Booking History";
 }
 
 <div class="container mx-auto px-4 py-8">
     <nav class="mb-6">
         <ol class="flex items-center space-x-2 text-sm text-gray-500">
             <li>
-                <a asp-page="/Index" class="text-blue-600 hover:text-blue-800">Trang chủ</a>
+                <a asp-page="/Index" class="text-blue-600 hover:text-blue-800">Home</a>
             </li>
             <li>
                 <svg class="w-4 h-4 mx-1" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                 </svg>
             </li>
-            <li class="text-gray-700 font-medium">Lịch sử đặt vé</li>
+            <li class="text-gray-700 font-medium">Booking History</li>
         </ol>
     </nav>
 
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">Lịch sử đặt vé</h1>
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Booking History</h1>
 
     @if (TempData["SuccessMessage"] != null)
     {
@@ -36,7 +36,7 @@
                 <div class="ml-auto pl-3">
                     <div class="-mx-1.5 -my-1.5">
                         <button type="button" class="inline-flex rounded-md p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50" onclick="this.parentElement.parentElement.parentElement.parentElement.remove()">
-                            <span class="sr-only">Đóng</span>
+                            <span class="sr-only">Close</span>
                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
@@ -62,7 +62,7 @@
                 <div class="ml-auto pl-3">
                     <div class="-mx-1.5 -my-1.5">
                         <button type="button" class="inline-flex rounded-md p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 focus:ring-offset-red-50" onclick="this.parentElement.parentElement.parentElement.parentElement.remove()">
-                            <span class="sr-only">Đóng</span>
+                            <span class="sr-only">Close</span>
                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="ml-3">
                     <p class="text-sm text-blue-700">
-                        Bạn chưa có đơn đặt vé nào. <a asp-page="/Showtimes/Index" class="font-medium text-blue-700 underline">Xem lịch chiếu</a> và đặt vé ngay!
+                        You don't have any bookings yet. <a asp-page="/Showtimes/Index" class="font-medium text-blue-700 underline">View showtimes</a> and book now!
                     </p>
                 </div>
             </div>
@@ -114,9 +114,9 @@
 
                             var statusText = booking.Status?.ToLower() switch
                             {
-                                "completed" => "Đã thanh toán",
-                                "pending" => "Chờ thanh toán",
-                                "cancelled" => "Đã hủy",
+                                "completed" => "Completed",
+                                "pending" => "Pending",
+                                "cancelled" => "Cancelled",
                                 _ => booking.Status
                             };
                         }
@@ -124,12 +124,12 @@
                     </div>
                     <div class="p-5 flex-grow">
                         <div class="mb-4">
-                            <h6 class="text-sm font-medium text-gray-500 mb-2">Thông tin suất chiếu:</h6>
+                            <h6 class="text-sm font-medium text-gray-500 mb-2">Showtime Information:</h6>
                             <p class="mb-1 text-gray-700 flex items-center">
                                 <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
-                                @booking.Showtime?.StartTime.ToString("dd/MM/yyyy HH:mm")
+                                @booking.Showtime?.StartTime.ToString("MM/dd/yyyy HH:mm")
                             </p>
                             <p class="mb-1 text-gray-700 flex items-center">
                                 <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,18 +141,18 @@
                                 <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
-                                Ghế: @string.Join(", ", booking.Tickets?.Select(t => $"{t.Seat?.Row}{t.Seat?.Number}") ?? Array.Empty<string>())
+                                Seats: @string.Join(", ", booking.Tickets?.Select(t => $"{t.Seat?.Row}{t.Seat?.Number}") ?? Array.Empty<string>())
                             </p>
                         </div>
 
                         <div class="flex justify-between items-center">
                             <div>
-                                <span class="text-xs text-gray-500">Ngày đặt:</span><br/>
-                                <strong class="font-medium">@booking.BookingTime.ToString("dd/MM/yyyy HH:mm")</strong>
+                                <span class="text-xs text-gray-500">Booking Date:</span><br/>
+                                <strong class="font-medium">@booking.BookingTime.ToString("MM/dd/yyyy HH:mm")</strong>
                             </div>
                             <div class="text-right">
-                                <span class="text-xs text-gray-500">Tổng tiền:</span><br/>
-                                <strong class="text-blue-600 font-medium">@booking.TotalPrice.ToString("N0") VNĐ</strong>
+                                <span class="text-xs text-gray-500">Total:</span><br/>
+                                <strong class="text-blue-600 font-medium">$@(booking.TotalPrice/23000).00</strong>
                             </div>
                         </div>
                     </div>
@@ -163,19 +163,19 @@
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                Chi tiết
+                                Details
                             </a>
                             @if (booking.Status?.ToLower() == "pending")
                             {
                                 <form method="post" class="inline">
                                     <input type="hidden" name="bookingId" value="@booking.BookingId" />
                                     <button type="submit" 
-                                            onclick="return confirm('Bạn có chắc muốn hủy đặt vé này?')"
+                                            onclick="return confirm('Are you sure you want to cancel this booking?')"
                                             class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
                                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                         </svg>
-                                        Hủy đặt vé
+                                        Cancel Booking
                                     </button>
                                 </form>
                             }

@@ -28,17 +28,17 @@ namespace MovieTicketSystem.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Email là bắt buộc")]
-            [EmailAddress(ErrorMessage = "Email không hợp lệ")]
+            [Required(ErrorMessage = "Email is required")]
+            [EmailAddress(ErrorMessage = "Invalid email address")]
             [Display(Name = "Email")]
             public string Email { get; set; } = string.Empty;
 
-            [Required(ErrorMessage = "Mật khẩu là bắt buộc")]
+            [Required(ErrorMessage = "Password is required")]
             [DataType(DataType.Password)]
-            [Display(Name = "Mật khẩu")]
+            [Display(Name = "Password")]
             public string Password { get; set; } = string.Empty;
 
-            [Display(Name = "Ghi nhớ đăng nhập")]
+            [Display(Name = "Remember me")]
             public bool RememberMe { get; set; }
         }
 
@@ -68,7 +68,7 @@ namespace MovieTicketSystem.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("Người dùng đã đăng nhập.");
+                    _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -77,12 +77,12 @@ namespace MovieTicketSystem.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("Tài khoản đã bị khóa.");
+                    _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, TranslateErrorMessage("InvalidUserNameOrPassword", "Đăng nhập không hợp lệ."));
+                    ModelState.AddModelError(string.Empty, TranslateErrorMessage("InvalidUserNameOrPassword", "Invalid username or password."));
                     return Page();
                 }
             }
@@ -96,11 +96,11 @@ namespace MovieTicketSystem.Pages.Account
         {
             return errorCode switch
             {
-                "InvalidEmail" => "Email không hợp lệ.",
-                "InvalidUserName" => "Tên người dùng không hợp lệ.",
-                "InvalidUserNameOrPassword" => "Tên đăng nhập hoặc mật khẩu không đúng.",
-                "UserLockoutEnabled" => "Tài khoản đã bị khóa.",
-                "PasswordMismatch" => "Mật khẩu không đúng.",
+                "InvalidEmail" => "Invalid email address.",
+                "InvalidUserName" => "Invalid username.",
+                "InvalidUserNameOrPassword" => "Invalid username or password.",
+                "UserLockoutEnabled" => "Account has been locked.",
+                "PasswordMismatch" => "Incorrect password.",
                 _ => defaultMessage
             };
         }

@@ -120,7 +120,7 @@ namespace MovieTicketSystem.Pages.Showtimes
             // Check if there's any selected seats
             if (string.IsNullOrEmpty(SelectedSeats))
             {
-                ModelState.AddModelError("", "Vui lòng chọn ít nhất một ghế.");
+                ModelState.AddModelError("", "Please select at least one seat.");
                 return await OnGetAsync(Id);
             }
 
@@ -142,7 +142,7 @@ namespace MovieTicketSystem.Pages.Showtimes
 
             if (bookedSeats)
             {
-                ModelState.AddModelError("", "Một số ghế đã được đặt. Vui lòng chọn ghế khác.");
+                ModelState.AddModelError("", "Some seats are already booked. Please select different seats.");
                 return await OnGetAsync(Id);
             }
 

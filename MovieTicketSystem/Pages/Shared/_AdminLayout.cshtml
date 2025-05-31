@@ -9,7 +9,7 @@
         <div class="flex items-center justify-between p-4 border-b border-gray-700">
             <div class="flex items-center space-x-2">
                 <i class="bi bi-film text-blue-500 text-2xl"></i>
-                <span class="text-lg font-semibold">Bảng quản trị</span>
+                <span class="text-lg font-semibold">Admin Dashboard</span>
             </div>
             <button id="closeSidebar" class="lg:hidden text-gray-300 hover:text-white">
                 <i class="bi bi-x text-xl"></i>
@@ -23,8 +23,8 @@
                     <i class="bi bi-person-fill text-white"></i>
                 </div>
                 <div>
-                    <p class="text-sm font-medium">Quản trị viên</p>
-                    <p class="text-xs text-gray-400">Người quản trị</p>
+                    <p class="text-sm font-medium">Administrator</p>
+                    <p class="text-xs text-gray-400">System Admin</p>
                 </div>
             </div>
         </div>
@@ -155,14 +155,14 @@
                         </button>
                         <div id="userDropdown" class="absolute right-0 mt-2 bg-white rounded shadow-lg w-48 hidden z-20">
                             <a href="#" class="block px-4 py-2 hover:bg-gray-50 text-sm">
-                                <i class="bi bi-person-circle mr-2"></i>Hồ sơ
+                                <i class="bi bi-person-circle mr-2"></i>Profile
                             </a>
                             <a href="#" class="block px-4 py-2 hover:bg-gray-50 text-sm">
-                                <i class="bi bi-gear mr-2"></i>Cài đặt
+                                <i class="bi bi-gear mr-2"></i>Settings
                             </a>
                             <div class="border-t border-gray-100"></div>
                             <a href="/Account/Logout" class="block px-4 py-2 hover:bg-gray-50 text-sm text-red-500">
-                                <i class="bi bi-box-arrow-right mr-2"></i>Đăng xuất
+                                <i class="bi bi-box-arrow-right mr-2"></i>Logout
                             </a>
                         </div>
                     </div>
@@ -174,11 +174,11 @@
                 <nav class="flex" aria-label="Breadcrumb">
                     <ol class="flex items-center space-x-1 text-sm">
                         <li>
-                            <a href="/" class="text-gray-500 hover:text-gray-700">Trang chủ</a>
+                            <a href="/" class="text-gray-500 hover:text-gray-700">Home</a>
                         </li>
                         <li class="flex items-center space-x-1">
                             <span class="text-gray-400">/</span>
-                            <a href="/Admin/Dashboard" class="text-gray-500 hover:text-gray-700">Quản trị</a>
+                            <a href="/Admin/Dashboard" class="text-gray-500 hover:text-gray-700">Admin</a>
                         </li>
                         <li class="flex items-center space-x-1">
                             <span class="text-gray-400">/</span>
@@ -232,12 +232,12 @@
         <footer class="bg-white border-t border-gray-200 px-4 py-3">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="text-sm text-gray-600 mb-2 md:mb-0">
-                    &copy; @DateTime.Now.Year Hệ thống đặt vé xem phim. Bản quyền đã được đăng ký.
+                    &copy; @DateTime.Now.Year Movie Ticket System. All rights reserved.
                 </div>
                 <div class="flex space-x-4">
-                    <a href="#" class="text-sm text-gray-600 hover:text-blue-500">Chính sách bảo mật</a>
-                    <a href="#" class="text-sm text-gray-600 hover:text-blue-500">Điều khoản dịch vụ</a>
-                    <a href="#" class="text-sm text-gray-600 hover:text-blue-500">Trợ giúp</a>
+                    <a href="#" class="text-sm text-gray-600 hover:text-blue-500">Privacy Policy</a>
+                    <a href="#" class="text-sm text-gray-600 hover:text-blue-500">Terms of Service</a>
+                    <a href="#" class="text-sm text-gray-600 hover:text-blue-500">Help</a>
                 </div>
             </div>
         </footer>

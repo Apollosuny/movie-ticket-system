@@ -69,7 +69,7 @@ namespace MovieTicketSystem.Pages.Account.Bookings
             booking.Status = "Completed";
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Thanh toán thành công!";
+            TempData["SuccessMessage"] = "Payment successful!";
             return RedirectToPage("./Index");
         }
     }

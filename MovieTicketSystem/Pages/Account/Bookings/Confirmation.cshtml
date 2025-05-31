@@ -1,7 +1,7 @@
 @page "{id:int}"
 @model MovieTicketSystem.Pages.Account.Bookings.ConfirmationModel
 @{
-    ViewData["Title"] = "Xác nhận đặt vé";
+    ViewData["Title"] = "Booking Confirmation";
 }
 
 <div class="container mx-auto px-4 py-8">
@@ -14,7 +14,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <h2 class="text-3xl font-bold mb-6">Đặt vé thành công!</h2>
+                    <h2 class="text-3xl font-bold mb-6">Booking Successful!</h2>
                     
                     <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
                         <div class="flex">
@@ -25,7 +25,7 @@
                             </div>
                             <div class="ml-3">
                                 <p class="text-sm text-yellow-700">
-                                    Vui lòng thanh toán trong vòng <span class="font-bold">15 phút</span> để hoàn tất đặt vé
+                                    Please complete payment within <span class="font-bold">15 minutes</span> to confirm your booking
                                 </p>
                             </div>
                         </div>
@@ -33,33 +33,33 @@
 
                     <div class="bg-gray-50 border border-gray-200 rounded-lg mb-6">
                         <div class="p-5">
-                            <h5 class="font-bold text-lg mb-4 text-center">Thông tin đặt vé</h5>
+                            <h5 class="font-bold text-lg mb-4 text-center">Booking Information</h5>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="text-left">
                                     <p class="mb-3">
-                                        <span class="font-medium text-gray-700 block mb-1">Phim:</span>
+                                        <span class="font-medium text-gray-700 block mb-1">Movie:</span>
                                         @Model.Booking.Showtime?.Movie?.Title
                                     </p>
                                     <p class="mb-3">
-                                        <span class="font-medium text-gray-700 block mb-1">Suất chiếu:</span>
-                                        @Model.Booking.Showtime?.StartTime.ToString("dd/MM/yyyy HH:mm")
+                                        <span class="font-medium text-gray-700 block mb-1">Showtime:</span>
+                                        @Model.Booking.Showtime?.StartTime.ToString("MM/dd/yyyy HH:mm")
                                     </p>
                                     <p class="mb-0">
-                                        <span class="font-medium text-gray-700 block mb-1">Phòng chiếu:</span>
+                                        <span class="font-medium text-gray-700 block mb-1">Screen:</span>
                                         @Model.Booking.Showtime?.Screen?.Name
                                     </p>
                                 </div>
                                 <div class="text-left">
                                     <p class="mb-3">
-                                        <span class="font-medium text-gray-700 block mb-1">Số ghế:</span>
+                                        <span class="font-medium text-gray-700 block mb-1">Seats:</span>
                                         @string.Join(", ", Model.Booking.Tickets?.Select(t => $"{t.Seat?.Row}{t.Seat?.Number}") ?? Array.Empty<string>())
                                     </p>
                                     <p class="mb-3">
-                                        <span class="font-medium text-gray-700 block mb-1">Tổng tiền:</span>
-                                        <span class="text-blue-600 font-medium">@Model.Booking.TotalPrice.ToString("N0") VNĐ</span>
+                                        <span class="font-medium text-gray-700 block mb-1">Total amount:</span>
+                                        <span class="text-blue-600 font-medium">$@(Model.Booking.TotalPrice.ToString("N2"))</span>
                                     </p>
                                     <p class="mb-0">
-                                        <span class="font-medium text-gray-700 block mb-1">Mã đặt vé:</span>
+                                        <span class="font-medium text-gray-700 block mb-1">Booking ID:</span>
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-500 text-white">
                                             @Model.Booking.BookingId
                                         </span>
@@ -75,7 +75,7 @@
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                             </svg>
-                            Thanh toán ngay
+                            Pay Now
                         </button>
                     </form>
 
@@ -84,7 +84,7 @@
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
-                            Xem lịch sử đặt vé
+                            View Booking History
                         </a>
                     </div>
                 </div>

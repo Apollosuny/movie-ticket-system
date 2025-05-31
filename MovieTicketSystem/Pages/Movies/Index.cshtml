@@ -2,17 +2,17 @@
 @model MovieTicketSystem.Pages.Movies.IndexModel
 
 @{
-    ViewData["Title"] = "Phim";
+    ViewData["Title"] = "Movies";
 }
 
 <div class="mb-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Danh sách phim</h1>
+        <h1 class="text-2xl font-bold">Movie List</h1>
         
         @if (User.IsInRole("Administrator"))
         {
             <a asp-page="Create" class="bg-primary hover:bg-opacity-90 text-white font-medium py-2 px-4 rounded-md inline-flex items-center transition-colors">
-                <i class="bi bi-plus mr-2"></i>Thêm phim mới
+                <i class="bi bi-plus mr-2"></i>Add New Movie
             </a>
         }
     </div>
@@ -39,9 +39,8 @@
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             @Html.DisplayNameFor(model => model.Movie[0].ImageBanner)
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Thao tác
+                        </th>                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
                         </th>
                     </tr>
                 </thead>
@@ -52,7 +51,7 @@
                             <div class="font-medium text-gray-900">@Html.DisplayFor(modelItem => item.Title)</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-gray-700">@Html.DisplayFor(modelItem => item.Duration) phút</div>
+                            <div class="text-gray-700">@Html.DisplayFor(modelItem => item.Duration) minutes</div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="text-gray-700 truncate max-w-xs">@Html.DisplayFor(modelItem => item.Description)</div>
@@ -71,20 +70,19 @@
                             }
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div class="flex space-x-2">
-                                <a asp-page="./Details" asp-route-id="@item.MovieId" class="text-primary hover:text-indigo-900">
-                                    <i class="bi bi-info-circle mr-1"></i>Chi tiết
+                            <div class="flex space-x-2">                                <a asp-page="./Details" asp-route-id="@item.MovieId" class="text-primary hover:text-indigo-900">
+                                    <i class="bi bi-info-circle mr-1"></i>Details
                                 </a>
                                 
                                 @if (User.IsInRole("Administrator"))
                                 {
                                     <span class="text-gray-300">|</span>
                                     <a asp-page="./Edit" asp-route-id="@item.MovieId" class="text-blue-600 hover:text-blue-900">
-                                        <i class="bi bi-pencil mr-1"></i>Sửa
+                                        <i class="bi bi-pencil mr-1"></i>Edit
                                     </a>
                                     <span class="text-gray-300">|</span>
                                     <a asp-page="./Delete" asp-route-id="@item.MovieId" class="text-red-600 hover:text-red-900">
-                                        <i class="bi bi-trash mr-1"></i>Xóa
+                                        <i class="bi bi-trash mr-1"></i>Delete
                                     </a>
                                 }
                             </div>

@@ -26,28 +26,28 @@
              role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
             <div class="py-1">
                 <a class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" asp-area="" asp-page="/Account/Manage/Index" role="menuitem">
-                    <i class="bi bi-person mr-2"></i>Hồ sơ
+                    <i class="bi bi-person mr-2"></i>Profile
                 </a>
                 <a class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" asp-area="" asp-page="/Account/Manage/ChangePassword" role="menuitem">
-                    <i class="bi bi-key mr-2"></i>Đổi mật khẩu
+                    <i class="bi bi-key mr-2"></i>Change Password
                 </a>
                 <a class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" asp-area="" asp-page="/Account/Bookings/Index" role="menuitem">
-                    <i class="bi bi-ticket-perforated mr-2"></i>Vé của tôi
+                    <i class="bi bi-ticket-perforated mr-2"></i>My Tickets
                 </a>
                 @if (User.IsInRole("Administrator"))
                 {
                     <div class="border-t border-gray-200 my-1"></div>
                     <a class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" asp-area="" asp-page="/Admin/Dashboard" role="menuitem">
-                        <i class="bi bi-speedometer2 mr-2"></i>Bảng điều khiển
+                        <i class="bi bi-speedometer2 mr-2"></i>Dashboard
                     </a>
                     <a class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" asp-area="" asp-page="/Admin/Users" role="menuitem">
-                        <i class="bi bi-people mr-2"></i>Quản lý người dùng
+                        <i class="bi bi-people mr-2"></i>User Management
                     </a>
                 }
                 <div class="border-t border-gray-200 my-1"></div>
                 <form class="block" asp-area="" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
                     <button type="submit" class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100" role="menuitem">
-                        <i class="bi bi-box-arrow-right mr-2"></i>Đăng xuất
+                        <i class="bi bi-box-arrow-right mr-2"></i>Logout
                     </button>
                 </form>
             </div>
@@ -59,11 +59,11 @@ else
     <div class="flex space-x-2">
         <a class="px-4 py-2 border border-primary rounded-md text-primary hover:bg-primary hover:text-white transition-colors" 
            asp-area="" asp-page="/Account/Register">
-            <i class="bi bi-person-plus mr-2"></i>Đăng ký
+            <i class="bi bi-person-plus mr-2"></i>Register
         </a>
         <a class="px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition-colors" 
            asp-area="" asp-page="/Account/Login">
-            <i class="bi bi-box-arrow-in-right mr-2"></i>Đăng nhập
+            <i class="bi bi-box-arrow-in-right mr-2"></i>Login
         </a>
     </div>
 }

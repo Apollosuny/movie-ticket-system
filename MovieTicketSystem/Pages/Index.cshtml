@@ -74,11 +74,10 @@
             }
         </div>
     </section>
-      <section id="coming-soon" class="mb-16">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold flex items-center"><i class="bi bi-calendar-event mr-2"></i>Phim sắp chiếu</h2>
+      <section id="coming-soon" class="mb-16">        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold flex items-center"><i class="bi bi-calendar-event mr-2"></i>Coming Soon</h2>
             <a href="#" class="inline-flex items-center text-primary border border-primary hover:bg-primary hover:text-white px-4 py-2 rounded-md transition-colors">
-                Xem tất cả <i class="bi bi-arrow-right ml-1"></i>
+                View All <i class="bi bi-arrow-right ml-1"></i>
             </a>
         </div>
         
@@ -97,14 +96,13 @@
                                 <img src="@movie.ImageBanner" 
                                      class="w-full h-64 object-cover hover:scale-105 transition-transform duration-500" alt="@movie.Title">
                             }
-                            <div class="absolute top-0 right-0 m-2">
-                                <span class="bg-red-600 text-white text-xs px-3 py-1 rounded-full">Sắp chiếu</span>
+                            <div class="absolute top-0 right-0 m-2">                                <span class="bg-red-600 text-white text-xs px-3 py-1 rounded-full">Coming Soon</span>
                             </div>
                         </div>
                         <div class="p-4">
                             <h5 class="text-lg font-bold mb-2">@movie.Title</h5>
                             <p class="text-gray-500 text-sm mb-2 flex items-center">
-                                <i class="bi bi-calendar mr-2"></i>Khởi chiếu: @movie.ReleaseDate?.ToString("dd/MM/yyyy")
+                                <i class="bi bi-calendar mr-2"></i>Release Date: @movie.ReleaseDate?.ToString("MM/dd/yyyy")
                             </p>
                             <p class="text-gray-700 mb-4 text-sm">@(movie.Description?.Length > 80 ? movie.Description.Substring(0, 80) + "..." : movie.Description)</p>
                             <div class="mt-auto">
@@ -122,17 +120,15 @@
       <section class="mb-16 py-12 bg-gray-50 rounded-xl">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 mb-8 md:mb-0">
-                    <h2 class="text-3xl font-bold mb-2">Tại sao nên chọn chúng tôi?</h2>
-                    <p class="text-xl text-gray-600 mb-6">Trải nghiệm xem phim tuyệt vời với nhiều ưu đãi hấp dẫn</p>
+                <div class="md:w-1/2 mb-8 md:mb-0">                    <h2 class="text-3xl font-bold mb-2">Why Choose Us?</h2>
+                    <p class="text-xl text-gray-600 mb-6">Great movie experience with attractive offers</p>
                     <div class="space-y-6">
                         <div class="flex">
                             <div class="mr-4">
                                 <i class="bi bi-check-circle-fill text-primary text-2xl"></i>
                             </div>
-                            <div>
-                                <h5 class="text-lg font-semibold mb-1">Dễ dàng đặt vé</h5>
-                                <p class="text-gray-600">Đặt vé online chỉ trong vài phút, không cần xếp hàng</p>
+                            <div>                                <h5 class="text-lg font-semibold mb-1">Easy Booking</h5>
+                                <p class="text-gray-600">Book tickets online in minutes, no queuing needed</p>
                             </div>
                         </div>
                         <div class="flex">
@@ -140,8 +136,8 @@
                                 <i class="bi bi-check-circle-fill text-primary text-2xl"></i>
                             </div>
                             <div>
-                                <h5 class="text-lg font-semibold mb-1">Phim mới nhất</h5>
-                                <p class="text-gray-600">Luôn cập nhật những bộ phim mới và hot nhất</p>
+                                <h5 class="text-lg font-semibold mb-1">Latest Movies</h5>
+                                <p class="text-gray-600">Always updated with the newest and hottest movies</p>
                             </div>
                         </div>
                         <div class="flex">
@@ -149,27 +145,26 @@
                                 <i class="bi bi-check-circle-fill text-primary text-2xl"></i>
                             </div>
                             <div>
-                                <h5 class="text-lg font-semibold mb-1">Nhiều ưu đãi hấp dẫn</h5>
-                                <p class="text-gray-600">Khuyến mãi đặc biệt cho thành viên thường xuyên</p>
+                                <h5 class="text-lg font-semibold mb-1">Great Promotions</h5>
+                                <p class="text-gray-600">Special discounts for regular members</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="md:w-1/2">
-                    <div class="bg-white rounded-xl shadow-xl p-6">
-                        <h3 class="text-2xl font-bold mb-6 text-center">Thống kê nhanh</h3>
+                <div class="md:w-1/2">                    <div class="bg-white rounded-xl shadow-xl p-6">
+                        <h3 class="text-2xl font-bold mb-6 text-center">Quick Stats</h3>
                         <div class="grid grid-cols-3 gap-4 text-center">
                             <div>
                                 <h3 class="text-3xl font-bold text-primary mb-2">@Model.MovieCount</h3>
-                                <p class="text-gray-500">Phim</p>
+                                <p class="text-gray-500">Movies</p>
                             </div>
                             <div>
                                 <h3 class="text-3xl font-bold text-green-500 mb-2">@Model.ScreenCount</h3>
-                                <p class="text-gray-500">Màn hình</p>
+                                <p class="text-gray-500">Screens</p>
                             </div>
                             <div>
                                 <h3 class="text-3xl font-bold text-blue-400 mb-2">@Model.ShowtimeCount</h3>
-                                <p class="text-gray-500">Suất chiếu</p>
+                                <p class="text-gray-500">Showtimes</p>
                             </div>
                         </div>
                     </div>

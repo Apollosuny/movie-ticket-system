@@ -56,20 +56,20 @@ namespace MovieTicketSystem.Pages.Account.Bookings
 
             if (booking == null)
             {
-                TempData["ErrorMessage"] = "Không tìm thấy thông tin đặt vé.";
+                TempData["ErrorMessage"] = "Booking information not found.";
                 return RedirectToPage();
             }
 
             if (booking.Status?.ToLower() != "pending")
             {
-                TempData["ErrorMessage"] = "Chỉ có thể hủy các đơn đặt vé chưa thanh toán.";
+                TempData["ErrorMessage"] = "Only pending bookings can be cancelled.";
                 return RedirectToPage();
             }
 
             booking.Status = "Cancelled";
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Đã hủy đơn đặt vé thành công.";
+            TempData["SuccessMessage"] = "Booking has been successfully cancelled.";
             return RedirectToPage();
         }
     }

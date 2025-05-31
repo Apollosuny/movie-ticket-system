@@ -32,25 +32,25 @@ namespace MovieTicketSystem.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Họ tên là bắt buộc")]
-            [StringLength(100, ErrorMessage = "{0} phải có ít nhất {2} và tối đa {1} ký tự.", MinimumLength = 3)]
-            [Display(Name = "Họ tên")]
+            [Required(ErrorMessage = "Full name is required")]
+            [StringLength(100, ErrorMessage = "{0} must be between {2} and {1} characters.", MinimumLength = 3)]
+            [Display(Name = "Full Name")]
             public string FullName { get; set; } = string.Empty;
 
-            [Required(ErrorMessage = "Email là bắt buộc")]
-            [EmailAddress(ErrorMessage = "Email không hợp lệ")]
+            [Required(ErrorMessage = "Email is required")]
+            [EmailAddress(ErrorMessage = "Invalid email address")]
             [Display(Name = "Email")]
             public string Email { get; set; } = string.Empty;
 
-            [Required(ErrorMessage = "Mật khẩu là bắt buộc")]
-            [StringLength(100, ErrorMessage = "{0} phải có ít nhất {2} và tối đa {1} ký tự.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Password is required")]
+            [StringLength(100, ErrorMessage = "{0} must be between {2} and {1} characters.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Mật khẩu")]
+            [Display(Name = "Password")]
             public string Password { get; set; } = string.Empty;
 
             [DataType(DataType.Password)]
-            [Display(Name = "Xác nhận mật khẩu")]
-            [Compare("Password", ErrorMessage = "Mật khẩu và xác nhận mật khẩu không khớp.")]
+            [Display(Name = "Confirm Password")]
+            [Compare("Password", ErrorMessage = "Password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; } = string.Empty;
         }
 
@@ -76,7 +76,7 @@ namespace MovieTicketSystem.Pages.Account
                 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("Người dùng đã tạo tài khoản mới với mật khẩu.");
+                    _logger.LogInformation("User created a new account with password.");
 
                     // Kiểm tra và tạo role "User" nếu chưa có
                     if (!await _roleManager.RoleExistsAsync("User"))
@@ -107,15 +107,15 @@ namespace MovieTicketSystem.Pages.Account
         {
             return errorCode switch
             {
-                "DuplicateUserName" => "Tên người dùng đã tồn tại.",
-                "DuplicateEmail" => "Email đã được sử dụng.",
-                "InvalidUserName" => "Tên người dùng không hợp lệ, chỉ có thể chứa chữ cái hoặc chữ số.",
-                "PasswordTooShort" => "Mật khẩu phải có ít nhất 6 ký tự.",
-                "PasswordRequiresNonAlphanumeric" => "Mật khẩu phải chứa ít nhất một ký tự đặc biệt.",
-                "PasswordRequiresDigit" => "Mật khẩu phải chứa ít nhất một chữ số ('0'-'9').",
-                "PasswordRequiresLower" => "Mật khẩu phải chứa ít nhất một chữ cái viết thường ('a'-'z').",
-                "PasswordRequiresUpper" => "Mật khẩu phải chứa ít nhất một chữ cái viết hoa ('A'-'Z').",
-                "PasswordRequiresUniqueChars" => "Mật khẩu phải chứa ít nhất {0} ký tự khác nhau.",
+                "DuplicateUserName" => "Username already exists.",
+                "DuplicateEmail" => "Email is already in use.",
+                "InvalidUserName" => "Invalid username, can only contain letters or digits.",
+                "PasswordTooShort" => "Password must be at least 6 characters long.",
+                "PasswordRequiresNonAlphanumeric" => "Password must contain at least one special character.",
+                "PasswordRequiresDigit" => "Password must contain at least one digit ('0'-'9').",
+                "PasswordRequiresLower" => "Password must contain at least one lowercase letter ('a'-'z').",
+                "PasswordRequiresUpper" => "Password must contain at least one uppercase letter ('A'-'Z').",
+                "PasswordRequiresUniqueChars" => "Password must contain at least {0} different characters.",
                 _ => defaultMessage
             };
         }

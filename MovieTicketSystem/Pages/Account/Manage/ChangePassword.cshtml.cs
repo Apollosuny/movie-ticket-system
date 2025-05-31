@@ -33,35 +33,35 @@ namespace MovieTicketSystem.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Mật khẩu hiện tại là bắt buộc")]
+            [Required(ErrorMessage = "Current password is required")]
             [DataType(DataType.Password)]
-            [Display(Name = "Mật khẩu hiện tại")]
+            [Display(Name = "Current password")]
             public string OldPassword { get; set; } = string.Empty;
 
-            [Required(ErrorMessage = "Mật khẩu mới là bắt buộc")]
-            [StringLength(100, ErrorMessage = "{0} phải có ít nhất {2} và tối đa {1} ký tự.", MinimumLength = 6)]
+            [Required(ErrorMessage = "New password is required")]
+            [StringLength(100, ErrorMessage = "{0} must be between {2} and {1} characters.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Mật khẩu mới")]
+            [Display(Name = "New password")]
             public string NewPassword { get; set; } = string.Empty;
 
             [DataType(DataType.Password)]
-            [Display(Name = "Xác nhận mật khẩu mới")]
-            [Compare("NewPassword", ErrorMessage = "Mật khẩu mới và xác nhận mật khẩu không khớp.")]
+            [Display(Name = "Confirm new password")]
+            [Compare("NewPassword", ErrorMessage = "New password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; } = string.Empty;
         }
 
-        // Helper method to translate Identity error messages to Vietnamese
+        // Helper method to translate Identity error messages
         private string TranslateErrorMessage(string errorCode, string defaultMessage)
         {
             return errorCode switch
             {
-                "PasswordMismatch" => "Mật khẩu hiện tại không đúng.",
-                "PasswordRequiresNonAlphanumeric" => "Mật khẩu phải chứa ít nhất một ký tự đặc biệt.",
-                "PasswordRequiresDigit" => "Mật khẩu phải chứa ít nhất một chữ số ('0'-'9').",
-                "PasswordRequiresLower" => "Mật khẩu phải chứa ít nhất một chữ cái viết thường ('a'-'z').",
-                "PasswordRequiresUpper" => "Mật khẩu phải chứa ít nhất một chữ cái viết hoa ('A'-'Z').",
-                "PasswordTooShort" => "Mật khẩu phải có ít nhất 6 ký tự.",
-                "PasswordRequiresUniqueChars" => "Mật khẩu phải chứa ít nhất {0} ký tự khác nhau.",
+                "PasswordMismatch" => "Current password is incorrect.",
+                "PasswordRequiresNonAlphanumeric" => "Password must contain at least one special character.",
+                "PasswordRequiresDigit" => "Password must contain at least one digit ('0'-'9').",
+                "PasswordRequiresLower" => "Password must contain at least one lowercase letter ('a'-'z').",
+                "PasswordRequiresUpper" => "Password must contain at least one uppercase letter ('A'-'Z').",
+                "PasswordTooShort" => "Password must be at least 6 characters long.",
+                "PasswordRequiresUniqueChars" => "Password must contain at least {0} different characters.",
                 _ => defaultMessage
             };
         }
@@ -71,7 +71,7 @@ namespace MovieTicketSystem.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Không thể tải người dùng với ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Cannot load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
             var hasPassword = await _userManager.HasPasswordAsync(user);
@@ -93,7 +93,7 @@ namespace MovieTicketSystem.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Không thể tải người dùng với ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Cannot load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
@@ -107,8 +107,8 @@ namespace MovieTicketSystem.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            _logger.LogInformation("Người dùng đã thay đổi mật khẩu thành công.");
-            StatusMessage = "Mật khẩu của bạn đã được thay đổi.";
+            _logger.LogInformation("User changed their password successfully.");
+            StatusMessage = "Your password has been changed.";
 
             return RedirectToPage();
         }
