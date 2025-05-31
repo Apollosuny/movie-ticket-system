@@ -127,10 +127,10 @@
                                             <div class="w-8 text-right font-bold mr-3">@row.Key</div>
                                             @foreach (var seat in row.Value)
                                             {
-                                                string seatClass = "w-9 h-9 mx-1 flex items-center justify-center rounded text-sm cursor-pointer transition-colors";
+                                                string seatClass = "seat w-9 h-9 mx-1 flex items-center justify-center rounded text-sm cursor-pointer transition-colors";
                                                 if (seat.IsBooked)
                                                 {
-                                                    seatClass += " bg-red-500 text-white cursor-not-allowed";
+                                                    seatClass += " booked bg-red-500 text-white cursor-not-allowed";
                                                 }
                                                 else
                                                 {
@@ -168,15 +168,14 @@
                             <!-- Booking Summary -->
                             <div class="bg-gray-50 p-5 rounded-lg mb-6">
                                 <h6 class="font-medium text-gray-700 mb-3">Tóm tắt đặt vé:</h6>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div>
-                                        <p class="text-sm mb-1">Số ghế đã chọn: <span id="selectedCount" class="font-medium">0</span></p>
-                                        <p class="text-sm">Ghế: <span id="selectedSeats" class="font-medium"></span></p>
-                                    </div>
-                                    <div class="md:text-right">
-                                        <p class="text-sm mb-1">Giá vé: <span class="font-medium">@Model.Showtime.Price.ToString("N0") VNĐ</span></p>
-                                        <p class="text-sm">Tổng tiền: <span id="totalPrice" class="font-medium text-blue-600">0 VNĐ</span></p>
-                                    </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">                                <div>
+                                    <p class="text-sm mb-1">Số ghế đã chọn: <span id="selectedCount" class="font-medium">0</span></p>
+                                    <p class="text-sm">Ghế: <span id="selectedSeats" class="font-medium"></span></p>
+                                </div>
+                                <div class="md:text-right">
+                                    <p class="text-sm mb-1">Giá vé: <span id="ticketPrice" class="font-medium">@Model.Showtime.Price.ToString("N0")</span> VNĐ</p>
+                                    <p class="text-sm">Tổng tiền: <span id="totalPrice" class="font-medium text-blue-600">0 VNĐ</span></p>
+                                </div>
                                 </div>
                             </div>
 
@@ -199,6 +198,7 @@
     </div>
 </div>
 
+
 @section Styles {
     <style>
         /* Add perspective utility classes that Tailwind doesn't provide by default */
@@ -210,62 +210,127 @@
             transform: rotateX(-1deg);
         }
         
+        /* Seat styling */
+        .seat {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            position: relative;
+            z-index: 1;
+        }
+        
         /* For JavaScript compatibility */
         .seat.selected {
             background-color: #3b82f6 !important;
             color: white !important;
+            border-color: #3b82f6 !important;
+        }
+        
+        /* Explicit hover states */
+        .seat:not(.booked):hover {
+            background-color: #3b82f6 !important;
+            color: white !important;
+            transform: scale(1.05);
+            transition: all 0.2s ease;
+        }
+        
+        /* Booked seat styling */
+        .seat.booked {
+            pointer-events: none;
+        }
+        
+        /* Available seat styling */
+        .seat:not(.booked) {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .seat:not(.booked):active {
+            transform: scale(0.95);
         }
     </style>
 }
 
 @section Scripts {
     <script>
-        $(document).ready(function() {
-            const ticketPrice = @Model.Showtime.Price;
-            let selectedSeats = [];
-
-            $('.seat').click(function() {
-                if ($(this).hasClass('booked')) return;
+        document.addEventListener('DOMContentLoaded', function() {
+            const seats = document.querySelectorAll('.seat:not(.booked)');
+            const selectedSeatsInput = document.getElementById('selectedSeatsInput');
+            const selectedSeatsDisplay = document.getElementById('selectedSeats');
+            const selectedCountDisplay = document.getElementById('selectedCount');
+            const totalPriceDisplay = document.getElementById('totalPrice');
+            const bookButton = document.getElementById('bookButton');
+            const ticketPrice = parseInt(document.getElementById('ticketPrice').textContent.replace(/[^0-9]/g, ''));
+            const formError = document.getElementById('formError');
+            
+            const selectedSeats = [];
+            
+            // Add click event to each available seat
+            seats.forEach(seat => {
+                seat.addEventListener('click', function() {
+                    const seatId = this.getAttribute('data-seat-id');
+                    const row = this.getAttribute('data-row');
+                    const number = this.getAttribute('data-number');
+                    const seatLabel = `${row}${number}`;
+                    
+                    // Toggle selected class
+                    this.classList.toggle('selected');
+                    
+                    if (this.classList.contains('selected')) {
+                        // Add seat to selection
+                        selectedSeats.push({
+                            id: seatId,
+                            label: seatLabel
+                        });
+                    } else {
+                        // Remove seat from selection
+                        const index = selectedSeats.findIndex(s => s.id === seatId);
+                        if (index !== -1) {
+                            selectedSeats.splice(index, 1);
+                        }
+                    }
+                    
+                    // Update display and form
+                    updateBookingInfo();
+                });
+            });
+            
+            // Function to update booking information
+            function updateBookingInfo() {
+                // Sort seats by label for better display
+                selectedSeats.sort((a, b) => a.label.localeCompare(b.label));
                 
-                $(this).toggleClass('selected');
-                const seatId = $(this).data('seat-id');
-                const row = $(this).data('row');
-                const number = $(this).data('number');
-                const seatText = row + number;
+                // Update count
+                selectedCountDisplay.textContent = selectedSeats.length;
                 
-                if ($(this).hasClass('selected')) {
-                    selectedSeats.push({id: seatId, text: seatText});
-                } else {
-                    selectedSeats = selectedSeats.filter(s => s.id !== seatId);
+                // Update selected seats display
+                selectedSeatsDisplay.textContent = selectedSeats.map(seat => seat.label).join(', ');
+                
+                // Update total price
+                const totalPrice = selectedSeats.length * ticketPrice;
+                totalPriceDisplay.textContent = new Intl.NumberFormat('vi-VN').format(totalPrice) + ' VNĐ';
+                
+                // Update hidden input for form submission
+                selectedSeatsInput.value = selectedSeats.map(seat => seat.id).join(',');
+                
+                // Enable/disable book button
+                bookButton.disabled = selectedSeats.length === 0;
+            }
+            
+            // Form validation function
+            function validateForm() {
+                if (selectedSeats.length === 0) {
+                    formError.classList.remove('hidden');
+                    return false;
                 }
                 
-                updateBookingSummary();
-            });
-
-            function updateBookingSummary() {
-                $('#selectedCount').text(selectedSeats.length);
-                $('#selectedSeats').text(selectedSeats.map(s => s.text).join(', '));
-                $('#totalPrice').text((selectedSeats.length * ticketPrice).toLocaleString('vi-VN') + ' VNĐ');
-                $('#selectedSeatsInput').val(selectedSeats.map(s => s.id).join(','));
-                $('#formError').hide();
-                $('#bookButton').prop('disabled', selectedSeats.length === 0);
+                formError.classList.add('hidden');
+                return true;
             }
-        });
-
-        function validateForm() {
-            const selectedSeatsInput = $('#selectedSeatsInput').val();
-            if (!selectedSeatsInput) {
-                $('#formError').show();
-                return false;
-            }
-            return true;
-        }
-
-        // Add form submit handler for debugging
-        $('#bookingForm').on('submit', function(e) {
-            console.log('Form submitted');
-            console.log('Selected seats:', $('#selectedSeatsInput').val());
-            // Don't prevent default - let the form submit normally
+            
+            // Add the validation function to the window scope
+            window.validateForm = validateForm;
         });
     </script>
 }

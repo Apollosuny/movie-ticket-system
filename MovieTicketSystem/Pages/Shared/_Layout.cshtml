@@ -41,6 +41,22 @@
     </style>    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MovieTicketSystem.styles.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
+    
+    <!-- Debug script - check if jQuery is loaded -->
+    <script>
+        console.log('Head script loading');
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded (from head)');
+            setTimeout(function() {
+                if (window.jQuery) {
+                    console.log('jQuery is available in head check');
+                } else {
+                    console.error('jQuery is NOT available in head check');
+                    document.body.insertAdjacentHTML('afterbegin', '<div style="background:red;color:white;padding:10px;position:fixed;top:0;left:0;z-index:9999">jQuery not loaded!</div>');
+                }
+            }, 1000);
+        });
+    </script>
 </head>
 <body>    <header class="sticky top-0 z-50">
         <nav class="bg-gray-900 shadow-md py-2">
