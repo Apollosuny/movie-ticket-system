@@ -38,9 +38,9 @@
     <style>
         /* Any global styles that need to be included */
         [x-cloak] { display: none !important; }
-    </style>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </style>    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MovieTicketSystem.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>    <header class="sticky top-0 z-50">
         <nav class="bg-gray-900 shadow-md py-2">

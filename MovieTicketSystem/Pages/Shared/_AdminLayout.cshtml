@@ -2,391 +2,308 @@
     Layout = "_Layout";
 }
 
-<div class="flex min-h-screen bg-gray-100">
+<div class="flex h-screen bg-gray-100 overflow-hidden">
     <!-- Sidebar -->
-    <div class="bg-gray-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out z-10" id="sidebar">
-        <div class="flex items-center justify-between px-4">
+    <div id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen shadow-lg overflow-y-auto transition-all duration-300 ease-in-out">
+        <!-- Logo and Title -->
+        <div class="flex items-center justify-between p-4 border-b border-gray-700">
             <div class="flex items-center space-x-2">
-                <i class="bi bi-film text-primary text-2xl"></i>
-                <span class="text-lg font-semibold">Admin Panel</span>
+                <i class="bi bi-film text-blue-500 text-2xl"></i>
+                <span class="text-lg font-semibold">Bảng quản trị</span>
             </div>
-            <button class="md:hidden focus:outline-none" onclick="toggleSidebar()">
-                <i class="bi bi-x text-2xl"></i>
+            <button id="closeSidebar" class="lg:hidden text-gray-300 hover:text-white">
+                <i class="bi bi-x text-xl"></i>
             </button>
         </div>
-        
-        <!-- Admin User Info -->
-        <div class="px-4 py-4">
+
+        <!-- Admin Info -->
+        <div class="p-4 border-b border-gray-700">
             <div class="flex items-center space-x-3">
-                <div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white font-semibold">
-                    <i class="bi bi-person"></i>
+                <div class="bg-blue-500 rounded-full h-10 w-10 flex items-center justify-center">
+                    <i class="bi bi-person-fill text-white"></i>
                 </div>
                 <div>
-                    <div class="text-sm font-medium">Admin User</div>
-                    <div class="text-xs text-gray-400">Administrator</div>
+                    <p class="text-sm font-medium">Quản trị viên</p>
+                    <p class="text-xs text-gray-400">Người quản trị</p>
                 </div>
             </div>
         </div>
-        
-        <nav class="mt-2">
-            <p class="px-4 text-xs text-gray-400 uppercase mb-2 tracking-wider">Main</p>
-            
-            <a asp-page="/Admin/Dashboard" class="block py-2.5 px-4 rounded transition duration-200 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Admin/Dashboard") ? "bg-primary text-white" : "hover:bg-gray-700")">
-                <div class="flex items-center space-x-3">
-                    <i class="bi bi-speedometer2 w-5 text-center"></i>
-                    <span>Dashboard</span>
-                </div>
-            </a>
-            
-            <p class="px-4 text-xs text-gray-400 uppercase mb-2 mt-5 tracking-wider">Content</p>
-            
-            <a asp-page="/Movies/Index" class="block py-2.5 px-4 rounded transition duration-200 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Movies") ? "bg-primary text-white" : "hover:bg-gray-700")">
-                <div class="flex items-center space-x-3">
-                    <i class="bi bi-film w-5 text-center"></i>
-                    <span>Movies</span>
-                </div>
-            </a>
-            
-            <a asp-page="/Screens/Index" class="block py-2.5 px-4 rounded transition duration-200 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Screens") ? "bg-primary text-white" : "hover:bg-gray-700")">
-                <div class="flex items-center space-x-3">
-                    <i class="bi bi-display w-5 text-center"></i>
-                    <span>Screens</span>
-                </div>
-            </a>
-            
-            <a asp-page="/Showtimes/Index" class="block py-2.5 px-4 rounded transition duration-200 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Showtimes") ? "bg-primary text-white" : "hover:bg-gray-700")">
-                <div class="flex items-center space-x-3">
-                    <i class="bi bi-calendar-event w-5 text-center"></i>
-                    <span>Showtimes</span>
-                </div>
-            </a>
-            
-            <a asp-page="/Seats/Index" class="block py-2.5 px-4 rounded transition duration-200 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Seats") ? "bg-primary text-white" : "hover:bg-gray-700")">
-                <div class="flex items-center space-x-3">
-                    <i class="bi bi-grid w-5 text-center"></i>
-                    <span>Seats</span>
-                </div>
-            </a>
-            
-            <p class="px-4 text-xs text-gray-400 uppercase mb-2 mt-5 tracking-wider">Users & Access</p>
-            
-            <a asp-page="/Admin/Users" class="block py-2.5 px-4 rounded transition duration-200 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Admin/Users") ? "bg-primary text-white" : "hover:bg-gray-700")">
-                <div class="flex items-center space-x-3">
-                    <i class="bi bi-people w-5 text-center"></i>
-                    <span>Users</span>
-                </div>
-            </a>
-            
-            <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">
-                <div class="flex items-center space-x-3">
-                    <i class="bi bi-shield-lock w-5 text-center"></i>
-                    <span>Roles & Permissions</span>
-                </div>
-            </a>
-            
-            <p class="px-4 text-xs text-gray-400 uppercase mb-2 mt-5 tracking-wider">System</p>
-            
-            <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">
-                <div class="flex items-center space-x-3">
-                    <i class="bi bi-gear w-5 text-center"></i>
-                    <span>Settings</span>
-                </div>
-            </a>
-            
-            <a asp-page="/Index" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">
-                <div class="flex items-center space-x-3">
-                    <i class="bi bi-house w-5 text-center"></i>
-                    <span>Back to Site</span>
-                </div>
-            </a>
+
+        <!-- Navigation Menu -->
+        <nav class="p-4">
+            <div class="mb-4">
+                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">Điều hướng chính</p>
+                <a href="/Admin/Dashboard" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Admin/Dashboard") ? "bg-blue-600 text-white" : "")">
+                    <i class="bi bi-speedometer2 mr-3"></i>
+                    <span>Bảng điều khiển</span>
+                </a>
+            </div>
+
+            <div class="mb-4">
+                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">Quản lý nội dung</p>
+                <a href="/Movies/Index" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Movies") ? "bg-blue-600 text-white" : "")">
+                    <i class="bi bi-film mr-3"></i>
+                    <span>Phim</span>
+                </a>
+                <a href="/Screens/Index" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Screens") ? "bg-blue-600 text-white" : "")">
+                    <i class="bi bi-display mr-3"></i>
+                    <span>Phòng chiếu</span>
+                </a>
+                <a href="/Showtimes/Index" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Showtimes") ? "bg-blue-600 text-white" : "")">
+                    <i class="bi bi-calendar-event mr-3"></i>
+                    <span>Lịch chiếu</span>
+                </a>
+                <a href="/Seats/Index" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Seats") ? "bg-blue-600 text-white" : "")">
+                    <i class="bi bi-grid mr-3"></i>
+                    <span>Ghế ngồi</span>
+                </a>
+            </div>
+
+            <div class="mb-4">
+                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">Quản lý người dùng</p>
+                <a href="/Admin/Users" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Admin/Users") ? "bg-blue-600 text-white" : "")">
+                    <i class="bi bi-people mr-3"></i>
+                    <span>Người dùng</span>
+                </a>
+                <a href="#" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700">
+                    <i class="bi bi-shield-lock mr-3"></i>
+                    <span>Vai trò & Quyền hạn</span>
+                </a>
+            </div>
+
+            <div class="mb-4">
+                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">Hệ thống</p>
+                <a href="#" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700">
+                    <i class="bi bi-gear mr-3"></i>
+                    <span>Cài đặt</span>
+                </a>
+                <a href="/" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700">
+                    <i class="bi bi-house mr-3"></i>
+                    <span>Trở về trang chủ</span>
+                </a>
+            </div>
         </nav>
-        
-        <!-- Sidebar Footer -->
-        <div class="px-4 mt-6">
-            <div class="bg-gray-700 rounded-lg p-3">
-                <p class="text-xs text-gray-400 mb-2">System Status</p>
-                <div class="flex justify-between mb-2">
-                    <span class="text-xs text-white">Server</span>
-                    <span class="text-xs text-green-400">Online</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-xs text-white">Last Backup</span>
-                    <span class="text-xs text-white">Today 09:30 AM</span>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
-        <!-- Top Bar -->
-        <header class="bg-white shadow-sm">
-            <div class="flex items-center justify-between py-4 px-6">
+        <!-- Top Navbar -->
+        <header class="bg-white shadow-sm z-10">
+            <div class="flex items-center justify-between p-4">
                 <div class="flex items-center">
-                    <button class="md:hidden focus:outline-none" onclick="toggleSidebar()">
+                    <button id="openSidebar" class="lg:hidden mr-2 text-gray-600 hover:text-gray-800">
                         <i class="bi bi-list text-2xl"></i>
                     </button>
-                    <h2 class="text-xl font-semibold ml-4">@ViewData["Title"]</h2>
+                    <h1 class="text-xl font-semibold text-gray-800">@ViewData["Title"]</h1>
                 </div>
                 <div class="flex items-center space-x-4">
                     <!-- Search -->
-                    <div class="relative hidden md:block">
-                        <div class="flex items-center">
-                            <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg py-2 px-4 pr-10 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
-                            <div class="absolute right-0 top-0 mt-2.5 mr-3 text-gray-400">
-                                <i class="bi bi-search"></i>
-                            </div>
-                        </div>
+                    <div class="hidden md:block relative">
+                        <input type="text" placeholder="Tìm kiếm..." class="py-1 px-3 pr-8 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <i class="bi bi-search absolute right-2.5 top-1.5 text-gray-400"></i>
                     </div>
                     
-                    <!-- Notifications Dropdown -->
-                    <div class="relative" id="notificationsDropdown">
-                        <button onclick="toggleDropdown('notificationsList')" class="text-gray-500 hover:text-gray-700 focus:outline-none relative">
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button id="notificationBtn" class="text-gray-600 hover:text-gray-800 relative">
                             <i class="bi bi-bell text-xl"></i>
-                            <span class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">3</span>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">3</span>
                         </button>
-                        <div id="notificationsList" class="hidden origin-top-right absolute right-0 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
-                            <div class="py-2">
-                                <div class="px-4 py-2 border-b border-gray-100 flex justify-between items-center">
-                                    <h3 class="text-sm font-medium">Notifications</h3>
-                                    <span class="text-xs text-primary hover:underline cursor-pointer">Mark All as Read</span>
-                                </div>
-                                <div class="max-h-64 overflow-y-auto">
-                                    <a href="#" class="block px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
-                                        <div class="flex">
-                                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
-                                                <i class="bi bi-ticket"></i>
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-gray-900">New booking completed</p>
-                                                <p class="text-xs text-gray-500">Customer: John Smith</p>
-                                                <p class="text-xs text-gray-500 mt-1">5 minutes ago</p>
-                                            </div>
+                        <div id="notificationDropdown" class="absolute right-0 mt-2 bg-white rounded shadow-lg w-72 hidden z-20">
+                            <div class="p-2 border-b border-gray-200 flex justify-between items-center">
+                                <span class="font-semibold">Thông báo</span>
+                                <a href="#" class="text-xs text-blue-500 hover:underline">Đánh dấu tất cả đã đọc</a>
+                            </div>
+                            <div class="max-h-60 overflow-y-auto">
+                                <a href="#" class="block p-3 hover:bg-gray-50 border-b border-gray-100">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 h-8 w-8 bg-blue-100 text-blue-500 rounded-full flex items-center justify-center">
+                                            <i class="bi bi-envelope"></i>
                                         </div>
-                                    </a>
-                                    <a href="#" class="block px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
-                                        <div class="flex">
-                                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-500">
-                                                <i class="bi bi-person"></i>
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-gray-900">New user registered</p>
-                                                <p class="text-xs text-gray-500">Sarah Johnson</p>
-                                                <p class="text-xs text-gray-500 mt-1">1 hour ago</p>
-                                            </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm font-medium">Đặt vé mới</p>
+                                            <p class="text-xs text-gray-500 mt-1">5 phút trước</p>
                                         </div>
-                                    </a>
-                                    <a href="#" class="block px-4 py-3 hover:bg-gray-50">
-                                        <div class="flex">
-                                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-500">
-                                                <i class="bi bi-exclamation-circle"></i>
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-gray-900">System Alert</p>
-                                                <p class="text-xs text-gray-500">Low storage space warning</p>
-                                                <p class="text-xs text-gray-500 mt-1">3 hours ago</p>
-                                            </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="block p-3 hover:bg-gray-50">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 h-8 w-8 bg-green-100 text-green-500 rounded-full flex items-center justify-center">
+                                            <i class="bi bi-check-circle"></i>
                                         </div>
-                                    </a>
-                                </div>
-                                <div class="px-4 py-2 border-t border-gray-100">
-                                    <a href="#" class="text-sm text-primary hover:underline block text-center">View All Notifications</a>
-                                </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm font-medium">Cập nhật hệ thống thành công</p>
+                                            <p class="text-xs text-gray-500 mt-1">2 giờ trước</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="p-2 border-t border-gray-200">
+                                <a href="#" class="block text-center text-sm text-blue-500 hover:underline">Xem tất cả thông báo</a>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Full screen toggle -->
-                    <button id="fullscreenToggle" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                        <i class="bi bi-arrows-fullscreen text-xl"></i>
-                    </button>
-                    
-                    <!-- Quick Actions -->
-                    <div class="relative" id="quickActionsDropdown">
-                        <button onclick="toggleDropdown('quickActionsList')" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                            <i class="bi bi-grid text-xl"></i>
-                        </button>
-                        <div id="quickActionsList" class="hidden origin-top-right absolute right-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
-                            <div class="py-2 grid grid-cols-3 gap-2 p-4">
-                                <a asp-page="/Movies/Index" class="flex flex-col items-center justify-center p-2 rounded hover:bg-gray-50">
-                                    <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
-                                        <i class="bi bi-film"></i>
-                                    </div>
-                                    <span class="text-xs mt-1">Movies</span>
-                                </a>
-                                <a asp-page="/Showtimes/Index" class="flex flex-col items-center justify-center p-2 rounded hover:bg-gray-50">
-                                    <div class="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-500">
-                                        <i class="bi bi-calendar"></i>
-                                    </div>
-                                    <span class="text-xs mt-1">Showtimes</span>
-                                </a>
-                                <a asp-page="/Admin/Users" class="flex flex-col items-center justify-center p-2 rounded hover:bg-gray-50">
-                                    <div class="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-500">
-                                        <i class="bi bi-people"></i>
-                                    </div>
-                                    <span class="text-xs mt-1">Users</span>
-                                </a>
-                                <a href="#" class="flex flex-col items-center justify-center p-2 rounded hover:bg-gray-50">
-                                    <div class="h-8 w-8 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-500">
-                                        <i class="bi bi-ticket"></i>
-                                    </div>
-                                    <span class="text-xs mt-1">Bookings</span>
-                                </a>
-                                <a href="#" class="flex flex-col items-center justify-center p-2 rounded hover:bg-gray-50">
-                                    <div class="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center text-red-500">
-                                        <i class="bi bi-gear"></i>
-                                    </div>
-                                    <span class="text-xs mt-1">Settings</span>
-                                </a>
-                                <a href="#" class="flex flex-col items-center justify-center p-2 rounded hover:bg-gray-50">
-                                    <div class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-500">
-                                        <i class="bi bi-question-circle"></i>
-                                    </div>
-                                    <span class="text-xs mt-1">Help</span>
-                                </a>
+                    <!-- User Menu -->
+                    <div class="relative">
+                        <button id="userMenuBtn" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900">
+                            <div class="bg-gray-200 rounded-full h-8 w-8 flex items-center justify-center">
+                                <i class="bi bi-person"></i>
                             </div>
+                            <span class="hidden md:inline-block">Admin</span>
+                            <i class="bi bi-chevron-down text-sm"></i>
+                        </button>
+                        <div id="userDropdown" class="absolute right-0 mt-2 bg-white rounded shadow-lg w-48 hidden z-20">
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-50 text-sm">
+                                <i class="bi bi-person-circle mr-2"></i>Hồ sơ
+                            </a>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-50 text-sm">
+                                <i class="bi bi-gear mr-2"></i>Cài đặt
+                            </a>
+                            <div class="border-t border-gray-100"></div>
+                            <a href="/Account/Logout" class="block px-4 py-2 hover:bg-gray-50 text-sm text-red-500">
+                                <i class="bi bi-box-arrow-right mr-2"></i>Đăng xuất
+                            </a>
                         </div>
-                    </div>
-                    
-                    <!-- User dropdown -->
-                    <div class="relative ml-3">
-                        <partial name="_LoginPartial" />
                     </div>
                 </div>
             </div>
             
-            <!-- Breadcrumb -->
-            <div class="px-6 py-2 bg-gray-50 border-t border-gray-100">
+            <!-- Breadcrumbs -->
+            <div class="px-4 py-2 bg-gray-50 border-t border-gray-200">
                 <nav class="flex" aria-label="Breadcrumb">
-                    <ol class="flex items-center space-x-2 text-sm text-gray-500">
+                    <ol class="flex items-center space-x-1 text-sm">
                         <li>
-                            <a asp-page="/Admin/Dashboard" class="text-gray-500 hover:text-gray-700">Admin</a>
+                            <a href="/" class="text-gray-500 hover:text-gray-700">Trang chủ</a>
                         </li>
-                        <li>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                            </svg>
+                        <li class="flex items-center space-x-1">
+                            <span class="text-gray-400">/</span>
+                            <a href="/Admin/Dashboard" class="text-gray-500 hover:text-gray-700">Quản trị</a>
                         </li>
-                        <li class="text-gray-700 font-medium">@ViewData["Title"]</li>
+                        <li class="flex items-center space-x-1">
+                            <span class="text-gray-400">/</span>
+                            <span class="text-gray-700 font-medium">@ViewData["Title"]</span>
+                        </li>
                     </ol>
                 </nav>
             </div>
         </header>
 
-        <!-- Main Content -->
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto p-4 bg-gray-50">
             @if (TempData["SuccessMessage"] != null)
             {
-                <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded shadow-sm">
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded shadow-sm alert-dismissible">
                     <div class="flex">
                         <div class="flex-shrink-0">
-                            <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
+                            <i class="bi bi-check-circle text-green-500"></i>
                         </div>
                         <div class="ml-3">
                             <p class="text-sm text-green-700">@TempData["SuccessMessage"]</p>
                         </div>
-                        <div class="ml-auto pl-3">
-                            <div class="-mx-1.5 -my-1.5">
-                                <button type="button" class="inline-flex rounded-md p-1.5 text-green-500 hover:bg-green-100 focus:outline-none" onclick="this.parentElement.parentElement.parentElement.parentElement.remove()">
-                                    <span class="sr-only">Dismiss</span>
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
+                        <button class="ml-auto close-alert">
+                            <i class="bi bi-x text-green-500 hover:text-green-700"></i>
+                        </button>
                     </div>
                 </div>
             }
             
             @if (TempData["ErrorMessage"] != null)
             {
-                <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded shadow-sm">
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded shadow-sm alert-dismissible">
                     <div class="flex">
                         <div class="flex-shrink-0">
-                            <svg class="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                            </svg>
+                            <i class="bi bi-exclamation-triangle text-red-500"></i>
                         </div>
                         <div class="ml-3">
                             <p class="text-sm text-red-700">@TempData["ErrorMessage"]</p>
                         </div>
-                        <div class="ml-auto pl-3">
-                            <div class="-mx-1.5 -my-1.5">
-                                <button type="button" class="inline-flex rounded-md p-1.5 text-red-500 hover:bg-red-100 focus:outline-none" onclick="this.parentElement.parentElement.parentElement.parentElement.remove()">
-                                    <span class="sr-only">Dismiss</span>
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
+                        <button class="ml-auto close-alert">
+                            <i class="bi bi-x text-red-500 hover:text-red-700"></i>
+                        </button>
                     </div>
                 </div>
             }
             
             @RenderBody()
         </main>
-        
+
         <!-- Footer -->
-        <footer class="bg-white shadow-sm py-4 px-6 border-t border-gray-100">
+        <footer class="bg-white border-t border-gray-200 px-4 py-3">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="text-sm text-gray-600 mb-2 md:mb-0">
-                    &copy; @DateTime.Now.Year Movie Ticket System. All rights reserved.
+                    &copy; @DateTime.Now.Year Hệ thống đặt vé xem phim. Bản quyền đã được đăng ký.
                 </div>
-                <div class="flex items-center space-x-4">
-                    <a href="#" class="text-sm text-gray-600 hover:text-primary">Privacy Policy</a>
-                    <a href="#" class="text-sm text-gray-600 hover:text-primary">Terms of Service</a>
-                    <a href="#" class="text-sm text-gray-600 hover:text-primary">Help Center</a>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-sm text-gray-600 hover:text-blue-500">Chính sách bảo mật</a>
+                    <a href="#" class="text-sm text-gray-600 hover:text-blue-500">Điều khoản dịch vụ</a>
+                    <a href="#" class="text-sm text-gray-600 hover:text-blue-500">Trợ giúp</a>
                 </div>
             </div>
         </footer>
     </div>
 </div>
 
-<script>
-    // Toggle sidebar
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle('-translate-x-full');
-    }
-    
-    // Toggle dropdown menus
-    function toggleDropdown(id) {
-        const dropdown = document.getElementById(id);
-        dropdown.classList.toggle('hidden');
+@section Scripts {
+    <script>
+        // Sidebar toggle
+        document.getElementById('openSidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.remove('-translate-x-full');
+        });
         
-        // Close other dropdowns
-        const allDropdowns = document.querySelectorAll('.origin-top-right');
-        allDropdowns.forEach(item => {
-            if (item.id !== id) {
-                item.classList.add('hidden');
+        document.getElementById('closeSidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+        });
+        
+        // Handle dropdown toggles
+        function setupDropdown(triggerBtn, dropdownId) {
+            document.getElementById(triggerBtn).addEventListener('click', function() {
+                const dropdown = document.getElementById(dropdownId);
+                dropdown.classList.toggle('hidden');
+                
+                // Close other dropdowns
+                document.querySelectorAll('.dropdown-content').forEach(function(element) {
+                    if (element.id !== dropdownId) {
+                        element.classList.add('hidden');
+                    }
+                });
+            });
+        }
+        
+        setupDropdown('notificationBtn', 'notificationDropdown');
+        setupDropdown('userMenuBtn', 'userDropdown');
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('#notificationBtn') && !event.target.closest('#notificationDropdown')) {
+                document.getElementById('notificationDropdown').classList.add('hidden');
+            }
+            
+            if (!event.target.closest('#userMenuBtn') && !event.target.closest('#userDropdown')) {
+                document.getElementById('userDropdown').classList.add('hidden');
             }
         });
-    }
-    
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!event.target.closest('#notificationsDropdown') && !event.target.closest('#quickActionsDropdown')) {
-            document.getElementById('notificationsList').classList.add('hidden');
-            document.getElementById('quickActionsList').classList.add('hidden');
-        }
-    });
-    
-    // Fullscreen toggle functionality
-    document.getElementById('fullscreenToggle').addEventListener('click', function() {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(err => {
-                console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+        
+        // Alert dismissal
+        document.querySelectorAll('.close-alert').forEach(function(button) {
+            button.addEventListener('click', function() {
+                this.closest('.alert-dismissible').remove();
             });
-        } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
+        });
+        
+        // On mobile, hide sidebar by default
+        function checkScreenSize() {
+            if (window.innerWidth < 1024) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            } else {
+                document.getElementById('sidebar').classList.remove('-translate-x-full');
             }
         }
-    });
-</script>
+        
+        // Check on page load and resize
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+    </script>
 
-@await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
+}

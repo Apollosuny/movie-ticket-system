@@ -1,20 +1,38 @@
 @page
 @model MovieTicketSystem.Pages.Admin.DashboardModel
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "Bảng Điều Khiển";
+    Layout = "_AdminLayout";
 }
 
-<div class="container mx-auto px-4 py-8">
-    <div class="flex flex-col md:flex-row justify-between items-center mb-8">
-        <h1 class="text-2xl font-bold flex items-center"><i class="bi bi-speedometer2 mr-2"></i>Admin Dashboard</h1>
-        <nav class="mt-2 md:mt-0">
-            <ol class="flex space-x-2 text-sm">
-                <li><a href="/" class="text-primary hover:underline">Home</a></li>
-                <li><span class="text-gray-500 mx-1">/</span></li>
-                <li class="text-gray-700">Dashboard</li>
-            </ol>
-        </nav>
+<div class="mb-8">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="/Admin/Dashboard" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                    <i class="bi bi-house-door mr-2"></i>
+                    Trang chủ
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="bi bi-chevron-right text-gray-400 mx-2 text-sm"></i>
+                    <span class="text-sm font-medium text-gray-500">@ViewData["Title"]</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800">Tổng quan hệ thống</h1>
+        <div>
+            <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center">
+                <i class="bi bi-download mr-2"></i> Xuất báo cáo
+            </button>
+        </div>
     </div>
+</div>
     
     <!-- Quick Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -42,7 +60,7 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h5 class="text-lg font-medium mb-1">Screens</h5>
+                            <h5 class="text-lg font-medium mb-1">Phòng chiếu</h5>
                             <h2 class="text-3xl font-bold">@Model.ScreenCount</h2>
                         </div>
                         <i class="bi bi-display text-4xl opacity-80"></i>
@@ -50,7 +68,7 @@
                 </div>
                 <div class="px-6 py-4 border-t border-white border-opacity-20">
                     <a asp-page="/Screens/Index" class="text-white hover:underline flex items-center">
-                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                        Xem chi tiết <i class="bi bi-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
@@ -61,7 +79,7 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h5 class="text-lg font-medium mb-1">Showtimes</h5>
+                            <h5 class="text-lg font-medium mb-1">Lịch chiếu</h5>
                             <h2 class="text-3xl font-bold">@Model.ShowtimeCount</h2>
                         </div>
                         <i class="bi bi-calendar-event text-4xl opacity-80"></i>
@@ -69,7 +87,7 @@
                 </div>
                 <div class="px-6 py-4 border-t border-white border-opacity-20">
                     <a asp-page="/Showtimes/Index" class="text-white hover:underline flex items-center">
-                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                        Xem chi tiết <i class="bi bi-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
@@ -80,7 +98,7 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h5 class="text-lg font-medium mb-1">Users</h5>
+                            <h5 class="text-lg font-medium mb-1">Người dùng</h5>
                             <h2 class="text-3xl font-bold">@Model.UserCount</h2>
                         </div>
                         <i class="bi bi-people text-4xl opacity-80"></i>
@@ -88,7 +106,7 @@
                 </div>
                 <div class="px-6 py-4 border-t border-white border-opacity-20">
                     <a asp-page="/Admin/Users" class="text-white hover:underline flex items-center">
-                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                        Xem chi tiết <i class="bi bi-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
@@ -98,10 +116,10 @@
     <!-- Activity Summary -->
     <div class="bg-white rounded-lg shadow-md mb-8 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-            <h5 class="font-bold">Activity Summary</h5>
+            <h5 class="font-bold">Tổng kết hoạt động</h5>
             <div class="flex space-x-2">
-                <button class="bg-gray-100 text-gray-700 px-3 py-1 rounded-md text-sm hover:bg-gray-200 transition-colors">Weekly</button>
-                <button class="bg-primary text-white px-3 py-1 rounded-md text-sm hover:bg-opacity-90 transition-colors">Monthly</button>
+                <button class="bg-gray-100 text-gray-700 px-3 py-1 rounded-md text-sm hover:bg-gray-200 transition-colors">Theo tuần</button>
+                <button class="bg-primary text-white px-3 py-1 rounded-md text-sm hover:bg-opacity-90 transition-colors">Theo tháng</button>
             </div>
         </div>
         <div class="p-6">
@@ -116,9 +134,9 @@
                 const salesChart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
                         datasets: [{
-                            label: 'Ticket Sales',
+                            label: 'Vé bán ra',
                             data: [
                                 @(Model.WeeklyBookings.ContainsKey("Mon") ? Model.WeeklyBookings["Mon"] : 0),
                                 @(Model.WeeklyBookings.ContainsKey("Tue") ? Model.WeeklyBookings["Tue"] : 0),
@@ -134,7 +152,7 @@
                             tension: 0.3,
                             fill: true
                         }, {
-                            label: 'Revenue ($)',
+                            label: 'Doanh thu (₫)',
                             data: [
                                 @(Model.MonthlyRevenue.ContainsKey("Mon") ? Model.MonthlyRevenue["Mon"] : 0),
                                 @(Model.MonthlyRevenue.ContainsKey("Tue") ? Model.MonthlyRevenue["Tue"] : 0),
@@ -160,7 +178,7 @@
                                 beginAtZero: true,
                                 title: {
                                     display: true,
-                                    text: 'Ticket Count'
+                                    text: 'Số lượng vé'
                                 }
                             },
                             y1: {
@@ -168,7 +186,7 @@
                                 beginAtZero: true,
                                 title: {
                                     display: true,
-                                    text: 'Revenue ($)'
+                                    text: 'Doanh thu (₫)'
                                 },
                                 grid: {
                                     drawOnChartArea: false
@@ -197,9 +215,9 @@
         <div class="lg:col-span-2">
             <div class="bg-white rounded-lg shadow-md mb-6">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                    <h5 class="font-bold">Latest Movies</h5>
+                    <h5 class="font-bold">Phim mới nhất</h5>
                     <a asp-page="/Movies/Create" class="bg-primary text-white px-4 py-2 rounded-md text-sm flex items-center hover:bg-opacity-90 transition-colors">
-                        <i class="bi bi-plus-circle mr-1"></i>Add New Movie
+                        <i class="bi bi-plus-circle mr-1"></i>Thêm phim mới
                     </a>
                 </div>
                 <div class="p-6">
@@ -208,19 +226,19 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Movie Title
+                                        Tên phim
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Duration
+                                        Thời lượng
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Release Date
+                                        Ngày chiếu
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Rating
+                                        Đánh giá
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Actions
+                                        Thao tác
                                     </th>
                                 </tr>
                             </thead>
@@ -263,8 +281,8 @@
             <!-- Recent Bookings -->
             <div class="bg-white rounded-lg shadow-md">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                    <h5 class="font-bold">Recent Bookings</h5>
-                    <a href="#" class="text-primary hover:underline text-sm">View All</a>
+                    <h5 class="font-bold">Đặt vé gần đây</h5>
+                    <a href="#" class="text-primary hover:underline text-sm">Xem tất cả</a>
                 </div>
                 <div class="p-6">
                     <div class="overflow-x-auto">
@@ -272,19 +290,19 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Reference #
+                                        Mã đặt vé
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Movie
+                                        Phim
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Customer
+                                        Khách hàng
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Amount
+                                        Số tiền
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Status
+                                        Trạng thái
                                     </th>
                                 </tr>
                             </thead>
@@ -301,11 +319,11 @@
                                         <div class="text-sm text-gray-900">John Smith</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">$25.00</div>
+                                        <div class="text-sm text-gray-900">250.000 ₫</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            Completed
+                                            Hoàn thành
                                         </span>
                                     </td>
                                 </tr>
@@ -320,11 +338,11 @@
                                         <div class="text-sm text-gray-900">Sarah Johnson</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">$18.00</div>
+                                        <div class="text-sm text-gray-900">180.000 ₫</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                            Pending
+                                            Đang xử lý
                                         </span>
                                     </td>
                                 </tr>
@@ -339,7 +357,7 @@
             <!-- Latest Users -->
             <div class="bg-white rounded-lg shadow-md mb-6">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h5 class="font-bold">Latest Users</h5>
+                    <h5 class="font-bold">Người dùng mới nhất</h5>
                 </div>
                 <div class="p-6">
                     <div class="space-y-3">
@@ -366,7 +384,7 @@
                 </div>
                 <div class="px-6 py-4 border-t border-gray-200">
                     <a asp-page="/Admin/Users" class="block w-full py-2 px-4 border border-primary text-primary hover:bg-primary hover:text-white text-center rounded-md transition-colors">
-                        View All Users
+                        Xem tất cả người dùng
                     </a>
                 </div>
             </div>
@@ -374,13 +392,13 @@
             <!-- System Health -->
             <div class="bg-white rounded-lg shadow-md mb-6">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h5 class="font-bold">System Health</h5>
+                    <h5 class="font-bold">Tình trạng hệ thống</h5>
                 </div>
                 <div class="p-6">
                     <div class="space-y-4">
                         <div>
                             <div class="flex justify-between mb-1">
-                                <span class="text-sm font-medium text-gray-700">Server Load</span>
+                                <span class="text-sm font-medium text-gray-700">Tải máy chủ</span>
                                 <span class="text-sm font-medium text-gray-700">45%</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2">
@@ -389,7 +407,7 @@
                         </div>
                         <div>
                             <div class="flex justify-between mb-1">
-                                <span class="text-sm font-medium text-gray-700">Database Usage</span>
+                                <span class="text-sm font-medium text-gray-700">Sử dụng cơ sở dữ liệu</span>
                                 <span class="text-sm font-medium text-gray-700">72%</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2">
@@ -398,7 +416,7 @@
                         </div>
                         <div>
                             <div class="flex justify-between mb-1">
-                                <span class="text-sm font-medium text-gray-700">Storage</span>
+                                <span class="text-sm font-medium text-gray-700">Dung lượng lưu trữ</span>
                                 <span class="text-sm font-medium text-gray-700">23%</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2">
@@ -412,18 +430,18 @@
             <!-- Quick Links -->
             <div class="bg-white rounded-lg shadow-md">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h5 class="font-bold">Quick Links</h5>
+                    <h5 class="font-bold">Truy cập nhanh</h5>
                 </div>
                 <div class="p-6">
                     <div class="space-y-3">
                         <a asp-page="/Movies/Create" class="flex items-center py-2 px-4 border border-primary text-primary hover:bg-primary hover:text-white rounded-md transition-colors">
-                            <i class="bi bi-film mr-2"></i>Add New Movie
+                            <i class="bi bi-film mr-2"></i>Thêm phim mới
                         </a>
                         <a asp-page="/Screens/Create" class="flex items-center py-2 px-4 border border-success text-success hover:bg-success hover:text-white rounded-md transition-colors">
-                            <i class="bi bi-display mr-2"></i>Add New Screen
+                            <i class="bi bi-display mr-2"></i>Thêm phòng chiếu mới
                         </a>
                         <a asp-page="/Showtimes/Create" class="flex items-center py-2 px-4 border border-info text-info hover:bg-info hover:text-white rounded-md transition-colors">
-                            <i class="bi bi-calendar-plus mr-2"></i>Add New Showtime
+                            <i class="bi bi-calendar-plus mr-2"></i>Thêm lịch chiếu mới
                         </a>
                     </div>
                 </div>
@@ -434,8 +452,8 @@
     <!-- Today's Schedule -->
     <div class="bg-white rounded-lg shadow-md mb-8">
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-            <h5 class="font-bold">Today's Schedule</h5>
-            <a asp-page="/Showtimes/Index" class="text-sm text-primary hover:underline">View All Showtimes</a>
+            <h5 class="font-bold">Lịch chiếu hôm nay</h5>
+            <a asp-page="/Showtimes/Index" class="text-sm text-primary hover:underline">Xem tất cả lịch chiếu</a>
         </div>
         <div class="p-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -447,21 +465,21 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h6 class="font-medium">@showtime.Movie?.Title</h6>
-                                    <p class="text-sm text-gray-600">Screen @showtime.Screen?.Name</p>
+                                    <p class="text-sm text-gray-600">Phòng @showtime.Screen?.Name</p>
                                 </div>
                                 <span class="px-2 py-1 bg-blue-200 text-blue-800 text-xs rounded-full">
                                     @showtime.StartTime.ToString("h:mm tt")
                                 </span>
                             </div>
                             <div class="mt-3 flex justify-between items-center">
-                                <span class="text-xs text-gray-500">Duration: @(showtime.Movie?.Duration ?? 0) minutes</span>
+                                <span class="text-xs text-gray-500">Thời lượng: @(showtime.Movie?.Duration ?? 0) phút</span>
                                 @{
                                     // This would normally calculate based on booked seats, using placeholder for now
                                     var random = new Random();
                                     var percentBooked = random.Next(25, 95);
                                     var textColor = percentBooked > 80 ? "text-green-600" : (percentBooked > 50 ? "text-yellow-600" : "text-blue-600");
                                 }
-                                <span class="text-xs font-medium @textColor">@percentBooked% Booked</span>
+                                <span class="text-xs font-medium @textColor">@percentBooked% đã đặt</span>
                             </div>
                         </div>
                     }
@@ -469,9 +487,9 @@
                 else
                 {
                     <div class="col-span-3 text-center py-8">
-                        <p class="text-gray-500">No showtimes scheduled for today.</p>
+                        <p class="text-gray-500">Không có lịch chiếu nào cho hôm nay.</p>
                         <a asp-page="/Showtimes/Create" class="inline-block mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition-colors">
-                            <i class="bi bi-plus-circle mr-1"></i>Add New Showtime
+                            <i class="bi bi-plus-circle mr-1"></i>Thêm lịch chiếu mới
                         </a>
                     </div>
                 }

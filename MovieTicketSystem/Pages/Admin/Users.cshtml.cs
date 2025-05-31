@@ -35,5 +35,14 @@ namespace MovieTicketSystem.Pages.Admin
         {
             return _userManager.GetRolesAsync(user).Result.ToList();
         }
+
+        public int GetAdminCount()
+        {
+            return Users.Count(user => 
+                GetUserRoles(user).Any(role => 
+                    role.Contains("Admin") || role.Equals("Administrator")
+                )
+            );
+        }
     }
 }

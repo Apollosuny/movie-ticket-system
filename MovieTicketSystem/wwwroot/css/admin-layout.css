@@ -1,0 +1,69 @@
+/* Admin Layout Styles */
+.admin-layout {
+  display: flex;
+}
+
+.admin-sidebar {
+  width: 250px;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.admin-main {
+  flex: 1;
+  margin-left: 250px;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+    width: 240px;
+  }
+
+  .admin-sidebar.visible {
+    transform: translateX(0);
+  }
+
+  .admin-main {
+    margin-left: 0;
+  }
+}
+
+/* Enhanced scrollbar for sidebar */
+.admin-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.admin-sidebar::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+  border-radius: 20px;
+}
+
+/* Active menu item styles */
+.menu-item-active {
+  background-color: #2563eb;
+  color: white !important;
+}
+
+/* Menu item hover effect */
+.menu-item:hover:not(.menu-item-active) {
+  background-color: rgba(75, 85, 99, 0.7);
+}
+
+/* Admin content background */
+.admin-content-bg {
+  background-color: #f3f4f6;
+}
+
+/* Admin card shadow */
+.admin-card-shadow {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
