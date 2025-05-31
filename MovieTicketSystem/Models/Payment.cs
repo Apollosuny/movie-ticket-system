@@ -22,12 +22,11 @@ namespace MovieTicketSystem.Models
         [Required]
         [Column("method")]
         [StringLength(30)]
-        public string Method { get; set; }
+        public string Method { get; set; } = string.Empty;
 
         [Required]
         [Column("paid_at", TypeName = "datetime")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime PaidAt { get; set; }
+        public DateTime PaidAt { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("BookingId")]
         public Booking? Booking { get; set; }

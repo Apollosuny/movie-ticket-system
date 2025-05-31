@@ -155,7 +155,7 @@ namespace MovieTicketSystem.Pages.Showtimes
             {
                 UserId = userId ?? throw new InvalidOperationException("User ID is required"),
                 ShowtimeId = Id.Value,
-                BookingTime = DateTime.UtcNow,
+                BookingTime = DateTime.UtcNow, // Set booking time explicitly
                 TotalPrice = showtime.Price * selectedSeatIds.Count,
                 Status = "Pending",
                 Tickets = selectedSeatIds.Select(seatId => new Ticket

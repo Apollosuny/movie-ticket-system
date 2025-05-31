@@ -21,8 +21,7 @@ namespace MovieTicketSystem.Models
 
         [Required]
         [Column("booking_time", TypeName = "datetime")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime BookingTime { get; set; }
+        public DateTime BookingTime { get; set; } = DateTime.UtcNow;
 
         [Required]
         [Column("total_price")]
