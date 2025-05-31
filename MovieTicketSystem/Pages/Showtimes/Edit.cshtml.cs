@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +10,7 @@ using System.Linq;
 
 namespace MovieTicketSystem.Pages.Showtimes
 {
+    [Authorize(Roles = "Administrator")]
     public class EditModel : PageModel
     {
         private readonly MovieTicketContext _context;

@@ -1,0 +1,45 @@
+@page
+@model MovieTicketSystem.Pages.MoviesListModel
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Movies</h1>
+        <p class="text-gray-600">Browse our selection of the latest and upcoming movies</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        @foreach (var movie in Model.Movies)
+        {
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2 h-full flex flex-col">
+                <div class="relative pb-2/3 overflow-hidden">
+                    @if (string.IsNullOrEmpty(movie.ImageBanner))
+                    {
+                        <img src="https://via.placeholder.com/300x450?text=@Uri.EscapeDataString(movie.Title)" 
+                             class="w-full h-64 object-cover" alt="@movie.Title">
+                    }
+                    else
+                    {
+                        <img src="@movie.ImageBanner" 
+                             class="w-full h-64 object-cover" alt="@movie.Title">
+                    }
+                </div>
+                <div class="p-4 flex-grow flex flex-col">
+                    <div class="flex justify-between items-start mb-2">
+                        <h2 class="text-xl font-semibold text-gray-800">@movie.Title</h2>
+                        <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">@movie.Rating</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">@movie.Description</p>
+                    <div class="mt-auto">
+                        <a asp-page="/MovieDetails" asp-route-id="@movie.MovieId" 
+                           class="w-full block text-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition duration-300">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

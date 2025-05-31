@@ -32,54 +32,54 @@
         <!-- Navigation Menu -->
         <nav class="p-4">
             <div class="mb-4">
-                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">Điều hướng chính</p>
+                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">Main Navigation</p>
                 <a href="/Admin/Dashboard" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Admin/Dashboard") ? "bg-blue-600 text-white" : "")">
                     <i class="bi bi-speedometer2 mr-3"></i>
-                    <span>Bảng điều khiển</span>
+                    <span>Dashboard</span>
                 </a>
             </div>
 
             <div class="mb-4">
-                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">Quản lý nội dung</p>
+                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">Content Management</p>
                 <a href="/Movies/Index" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Movies") ? "bg-blue-600 text-white" : "")">
                     <i class="bi bi-film mr-3"></i>
-                    <span>Phim</span>
+                    <span>Movies</span>
                 </a>
                 <a href="/Screens/Index" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Screens") ? "bg-blue-600 text-white" : "")">
                     <i class="bi bi-display mr-3"></i>
-                    <span>Phòng chiếu</span>
+                    <span>Screens</span>
                 </a>
                 <a href="/Showtimes/Index" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Showtimes") ? "bg-blue-600 text-white" : "")">
                     <i class="bi bi-calendar-event mr-3"></i>
-                    <span>Lịch chiếu</span>
+                    <span>Showtimes</span>
                 </a>
                 <a href="/Seats/Index" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Seats") ? "bg-blue-600 text-white" : "")">
                     <i class="bi bi-grid mr-3"></i>
-                    <span>Ghế ngồi</span>
+                    <span>Seats</span>
                 </a>
             </div>
 
             <div class="mb-4">
-                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">Quản lý người dùng</p>
+                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">User Management</p>
                 <a href="/Admin/Users" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Admin/Users") ? "bg-blue-600 text-white" : "")">
                     <i class="bi bi-people mr-3"></i>
-                    <span>Người dùng</span>
+                    <span>Users</span>
                 </a>
                 <a href="#" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700">
                     <i class="bi bi-shield-lock mr-3"></i>
-                    <span>Vai trò & Quyền hạn</span>
+                    <span>Roles & Permissions</span>
                 </a>
             </div>
 
             <div class="mb-4">
-                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">Hệ thống</p>
+                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">System</p>
                 <a href="#" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700">
                     <i class="bi bi-gear mr-3"></i>
-                    <span>Cài đặt</span>
+                    <span>Settings</span>
                 </a>
                 <a href="/" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700">
                     <i class="bi bi-house mr-3"></i>
-                    <span>Trở về trang chủ</span>
+                    <span>Back to Home</span>
                 </a>
             </div>
         </nav>
@@ -99,7 +99,7 @@
                 <div class="flex items-center space-x-4">
                     <!-- Search -->
                     <div class="hidden md:block relative">
-                        <input type="text" placeholder="Tìm kiếm..." class="py-1 px-3 pr-8 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <input type="text" placeholder="Search..." class="py-1 px-3 pr-8 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <i class="bi bi-search absolute right-2.5 top-1.5 text-gray-400"></i>
                     </div>
                     
@@ -111,8 +111,8 @@
                         </button>
                         <div id="notificationDropdown" class="absolute right-0 mt-2 bg-white rounded shadow-lg w-72 hidden z-20">
                             <div class="p-2 border-b border-gray-200 flex justify-between items-center">
-                                <span class="font-semibold">Thông báo</span>
-                                <a href="#" class="text-xs text-blue-500 hover:underline">Đánh dấu tất cả đã đọc</a>
+                                <span class="font-semibold">Notifications</span>
+                                <a href="#" class="text-xs text-blue-500 hover:underline">Mark all as read</a>
                             </div>
                             <div class="max-h-60 overflow-y-auto">
                                 <a href="#" class="block p-3 hover:bg-gray-50 border-b border-gray-100">
@@ -121,8 +121,8 @@
                                             <i class="bi bi-envelope"></i>
                                         </div>
                                         <div class="ml-3">
-                                            <p class="text-sm font-medium">Đặt vé mới</p>
-                                            <p class="text-xs text-gray-500 mt-1">5 phút trước</p>
+                                            <p class="text-sm font-medium">New ticket booking</p>
+                                            <p class="text-xs text-gray-500 mt-1">5 minutes ago</p>
                                         </div>
                                     </div>
                                 </a>
@@ -132,14 +132,14 @@
                                             <i class="bi bi-check-circle"></i>
                                         </div>
                                         <div class="ml-3">
-                                            <p class="text-sm font-medium">Cập nhật hệ thống thành công</p>
-                                            <p class="text-xs text-gray-500 mt-1">2 giờ trước</p>
+                                            <p class="text-sm font-medium">System update successful</p>
+                                            <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
                                         </div>
                                     </div>
                                 </a>
                             </div>
                             <div class="p-2 border-t border-gray-200">
-                                <a href="#" class="block text-center text-sm text-blue-500 hover:underline">Xem tất cả thông báo</a>
+                                <a href="#" class="block text-center text-sm text-blue-500 hover:underline">View all notifications</a>
                             </div>
                         </div>
                     </div>

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovieTicketSystem.Pages.Seats
 {
+    [Authorize(Roles = "Administrator")]
     public class DetailsModel : PageModel
     {
         private readonly MovieTicketContext _context;

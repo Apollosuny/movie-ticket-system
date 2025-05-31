@@ -1,0 +1,87 @@
+@page
+@model MovieTicketSystem.Pages.ShowtimesListModel
+@{
+    ViewData["Title"] = "Showtimes";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Showtimes</h1>
+        <p class="text-gray-600">Find and book tickets for upcoming movie showtimes</p>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden p-6">
+        <!-- Date Selection -->
+        <div class="flex overflow-x-auto pb-4 mb-6 space-x-2">
+            @foreach (var date in Model.Dates)
+            {
+                string activeClass = date.Date == Model.SelectedDate.Date ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-800 hover:bg-gray-200";
+                <a asp-page="/ShowtimesList" asp-route-date="@date.ToString("yyyy-MM-dd")"
+                   class="@activeClass px-4 py-2 rounded-md whitespace-nowrap transition-colors flex flex-col items-center min-w-[80px]">
+                    <span class="font-medium">@date.ToString("ddd")</span>
+                    <span class="text-sm">@date.ToString("MMM dd")</span>
+                </a>
+            }
+        </div>
+
+        @if (!Model.MovieShowtimes.Any())
+        {
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-sm">
+                <p class="text-yellow-700">No showtimes are available for @Model.SelectedDate.ToString("MMMM dd, yyyy"). Please select another date.</p>
+            </div>
+        }
+        else
+        {
+            <!-- Movies with Showtimes -->
+            <div class="space-y-8">
+                @foreach (var movieGroup in Model.MovieShowtimes)
+                {
+                    <div class="border-b border-gray-200 pb-6 mb-6 last:border-0">
+                        <div class="flex flex-col md:flex-row md:items-start md:space-x-6 mb-4">
+                            <!-- Movie Poster -->
+                            <div class="w-full md:w-1/6 mb-4 md:mb-0">
+                                @if (!string.IsNullOrEmpty(movieGroup.Key.ImageBanner))
+                                {
+                                    <img src="@movieGroup.Key.ImageBanner" class="w-full h-auto rounded-lg shadow" alt="@movieGroup.Key.Title">
+                                }
+                                else
+                                {
+                                    <img src="https://via.placeholder.com/200x300?text=@Uri.EscapeDataString(movieGroup.Key.Title ?? "")" 
+                                        class="w-full h-auto rounded-lg shadow" alt="@movieGroup.Key.Title">
+                                }
+                            </div>
+                            
+                            <!-- Movie Info and Showtimes -->
+                            <div class="w-full md:w-5/6">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                                    <div>
+                                        <h2 class="text-xl font-semibold text-gray-800">@movieGroup.Key.Title</h2>
+                                        <div class="flex items-center mt-1">
+                                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-2">@movieGroup.Key.Rating</span>
+                                            <span class="text-gray-600 text-sm">@movieGroup.Key.Duration min</span>
+                                        </div>
+                                    </div>
+                                    <a asp-page="/MovieDetails" asp-route-id="@movieGroup.Key.MovieId" class="text-blue-600 hover:text-blue-800 text-sm mt-2 md:mt-0">
+                                        View Details
+                                    </a>
+                                </div>
+                                
+                                <!-- Showtimes Grid -->
+                                <div class="flex flex-wrap gap-2 mt-4">
+                                    @foreach (var showtime in movieGroup)
+                                    {
+                                        <a asp-page="/Showtimes/Details" asp-route-id="@showtime.ShowtimeId"
+                                           class="border border-gray-300 hover:border-blue-500 bg-white hover:bg-blue-50 rounded px-4 py-2 transition-colors">
+                                            <div class="font-medium">@showtime.StartTime.ToString("h:mm tt")</div>
+                                            <div class="text-xs text-gray-600">@showtime.Screen?.Name</div>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

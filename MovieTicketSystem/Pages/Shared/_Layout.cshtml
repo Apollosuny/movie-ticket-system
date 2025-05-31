@@ -66,33 +66,39 @@
                         <i class="bi bi-film mr-2 text-primary text-2xl"></i>
                         <span class="font-bold text-white">Movie Tickets</span>
                     </a>
-                    <div class="hidden md:block">
-                        <ul class="flex space-x-4">
-                            <li>
+                    <div class="hidden md:block">                        <ul class="flex space-x-4">                            <li>
                                 <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" asp-area="" asp-page="/Index">
-                                    <i class="bi bi-house-door mr-2"></i> Trang chủ
+                                    <i class="bi bi-house-door mr-2"></i> Home
                                 </a>
                             </li>
                             <li>
-                                <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" asp-area="" asp-page="/Movies/Index">
-                                    <i class="bi bi-film mr-2"></i> Phim
+                                <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" asp-area="" asp-page="/MoviesList">
+                                    <i class="bi bi-film mr-2"></i> Movies
                                 </a>
                             </li>
                             <li>
-                                <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" asp-area="" asp-page="/Showtimes/Index">
-                                    <i class="bi bi-calendar-event mr-2"></i> Lịch chiếu
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" href="#">
-                                    <i class="bi bi-ticket-perforated mr-2"></i> Khuyến mãi
+                                <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" asp-area="" asp-page="/ShowtimesList">
+                                    <i class="bi bi-calendar-event mr-2"></i> Showtimes
                                 </a>
                             </li>
                             <li>
                                 <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" href="#">
-                                    <i class="bi bi-info-circle mr-2"></i> Về chúng tôi
+                                    <i class="bi bi-ticket-perforated mr-2"></i> Promotions
                                 </a>
                             </li>
+                            <li>
+                                <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md transition duration-300 flex items-center" href="#">
+                                    <i class="bi bi-info-circle mr-2"></i> About Us
+                                </a>
+                            </li>
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                <li>
+                                    <a class="text-gray-200 hover:text-white px-3 py-2 rounded-md bg-blue-600 transition duration-300 flex items-center" asp-area="" asp-page="/Admin/Dashboard">
+                                        <i class="bi bi-speedometer2 mr-2"></i> Dashboard
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </div>
                     <div class="hidden md:block">
@@ -105,33 +111,39 @@
                     </button>
                 </div>
                 <!-- Mobile menu -->
-                <div class="md:hidden hidden" id="mobile-menu">
-                    <ul class="pt-4 pb-3 space-y-1">
-                        <li>
+                <div class="md:hidden hidden" id="mobile-menu">                    <ul class="pt-4 pb-3 space-y-1">                        <li>
                             <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" asp-area="" asp-page="/Index">
-                                <i class="bi bi-house-door mr-2"></i> Trang chủ
+                                <i class="bi bi-house-door mr-2"></i> Home
                             </a>
                         </li>
                         <li>
-                            <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" asp-area="" asp-page="/Movies/Index">
-                                <i class="bi bi-film mr-2"></i> Phim
+                            <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" asp-area="" asp-page="/MoviesList">
+                                <i class="bi bi-film mr-2"></i> Movies
                             </a>
                         </li>
                         <li>
-                            <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" asp-area="" asp-page="/Showtimes/Index">
-                                <i class="bi bi-calendar-event mr-2"></i> Lịch chiếu
-                            </a>
-                        </li>
-                        <li>
-                            <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" href="#">
-                                <i class="bi bi-ticket-perforated mr-2"></i> Khuyến mãi
+                            <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" asp-area="" asp-page="/ShowtimesList">
+                                <i class="bi bi-calendar-event mr-2"></i> Showtimes
                             </a>
                         </li>
                         <li>
                             <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" href="#">
-                                <i class="bi bi-info-circle mr-2"></i> Về chúng tôi
+                                <i class="bi bi-ticket-perforated mr-2"></i> Promotions
                             </a>
                         </li>
+                        <li>
+                            <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md transition duration-300" href="#">
+                                <i class="bi bi-info-circle mr-2"></i> About Us
+                            </a>
+                        </li>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li>
+                                <a class="text-gray-200 hover:text-white block px-3 py-2 rounded-md bg-blue-600 transition duration-300" asp-area="" asp-page="/Admin/Dashboard">
+                                    <i class="bi bi-speedometer2 mr-2"></i> Dashboard
+                                </a>
+                            </li>
+                        }
                     </ul>
                     <div class="pt-2 pb-4 border-t border-gray-700">
                         <partial name="_LoginPartial" />
@@ -158,42 +170,38 @@
                         <a href="#" class="text-white hover:text-primary transition-colors"><i class="bi bi-twitter-x text-xl"></i></a>
                         <a href="#" class="text-white hover:text-primary transition-colors"><i class="bi bi-youtube text-xl"></i></a>
                     </div>
-                </div>
-                <div class="md:col-span-2">
-                    <h5 class="font-bold text-lg mb-4">Liên kết</h5>
+                </div>                <div class="md:col-span-2">                    <h5 class="font-bold text-lg mb-4">Quick Links</h5>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Trang chủ</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Phim</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Lịch chiếu</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Khuyến mãi</a></li>
-                        <li><a asp-page="/Privacy" class="text-gray-300 hover:text-white transition-colors">Chính sách</a></li>
+                        <li><a asp-page="/Index" class="text-gray-300 hover:text-white transition-colors">Home</a></li>
+                        <li><a asp-page="/MoviesList" class="text-gray-300 hover:text-white transition-colors">Movies</a></li>
+                        <li><a asp-page="/ShowtimesList" class="text-gray-300 hover:text-white transition-colors">Showtimes</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Promotions</a></li>
+                        <li><a asp-page="/Privacy" class="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
                     </ul>
-                </div>
-                <div class="md:col-span-3">
-                    <h5 class="font-bold text-lg mb-4">Rạp chiếu phim</h5>
+                </div>                <div class="md:col-span-3">
+                    <h5 class="font-bold text-lg mb-4">Theaters</h5>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Hà Nội</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Hồ Chí Minh</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Đà Nẵng</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Hải Phòng</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Cần Thơ</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Hanoi</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Ho Chi Minh City</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Da Nang</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Hai Phong</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Can Tho</a></li>
                     </ul>
-                </div>
-                <div class="md:col-span-3">
-                    <h5 class="font-bold text-lg mb-4">Liên hệ</h5>
+                </div>                <div class="md:col-span-3">
+                    <h5 class="font-bold text-lg mb-4">Contact Us</h5>
                     <ul class="space-y-2">
-                        <li class="flex items-start"><i class="bi bi-geo-alt mr-2 mt-1"></i> 123 Đường Phim, Quận 1, TP.HCM</li>
+                        <li class="flex items-start"><i class="bi bi-geo-alt mr-2 mt-1"></i> 123 Cinema Street, District 1, HCMC</li>
                         <li class="flex items-center"><i class="bi bi-telephone mr-2"></i> 1900 1234 567</li>
                         <li class="flex items-center"><i class="bi bi-envelope mr-2"></i> contact@movietickets.com</li>
                     </ul>
                     <div class="mt-4">
-                        <a href="#" class="inline-block px-4 py-2 border border-white rounded-md hover:bg-white hover:text-gray-900 transition-colors">Liên hệ ngay</a>
+                        <a href="#" class="inline-block px-4 py-2 border border-white rounded-md hover:bg-white hover:text-gray-900 transition-colors">Contact Now</a>
                     </div>
                 </div>
             </div>
             <hr class="border-gray-700 my-6">
             <div class="text-center">
-                <p class="text-gray-400">&copy; 2025 Movie Tickets. Bản quyền thuộc về công ty TNHH Movie Tickets.</p>
+                <p class="text-gray-400">&copy; 2025 Movie Tickets. All rights reserved.</p>
             </div>
         </div>
     </footer>    <script src="~/lib/jquery/dist/jquery.min.js"></script>

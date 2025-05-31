@@ -74,6 +74,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/MovieDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTW92aWVEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/Movies/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTW92aWVzL0NyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -92,6 +96,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/Movies/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTW92aWVzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/MoviesList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTW92aWVzTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/Privacy.cshtml]
@@ -168,6 +176,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/Showtimes/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hvd3RpbWVzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/ShowtimesList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hvd3RpbWVzTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/_ViewImports.cshtml]

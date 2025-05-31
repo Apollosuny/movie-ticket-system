@@ -8,16 +8,15 @@
     <div class="absolute inset-0 bg-black bg-opacity-50"></div>
     <div class="container mx-auto px-4 relative z-10">
         <div class="flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 mb-8 md:mb-0">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4">Movie Tickets</h1>
-                <p class="text-xl mb-3">Đặt vé xem phim trực tuyến dễ dàng và nhanh chóng.</p>
-                <p class="mb-6">Tham gia cùng chúng tôi để được trải nghiệm những bộ phim mới nhất với chất lượng hình ảnh và âm thanh tuyệt hảo.</p>
+            <div class="md:w-1/2 mb-8 md:mb-0">                <h1 class="text-4xl md:text-5xl font-bold mb-4">Movie Tickets</h1>
+                <p class="text-xl mb-3">Easy and fast online movie ticket booking.</p>
+                <p class="mb-6">Join us to experience the latest movies with excellent picture and sound quality.</p>
                 <div class="flex space-x-4">
-                    <a href="#now-showing" class="bg-primary hover:bg-opacity-90 text-white font-medium py-2 px-6 rounded-md inline-flex items-center transition-colors">
-                        <i class="bi bi-film mr-2"></i>Đang chiếu
+                    <a asp-page="/MoviesList" class="bg-primary hover:bg-opacity-90 text-white font-medium py-2 px-6 rounded-md inline-flex items-center transition-colors">
+                        <i class="bi bi-film mr-2"></i>Browse Movies
                     </a>
-                    <a href="#coming-soon" class="border border-white hover:bg-white hover:text-gray-900 text-white font-medium py-2 px-6 rounded-md inline-flex items-center transition-colors">
-                        <i class="bi bi-calendar-event mr-2"></i>Sắp chiếu
+                    <a asp-page="/ShowtimesList" class="border border-white hover:bg-white hover:text-gray-900 text-white font-medium py-2 px-6 rounded-md inline-flex items-center transition-colors">
+                        <i class="bi bi-calendar-event mr-2"></i>View Showtimes
                     </a>
                 </div>
             </div>
@@ -29,11 +28,10 @@
 </div>
 
 <div class="container mx-auto px-4">
-    <section id="now-showing" class="mb-16">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold flex items-center"><i class="bi bi-film mr-2"></i>Phim đang chiếu</h2>
-            <a href="#" class="inline-flex items-center text-primary border border-primary hover:bg-primary hover:text-white px-4 py-2 rounded-md transition-colors">
-                Xem tất cả <i class="bi bi-arrow-right ml-1"></i>
+    <section id="now-showing" class="mb-16">        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold flex items-center"><i class="bi bi-film mr-2"></i>Now Showing</h2>
+            <a asp-page="/MoviesList" class="inline-flex items-center text-primary border border-primary hover:bg-primary hover:text-white px-4 py-2 rounded-md transition-colors">
+                View All <i class="bi bi-arrow-right ml-1"></i>
             </a>
         </div>
         

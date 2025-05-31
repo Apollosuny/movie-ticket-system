@@ -1,31 +1,30 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MovieTicketSystem.Data;
 using MovieTicketSystem.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieTicketSystem.Pages.Showtimes
+namespace MovieTicketSystem.Pages
 {
-    [Authorize(Roles = "Administrator")]
-    public class IndexModel : PageModel
+    public class MoviesListModel : PageModel
     {
         private readonly MovieTicketContext _context;
 
-        public IndexModel(MovieTicketContext context)
+        public MoviesListModel(MovieTicketContext context)
         {
             _context = context;
         }
 
-        public IList<Showtime> Showtimes { get; set; } = default!;
+        public IList<Movie> Movies { get; set; } = new List<Movie>();
 
         public async Task OnGetAsync()
         {
-            Showtimes = await _context.Showtimes
-                .Include(s => s.Movie)
-                .Include(s => s.Screen)
+            // Get movies from the database
+            Movies = await _context.Movies
+                .OrderByDescending(m => m.ReleaseDate)
                 .ToListAsync();
         }
     }
