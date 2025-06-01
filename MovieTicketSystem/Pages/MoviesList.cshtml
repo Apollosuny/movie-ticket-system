@@ -5,15 +5,130 @@
 }
 
 <div class="container mx-auto px-4 py-8">
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Movies</h1>
-        <p class="text-gray-600">Browse our selection of the latest and upcoming movies</p>
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-8">
+        <div class="mb-4 md:mb-0">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Movies</h1>
+            <p class="text-gray-600">Browse our selection of the latest and upcoming movies</p>
+        </div>
+        
+        <!-- Enhanced Search Box -->
+        <div class="w-full md:w-2/5">
+            <form id="movieSearchForm" method="get" class="flex flex-col space-y-2">
+                <div class="flex w-full">
+                    <div class="relative flex-grow">
+                        <input type="text" 
+                               id="searchInput"
+                               name="SearchTerm" 
+                               value="@Model.SearchTerm" 
+                               placeholder="Search by title or description..." 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                    </div>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Advanced search options -->
+                <div class="flex space-x-2">
+                    <div class="w-1/2">
+                        <select id="filterRating" name="Rating" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
+                            <option value="">All Ratings</option>
+                            @foreach (var rating in Model.AvailableRatings)
+                            {
+                                if (rating == Model.Rating)
+                                {
+                                    <option value="@rating" selected>@rating</option>
+                                }
+                                else
+                                {
+                                    <option value="@rating">@rating</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="w-1/2">
+                        <select id="sortOrder" name="SortBy" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
+                            @{
+                                var sortOptions = new[] 
+                                {
+                                    new { Value = "newest", Text = "Newest First" },
+                                    new { Value = "oldest", Text = "Oldest First" },
+                                    new { Value = "title_asc", Text = "Title (A-Z)" },
+                                    new { Value = "title_desc", Text = "Title (Z-A)" }
+                                };
+                            }
+                            @foreach (var option in sortOptions)
+                            {
+                                if (option.Value == Model.SortBy)
+                                {
+                                    <option value="@option.Value" selected>@option.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@option.Value">@option.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <!-- Search statistics and filters info -->
+    <div class="mb-6 flex flex-wrap justify-between items-center">
+        <div id="searchStats" class="text-gray-700 mb-2 md:mb-0">
+            @if (Model.TotalMovies > 0)
+            {
+                <span>Showing @Model.TotalMovies @(Model.TotalMovies == 1 ? "movie" : "movies")</span>
+                
+                @if (!string.IsNullOrEmpty(Model.SearchTerm) && !string.IsNullOrEmpty(Model.Rating))
+                {
+                    <span> matching "@Model.SearchTerm" with rating "@Model.Rating"</span>
+                }
+                else if (!string.IsNullOrEmpty(Model.SearchTerm))
+                {
+                    <span> matching "@Model.SearchTerm"</span>
+                }
+                else if (!string.IsNullOrEmpty(Model.Rating))
+                {
+                    <span> with rating "@Model.Rating"</span>
+                }
+            }
+            else
+            {
+                <span>No movies found</span>
+            }
+        </div>
+        
+        <!-- Clear filters button -->
+        @if (!string.IsNullOrEmpty(Model.SearchTerm) || !string.IsNullOrEmpty(Model.Rating) || Model.SortBy != "newest")
+        {
+            <div>
+                <a href="/MoviesList" class="flex items-center text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Clear all filters
+                </a>
+            </div>
+        }
+    </div>
+    
+    <!-- Loading indicator -->
+    <div id="loadingIndicator" class="hidden">
+        <div class="flex justify-center items-center my-8">
+            <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+    </div>
+
+    <!-- Movie Grid -->
+    <div id="movieContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         @foreach (var movie in Model.Movies)
         {
-            <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2 h-full flex flex-col">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2 h-full flex flex-col movie-card">
                 <div class="relative pb-2/3 overflow-hidden">
                     @if (string.IsNullOrEmpty(movie.ImageBanner))
                     {
@@ -25,12 +140,17 @@
                         <img src="@movie.ImageBanner" 
                              class="w-full h-64 object-cover" alt="@movie.Title">
                     }
+                    <!-- Rating badge -->
+                    <div class="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
+                        @movie.Rating
+                    </div>
                 </div>
                 <div class="p-4 flex-grow flex flex-col">
-                    <div class="flex justify-between items-start mb-2">
-                        <h2 class="text-xl font-semibold text-gray-800">@movie.Title</h2>
-                        <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">@movie.Rating</span>
-                    </div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">@movie.Title</h2>
+                    @if (movie.ReleaseDate.HasValue)
+                    {
+                        <p class="text-gray-500 text-sm mb-2">Released: @movie.ReleaseDate.Value.ToString("MMM dd, yyyy")</p>
+                    }
                     <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">@movie.Description</p>
                     <div class="mt-auto">
                         <a asp-page="/MovieDetails" asp-route-id="@movie.MovieId" 
@@ -42,4 +162,23 @@
             </div>
         }
     </div>
+    
+    <!-- No results message -->
+    @if (!Model.Movies.Any())
+    {
+        <div class="text-center py-10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="text-xl font-medium text-gray-700 mb-1">No movies found</h3>
+            <p class="text-gray-500">Try changing your search criteria or clear filters</p>
+            <a href="/MoviesList" class="mt-4 inline-block bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md transition duration-300">
+                View All Movies
+            </a>
+        </div>
+    }
 </div>
+
+@section Scripts {
+    <script src="~/js/movie-search.js" asp-append-version="true"></script>
+}
