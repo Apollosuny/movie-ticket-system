@@ -1,4 +1,5 @@
 @page "{id:int}"
+@using MovieTicketSystem.Helpers
 @model MovieTicketSystem.Pages.MovieDetailsModel
 @{
     ViewData["Title"] = Model.Movie?.Title ?? "Movie Details";
@@ -11,15 +12,11 @@
             <!-- Movie Poster -->
             <div class="w-full md:w-1/3">
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    @if (!string.IsNullOrEmpty(Model.Movie.ImageBanner))
-                    {
-                        <img src="@Model.Movie.ImageBanner" class="w-full h-auto object-cover" alt="@Model.Movie.Title">
-                    }
-                    else
-                    {
-                        <img src="https://via.placeholder.com/400x600?text=@Uri.EscapeDataString(Model.Movie.Title ?? "")" 
-                             class="w-full h-auto object-cover" alt="@Model.Movie.Title">
-                    }
+                    <img src="@Model.MovieImageUrl" 
+                         class="w-full h-auto object-cover" 
+                         alt="@Model.Movie.Title"
+                         onerror="this.onerror=null;this.src='https://via.placeholder.com/400x600?text=@Uri.EscapeDataString(Model.Movie.Title ?? "")';"
+                         loading="eager">
                 </div>
             </div>
             

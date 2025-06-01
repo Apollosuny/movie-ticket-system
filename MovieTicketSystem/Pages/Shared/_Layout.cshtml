@@ -41,18 +41,27 @@
     </style>    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MovieTicketSystem.styles.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
-    
-    <!-- Debug script - check if jQuery is loaded -->
+      <!-- Image error handling -->
     <script>
-        console.log('Head script loading');
+        function handleImageError(img) {
+            console.error("Image failed to load:", img.src);
+            img.onerror = null; // Prevent endless loop if fallback also fails
+            var movieTitle = img.alt || "Movie";
+            img.src = "https://via.placeholder.com/400x600?text=" + encodeURIComponent(movieTitle);
+        }
+        
         window.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded (from head)');
+            // Find all movie poster images and add error handling
+            document.querySelectorAll('img[src^="/images/movies/"]').forEach(function(img) {
+                img.onerror = function() { handleImageError(this); };
+            });
+              // Kiểm tra jQuery một cách lặng lẽ (không hiển thị thông báo lỗi)
             setTimeout(function() {
                 if (window.jQuery) {
-                    console.log('jQuery is available in head check');
+                    console.log('jQuery is available');
                 } else {
-                    console.error('jQuery is NOT available in head check');
-                    document.body.insertAdjacentHTML('afterbegin', '<div style="background:red;color:white;padding:10px;position:fixed;top:0;left:0;z-index:9999">jQuery not loaded!</div>');
+                    console.log('jQuery not available, but we can continue without it');
+                    // Không hiển thị thông báo lỗi nữa
                 }
             }, 1000);
         });
@@ -201,8 +210,9 @@
                 <p class="text-gray-400">&copy; 2025 MovieTicket. All rights reserved.</p>
             </div>
         </div>
-    </footer>    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    </footer>    <script src="~/lib/jquery/dist/jquery.min.js" onerror="console.log('jQuery not loaded but it is optional')"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/image-handler.js" asp-append-version="true"></script>
     
     <script>
         // Mobile menu toggle
@@ -230,8 +240,8 @@
                     if (!userMenuButton.contains(event.target) && !userMenuDropdown.contains(event.target)) {
                         userMenuDropdown.classList.add('hidden');
                     }
-                });
-            }
+                });            }
+              // Image handlers are now managed in image-handler.js
         });
     </script>
 

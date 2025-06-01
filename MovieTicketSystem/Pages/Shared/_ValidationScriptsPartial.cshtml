@@ -1,2 +1,29 @@
-﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js" onerror="console.log('jQuery validation not loaded but form will still work')"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" onerror="console.log('jQuery unobtrusive validation not loaded but form will still work')"></script>
+<script>
+    // Kiểm tra nếu jQuery không tồn tại, đảm bảo form vẫn hoạt động
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!window.jQuery) {
+            console.log('jQuery not available - using basic form validation');
+            document.querySelectorAll('form').forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    var isValid = true;
+                    form.querySelectorAll('[required]').forEach(function(input) {
+                        if (!input.value) {
+                            isValid = false;
+                            if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('validation-message')) {
+                                var msg = document.createElement('div');
+                                msg.className = 'text-red-600 text-sm validation-message';
+                                msg.textContent = 'Trường này là bắt buộc';
+                                input.parentNode.insertBefore(msg, input.nextSibling);
+                            }
+                        }
+                    });
+                    if (!isValid) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        }
+    });
+</script>

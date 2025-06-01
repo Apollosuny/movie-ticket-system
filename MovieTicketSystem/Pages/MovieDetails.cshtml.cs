@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MovieTicketSystem.Data;
+using MovieTicketSystem.Helpers;
 using MovieTicketSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace MovieTicketSystem.Pages
 
         public Movie? Movie { get; set; }
         public List<Showtime> Showtimes { get; set; } = new();
+        public string MovieImageUrl { get; private set; } = string.Empty;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,6 +38,10 @@ namespace MovieTicketSystem.Pages
             {
                 return Page();
             }
+            
+            // Thiết lập URL hình ảnh
+            var defaultImage = ImageHelper.GetMoviePlaceholderUrl(Movie.Title ?? "Movie");
+            MovieImageUrl = Movie.ImageBanner ?? defaultImage;
 
             // Get upcoming showtimes for this movie
             Showtimes = await _context.Showtimes

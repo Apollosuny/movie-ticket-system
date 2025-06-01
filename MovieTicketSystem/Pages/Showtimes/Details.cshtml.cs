@@ -1,8 +1,10 @@
 using System.Security.Claims;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MovieTicketSystem.Data;
+using MovieTicketSystem.Helpers;
 using MovieTicketSystem.Models;
 
 namespace MovieTicketSystem.Pages.Showtimes
@@ -10,14 +12,17 @@ namespace MovieTicketSystem.Pages.Showtimes
     public class DetailsModel : PageModel
     {
         private readonly MovieTicketContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public DetailsModel(MovieTicketContext context)
+        public DetailsModel(MovieTicketContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public Showtime Showtime { get; set; } = default!;
         public Dictionary<string, List<SeatViewModel>> SeatRows { get; set; } = new();
+        public string MovieImageUrl { get; private set; } = string.Empty;
 
         [BindProperty]
         public string SelectedSeats { get; set; } = string.Empty;
@@ -55,6 +60,13 @@ namespace MovieTicketSystem.Pages.Showtimes
             }
             
             Showtime = showtime;
+            
+            // Thiết lập URL hình ảnh sử dụng ImageHelper
+            if (showtime.Movie != null)
+            {
+                var defaultImage = ImageHelper.GetMoviePlaceholderUrl(showtime.Movie.Title ?? "Movie");
+                MovieImageUrl = showtime.Movie.ImageBanner ?? defaultImage;
+            }
 
             // Get all seats and booked seats in a single query
             var seats = await (from s in _context.Seats

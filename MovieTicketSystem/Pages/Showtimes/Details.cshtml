@@ -1,4 +1,5 @@
 @page "{id:int?}"
+@using MovieTicketSystem.Helpers
 @model MovieTicketSystem.Pages.Showtimes.DetailsModel
 
 @{
@@ -32,9 +33,11 @@
         <!-- Movie & Showtime Info -->
         <div class="w-full md:w-1/3">
             <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-                <img src="https://via.placeholder.com/400x600?text=@Uri.EscapeDataString(Model.Showtime.Movie?.Title ?? "")" 
+                <img src="@(Model.MovieImageUrl)" 
                      class="w-full h-auto object-cover" 
-                     alt="@Model.Showtime.Movie?.Title">
+                     alt="@Model.Showtime.Movie?.Title"
+                     onerror="this.onerror=null;this.src='https://via.placeholder.com/400x600?text=@Uri.EscapeDataString(Model.Showtime.Movie?.Title ?? "")';"
+                     loading="eager">
                 <div class="p-5">
                     <h4 class="text-xl font-bold text-gray-800 mb-2">@Model.Showtime.Movie?.Title</h4>
                     <p class="text-gray-500 mb-4">@Model.Showtime.Movie?.Duration minutes</p>
