@@ -47,7 +47,7 @@
                         @Html.DisplayFor(modelItem => item.StartTime)
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        @Html.DisplayFor(modelItem => item.Price)
+                        @(item.Price.ToString("#,###")) VNĐ
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap space-x-2">
                         <a asp-page="./Edit" asp-route-id="@item.ShowtimeId" class="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">

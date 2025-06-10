@@ -46,7 +46,7 @@
                                 <div class="border border-gray-200 rounded-md p-4 hover:border-blue-500 hover:shadow-md transition-all duration-200">
                                     <div class="flex justify-between items-center mb-2">
                                         <span class="font-medium">@showtime.StartTime.ToString("ddd, MMM dd")</span>
-                                        <span class="text-green-600 font-medium">$@showtime.Price</span>
+                                        <span class="text-green-600 font-medium">@(showtime.Price.ToString("#,###")) VNĐ</span>
                                     </div>
                                     <div class="flex justify-between items-center">
                                         <span class="text-gray-600">@showtime.StartTime.ToString("h:mm tt")</span>

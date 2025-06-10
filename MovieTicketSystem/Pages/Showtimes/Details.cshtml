@@ -68,7 +68,7 @@
                             <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                             </svg>
-                            <span class="text-blue-600 font-bold">$@(Model.Showtime.Price.ToString("N2"))</span>
+                            <span class="text-blue-600 font-bold">@(Model.Showtime.Price.ToString("#,###")) VNĐ</span>
                         </div>
                     </div>
                 </div>
@@ -176,8 +176,8 @@
                                     <p class="text-sm">Seats: <span id="selectedSeats" class="font-medium"></span></p>
                                 </div>
                                 <div class="md:text-right">
-                                    <p class="text-sm mb-1">Ticket price: $<span id="ticketPrice" class="font-medium">@(Model.Showtime.Price/23000).00</span></p>
-                                    <p class="text-sm">Total: $<span id="totalPrice" class="font-medium text-blue-600">0.00</span></p>
+                                    <p class="text-sm mb-1">Ticket price: <span id="ticketPrice" class="font-medium">@(Model.Showtime.Price.ToString("#,###"))</span> VNĐ</p>
+                                    <p class="text-sm">Total: <span id="totalPrice" class="font-medium text-blue-600">0</span> VNĐ</p>
                                 </div>
                                 </div>
                             </div>
@@ -263,7 +263,7 @@
             const selectedCountDisplay = document.getElementById('selectedCount');
             const totalPriceDisplay = document.getElementById('totalPrice');
             const bookButton = document.getElementById('bookButton');
-            const ticketPrice = parseInt(document.getElementById('ticketPrice').textContent.replace(/[^0-9]/g, ''));
+            const ticketPrice = parseInt(document.getElementById('ticketPrice').textContent.replace(/[^\d]/g, ''));
             const formError = document.getElementById('formError');
             
             const selectedSeats = [];
@@ -311,7 +311,7 @@
                 
                 // Update total price
                 const totalPrice = selectedSeats.length * ticketPrice;
-                totalPriceDisplay.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(totalPrice);
+                totalPriceDisplay.textContent = new Intl.NumberFormat('vi-VN', { style: 'decimal', maximumFractionDigits: 0, useGrouping: true }).format(totalPrice) + " VNĐ";
                 
                 // Update hidden input for form submission
                 selectedSeatsInput.value = selectedSeats.map(seat => seat.id).join(',');
