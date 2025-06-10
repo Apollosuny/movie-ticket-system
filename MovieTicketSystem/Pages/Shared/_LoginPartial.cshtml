@@ -4,26 +4,39 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<div class="flex items-center">
+@model dynamic
+@{
+    bool isMobile = false;
+    
+    if (Model != null && Model.mobile != null)
+    {
+        isMobile = Model.mobile == true;
+    }
+}
+
+<div class="@(isMobile ? "w-full" : "flex items-center")">
 @if (SignInManager.IsSignedIn(User))
 {
-    <div class="relative group">
-        <button class="flex items-center space-x-2 text-white focus:outline-none" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-            @if (!string.IsNullOrEmpty(UserManager.GetUserAsync(User).Result?.Avatar))
-            {
-                <img src="@UserManager.GetUserAsync(User).Result?.Avatar" class="rounded-full mr-2 w-8 h-8" alt="Avatar">
-            }
-            else
-            {
-                <i class="bi bi-person-circle mr-2 text-xl"></i>
-            }
-            <span>@(UserManager.GetUserAsync(User).Result?.FullName ?? User.Identity?.Name)</span>
-            <svg class="ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+    <div class="relative @(isMobile ? "w-full" : "group")">
+        <button class="flex items-center @(isMobile ? "w-full justify-between px-3 py-2 bg-gray-800 rounded-md" : "space-x-2") text-white focus:outline-none" 
+                id="@(isMobile ? "user-menu-button-mobile" : "user-menu-button")" aria-expanded="false" aria-haspopup="true">
+            <div class="flex items-center">
+                @if (!string.IsNullOrEmpty(UserManager.GetUserAsync(User).Result?.Avatar))
+                {
+                    <img src="@UserManager.GetUserAsync(User).Result?.Avatar" class="rounded-full mr-2 w-8 h-8" alt="Avatar">
+                }
+                else
+                {
+                    <i class="bi bi-person-circle mr-2 text-xl"></i>
+                }
+                <span>@(UserManager.GetUserAsync(User).Result?.FullName ?? User.Identity?.Name)</span>
+            </div>
+            <svg class="@(isMobile ? "" : "ml-1") h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
         </button>
-        <div class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none group-hover:block" 
-             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+        <div class="hidden @(isMobile ? "w-full mt-1" : "absolute right-0 mt-2 w-48") rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none @(isMobile ? "" : "group-hover:md:block z-50")" 
+             role="menu" aria-orientation="vertical" aria-labelledby="@(isMobile ? "user-menu-button-mobile" : "user-menu-button")" tabindex="-1">
             <div class="py-1">
                 <a class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" asp-area="" asp-page="/Account/Manage/Index" role="menuitem">
                     <i class="bi bi-person mr-2"></i>Profile
@@ -56,15 +69,15 @@
 }
 else
 {
-    <div class="flex space-x-2">
-        <a class="px-4 py-2 border border-primary rounded-md text-primary hover:bg-primary hover:text-white transition-colors" 
+    <div class="@(isMobile ? "grid grid-cols-2 gap-2" : "flex space-x-2")">
+        <a class="px-3 py-2 border border-primary rounded-md text-primary hover:bg-primary hover:text-white transition-colors text-center" 
            asp-area="" asp-page="/Account/Register">
-            <i class="bi bi-person-plus mr-2"></i>Register
+            <i class="bi bi-person-plus mr-1 @(isMobile ? "inline" : "")"></i>@(isMobile ? "Đăng ký" : "Register")
         </a>
-        <a class="px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition-colors" 
+        <a class="px-3 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition-colors text-center" 
            asp-area="" asp-page="/Account/Login">
-            <i class="bi bi-box-arrow-in-right mr-2"></i>Login
+            <i class="bi bi-box-arrow-in-right mr-1 @(isMobile ? "inline" : "")"></i>@(isMobile ? "Đăng nhập" : "Login") 
         </a>
     </div>
 }
-</ul>
+</div>

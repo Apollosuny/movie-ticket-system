@@ -10,12 +10,109 @@ body {
   min-height: 100vh;
 }
 
+/* Header responsive styles */
+@media (max-width: 768px) {
+  #mobile-menu {
+    max-height: 0;
+    transition: max-height 0.3s ease-out;
+    overflow: hidden;
+  }
+
+  #mobile-menu.max-h-screen {
+    max-height: 100vh;
+    transition: max-height 0.3s ease-in;
+  }
+
+  header .dropdown-menu {
+    position: static;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Fix for iOS hover behavior */
+@media (hover: hover) {
+  .group:hover .group-hover\:block {
+    display: block;
+  }
+}
+
+/* Custom sticky header transition */
+header {
+  transition: box-shadow 0.3s ease;
+}
+
+header.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Fix for dropdown positioning on mobile */
+@media (max-width: 768px) {
+  [role='menu'] {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+    border-radius: 0.375rem;
+  }
+}
+
 /* Any custom styles that can't be easily achieved with Tailwind */
 /* You might need to keep some styles for third-party components */
 
-/* Custom animations that might be hard to achieve with Tailwind */
-
-/* You can add any custom transitions or animations here if needed */
-
 /* Styles for elements that are not directly controlled by your code
    (e.g., third-party components, framework-specific elements) */
+
+/* Admin layout specific styles */
+.admin-layout-container {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.admin-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Footer styles to ensure it stays at bottom */
+.footer-sticky {
+  margin-top: auto;
+}
+
+/* Table improvements for all admin pages */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* For tables in admin pages */
+.admin-table th {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-weight: 500;
+}
+
+.admin-table td {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+/* Improved card and form layouts */
+.admin-card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden border border-gray-200;
+}
+
+/* Make forms more consistent across admin */
+.form-group {
+  @apply mb-4;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+.form-control {
+  @apply mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50;
+}

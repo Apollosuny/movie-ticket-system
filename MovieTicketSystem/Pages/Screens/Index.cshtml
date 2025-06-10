@@ -5,9 +5,9 @@
     ViewData["Title"] = "Screens";
 }
 
-<div class="container mx-auto px-4 py-8">
-    <div class="flex flex-col md:flex-row justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold mb-4 md:mb-0">Movie Screens</h1>
+<div class="mb-8 mt-4">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <h1 class="text-2xl font-bold">Movie Screens</h1>
         <a asp-page="Create" class="bg-primary hover:bg-opacity-90 text-white py-2 px-4 rounded-md inline-flex items-center transition-colors">
             <i class="bi bi-plus-circle mr-2"></i> Add New Screen
         </a>
@@ -22,9 +22,7 @@
                 <i class="bi bi-x"></i>
             </button>
         </div>
-    }
-
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    }    <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
         <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
             <h5 class="font-semibold">Available Screens</h5>
         </div>

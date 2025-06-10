@@ -4,7 +4,7 @@
 
 <div class="flex h-screen bg-gray-100 overflow-hidden">
     <!-- Sidebar -->
-    <div id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen shadow-lg overflow-y-auto transition-all duration-300 ease-in-out">
+    <div id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen shadow-lg overflow-y-auto transition-all duration-300 ease-in-out fixed lg:relative z-30">
         <!-- Logo and Title -->
         <div class="flex items-center justify-between p-4 border-b border-gray-700">
             <div class="flex items-center space-x-2">
@@ -86,9 +86,9 @@
     </div>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col overflow-hidden">
+    <div class="flex-1 flex flex-col overflow-hidden admin-layout-container">
         <!-- Top Navbar -->
-        <header class="bg-white shadow-sm z-10">
+        <header class="bg-white shadow-sm z-10 sticky top-0">
             <div class="flex items-center justify-between p-4">
                 <div class="flex items-center">
                     <button id="openSidebar" class="lg:hidden mr-2 text-gray-600 hover:text-gray-800">
@@ -190,7 +190,7 @@
         </header>
 
         <!-- Main Content Area -->
-        <main class="flex-1 overflow-y-auto p-4 bg-gray-50">
+        <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50 min-h-[calc(100vh-140px)] admin-content">
             @if (TempData["SuccessMessage"] != null)
             {
                 <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded shadow-sm alert-dismissible">
@@ -229,7 +229,7 @@
         </main>
 
         <!-- Footer -->
-        <footer class="bg-white border-t border-gray-200 px-4 py-3">
+        <footer class="bg-white border-t border-gray-200 px-4 py-3 mt-auto footer-sticky">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="text-sm text-gray-600 mb-2 md:mb-0">
                     &copy; @DateTime.Now.Year Movie Ticket System. All rights reserved.
