@@ -1,0 +1,251 @@
+@page
+@model MovieTicketSystem.Pages.Admin.RevenueAnalyticsModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Revenue Analytics";
+}
+
+<div class="mb-8">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="/Admin/Dashboard" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                    <i class="bi bi-house-door mr-2"></i>
+                    Home
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="bi bi-chevron-right text-gray-400 mx-2 text-sm"></i>
+                    <span class="text-sm font-medium text-gray-500">@ViewData["Title"]</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800">Revenue Analytics</h1>
+    </div>
+</div>
+
+<!-- Date Filter -->
+<div class="mb-8 p-4 bg-white rounded-lg shadow">
+    <form method="get" class="flex flex-wrap items-end gap-4">
+        <div>
+            <label for="StartDate" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+            <input type="date" id="StartDate" name="StartDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" 
+                   class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary">
+        </div>
+        <div>
+            <label for="EndDate" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+            <input type="date" id="EndDate" name="EndDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")"
+                   class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary">
+        </div>
+        <div>
+            <button type="submit" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-dark">
+                Apply Filter
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Revenue Summary Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-gradient-to-r from-blue-500 to-blue-700 rounded-lg shadow-md p-6 text-white">
+        <div class="flex justify-between">
+            <div>
+                <p class="text-lg font-semibold mb-1">Total Revenue</p>
+                <h2 class="text-3xl font-bold">$@Model.TotalRevenue.ToString("N2")</h2>
+            </div>
+            <div class="rounded-full bg-white bg-opacity-20 p-3">
+                <i class="bi bi-cash-stack text-2xl"></i>
+            </div>
+        </div>
+        <p class="mt-4 text-sm text-white text-opacity-80">Total bookings: @Model.TotalBookings</p>
+    </div>
+
+    <div class="bg-gradient-to-r from-green-500 to-green-700 rounded-lg shadow-md p-6 text-white">
+        <div class="flex justify-between">
+            <div>
+                <p class="text-lg font-semibold mb-1">Monthly Revenue</p>
+                <h2 class="text-3xl font-bold">$@Model.MonthlyRevenue.ToString("N2")</h2>
+            </div>
+            <div class="rounded-full bg-white bg-opacity-20 p-3">
+                <i class="bi bi-calendar-month text-2xl"></i>
+            </div>
+        </div>
+        <p class="mt-4 text-sm text-white text-opacity-80">Monthly bookings: @Model.MonthlyBookings</p>
+    </div>
+
+    <div class="bg-gradient-to-r from-purple-500 to-purple-700 rounded-lg shadow-md p-6 text-white">
+        <div class="flex justify-between">
+            <div>
+                <p class="text-lg font-semibold mb-1">Weekly Revenue</p>
+                <h2 class="text-3xl font-bold">$@Model.WeeklyRevenue.ToString("N2")</h2>
+            </div>
+            <div class="rounded-full bg-white bg-opacity-20 p-3">
+                <i class="bi bi-calendar-week text-2xl"></i>
+            </div>
+        </div>
+        <p class="mt-4 text-sm text-white text-opacity-80">Weekly bookings: @Model.WeeklyBookings</p>
+    </div>
+
+    <div class="bg-gradient-to-r from-red-500 to-red-700 rounded-lg shadow-md p-6 text-white">
+        <div class="flex justify-between">
+            <div>
+                <p class="text-lg font-semibold mb-1">Today's Revenue</p>
+                <h2 class="text-3xl font-bold">$@Model.DailyRevenue.ToString("N2")</h2>
+            </div>
+            <div class="rounded-full bg-white bg-opacity-20 p-3">
+                <i class="bi bi-calendar-day text-2xl"></i>
+            </div>
+        </div>
+        <p class="mt-4 text-sm text-white text-opacity-80">Today's bookings: @Model.DailyBookings</p>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- Monthly Revenue Chart -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-xl font-semibold mb-4">Monthly Revenue</h3>
+        <div class="h-80">
+            <canvas id="monthlyRevenueChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Weekly Revenue Chart -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-xl font-semibold mb-4">Weekly Revenue</h3>
+        <div class="h-80">
+            <canvas id="weeklyRevenueChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Revenue By Movie -->
+<div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <h3 class="text-xl font-semibold mb-4">Revenue By Movie</h3>
+    <div class="h-96">
+        <canvas id="movieRevenueChart"></canvas>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Monthly Revenue Chart
+            const monthlyCtx = document.getElementById('monthlyRevenueChart').getContext('2d');
+            const monthlyChart = new Chart(monthlyCtx, {
+                type: 'bar',
+                data: {
+                    labels: [@Html.Raw(string.Join(",", Model.MonthlyRevenueData.Keys.Select(k => $"'{k}'")))],
+                    datasets: [{
+                        label: 'Revenue ($)',
+                        data: [@string.Join(",", Model.MonthlyRevenueData.Values)],
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Weekly Revenue Chart
+            const weeklyCtx = document.getElementById('weeklyRevenueChart').getContext('2d');
+            const weeklyChart = new Chart(weeklyCtx, {
+                type: 'line',
+                data: {
+                    labels: [@Html.Raw(string.Join(",", Model.WeeklyRevenueData.Keys.Select(k => $"'{k}'")))],
+                    datasets: [{
+                        label: 'Revenue ($)',
+                        data: [@string.Join(",", Model.WeeklyRevenueData.Values)],
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Movie Revenue Chart
+            const movieCtx = document.getElementById('movieRevenueChart').getContext('2d');
+            const movieChart = new Chart(movieCtx, {
+                type: 'bar',
+                data: {
+                    labels: [@Html.Raw(string.Join(",", Model.RevenueByMovie.Keys.Select(k => $"'{k}'")))],
+                    datasets: [{
+                        label: 'Revenue ($)',
+                        data: [@string.Join(",", Model.RevenueByMovie.Values)],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)',
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}

@@ -60,6 +60,18 @@
             </div>
 
             <div class="mb-4">
+                <p class="uppercase text-xs text-gray-400 font-semibold mb-2">Business Management</p>
+                <a href="/Admin/BookingManagement" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Admin/BookingManagement") ? "bg-blue-600 text-white" : "")">
+                    <i class="bi bi-ticket-perforated mr-3"></i>
+                    <span>Bookings</span>
+                </a>
+                <a href="/Admin/RevenueAnalytics" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Admin/RevenueAnalytics") ? "bg-blue-600 text-white" : "")">
+                    <i class="bi bi-cash-stack mr-3"></i>
+                    <span>Revenue Analytics</span>
+                </a>
+            </div>
+
+            <div class="mb-4">
                 <p class="uppercase text-xs text-gray-400 font-semibold mb-2">User Management</p>
                 <a href="/Admin/Users" class="flex items-center text-gray-300 py-2 px-3 mb-1 rounded hover:bg-gray-700 @(ViewContext.RouteData.Values["Page"].ToString().Contains("/Admin/Users") ? "bg-blue-600 text-white" : "")">
                     <i class="bi bi-people mr-3"></i>

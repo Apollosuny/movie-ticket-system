@@ -1,0 +1,309 @@
+@page
+@model MovieTicketSystem.Pages.Admin.BookingDetailsModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Booking Details";
+}
+
+<div class="mb-8">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="/Admin/Dashboard" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                    <i class="bi bi-house-door mr-2"></i>
+                    Home
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="bi bi-chevron-right text-gray-400 mx-2 text-sm"></i>
+                    <a href="/Admin/BookingManagement" class="text-sm font-medium text-gray-700 hover:text-blue-600">
+                        Booking Management
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="bi bi-chevron-right text-gray-400 mx-2 text-sm"></i>
+                    <span class="text-sm font-medium text-gray-500">Booking #@Model.Id</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800">Booking Details #@Model.Id</h1>
+        <div>
+            <a href="/Admin/BookingManagement" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                <i class="bi bi-arrow-left mr-1"></i> Back to List
+            </a>
+            @if (Model.Booking != null && Model.Booking.Status != "Cancelled")
+            {
+                <form method="post" class="inline-block ml-2">
+                    <button type="submit" asp-page-handler="CancelBooking"
+                            class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                            onclick="return confirm('Are you sure you want to cancel this booking?');">
+                        <i class="bi bi-x-circle mr-1"></i> Cancel Booking
+                    </button>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+
+@if (Model.Booking == null)
+{
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-8" role="alert">
+        <strong class="font-bold">Error!</strong>
+        <span class="block sm:inline">The booking was not found.</span>
+    </div>
+}
+else
+{
+    <!-- Booking Status Card -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+            <div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Booking #@Model.Booking.BookingId</h2>
+                <p class="text-gray-600">Created on @Model.Booking.BookingTime.ToString("dd MMM yyyy, HH:mm")</p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                @{
+                    string statusClass = Model.Booking.Status.ToLower() switch
+                    {
+                        "paid" => "bg-green-100 text-green-800 border-green-200",
+                        "pending" => "bg-yellow-100 text-yellow-800 border-yellow-200",
+                        "cancelled" => "bg-red-100 text-red-800 border-red-200",
+                        _ => "bg-gray-100 text-gray-800 border-gray-200"
+                    };
+                    string statusIcon = Model.Booking.Status.ToLower() switch
+                    {
+                        "paid" => "bi-check-circle",
+                        "pending" => "bi-hourglass-split",
+                        "cancelled" => "bi-x-circle",
+                        _ => "bi-question-circle"
+                    };
+                }
+                <div class="@statusClass border px-4 py-2 rounded-full inline-flex items-center">
+                    <i class="bi @statusIcon mr-2"></i>
+                    <span class="font-medium">@Model.Booking.Status</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <!-- Customer Information -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <i class="bi bi-person mr-2 text-primary"></i>
+                Customer Information
+            </h3>
+            @if (Model.Booking.User != null)
+            {
+                <div class="space-y-3">
+                    <div>
+                        <p class="text-sm text-gray-500">Name</p>
+                        <p class="font-medium">@Model.Booking.User.FullName</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Email</p>
+                        <p class="font-medium">@Model.Booking.User.Email</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Username</p>
+                        <p class="font-medium">@Model.Booking.User.UserName</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Phone</p>
+                        <p class="font-medium">@Model.Booking.User.PhoneNumber</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p class="text-gray-500 italic">Customer information not available</p>
+            }
+        </div>
+
+        <!-- Movie Information -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <i class="bi bi-film mr-2 text-primary"></i>
+                Movie Details
+            </h3>
+            @if (Model.Booking.Showtime?.Movie != null)
+            {
+                <div class="space-y-3">
+                    <div>
+                        <p class="text-sm text-gray-500">Movie</p>
+                        <p class="font-medium">@Model.Booking.Showtime.Movie.Title</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Duration</p>
+                        <p class="font-medium">@Model.Booking.Showtime.Movie.Duration minutes</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Screen</p>
+                        <p class="font-medium">@(Model.Booking.Showtime.Screen?.Name ?? "Unknown")</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Date & Time</p>
+                        <p class="font-medium">@Model.Booking.Showtime.StartTime.ToString("dd MMM yyyy, HH:mm")</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p class="text-gray-500 italic">Movie information not available</p>
+            }
+        </div>
+
+        <!-- Payment Information -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <i class="bi bi-credit-card mr-2 text-primary"></i>
+                Payment Details
+            </h3>
+            <div class="space-y-3">
+                <div>
+                    <p class="text-sm text-gray-500">Total Amount</p>
+                    <p class="font-medium text-xl">$@Model.Booking.TotalPrice.ToString("N2")</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Payment Status</p>
+                    <p class="font-medium">@Model.Booking.Status</p>
+                </div>
+                @if (Model.Payments.Any())
+                {
+                    <div>
+                        <p class="text-sm text-gray-500">Payment Method</p>
+                        <p class="font-medium">@Model.Payments.First().Method</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Payment Date</p>
+                        <p class="font-medium">@Model.Payments.First().PaidAt.ToString("dd MMM yyyy, HH:mm")</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Tickets Information -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <i class="bi bi-ticket-perforated mr-2 text-primary"></i>
+            Tickets (@Model.Tickets.Count)
+        </h3>
+        
+        @if (Model.Tickets.Any())
+        {
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Ticket ID
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Seat
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Ticket Type
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Price
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach (var ticket in Model.Tickets)
+                        {
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">#@ticket.TicketId</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @if (ticket.Seat != null)
+                                    {
+                                        <div class="text-sm text-gray-900">@ticket.Seat.Row@ticket.Seat.Number</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-sm text-gray-500">Unknown</div>
+                                    }
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">Standard</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">$@ticket.Price.ToString("N2")</div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-gray-500 italic">No tickets found for this booking.</p>
+        }
+    </div>
+
+    <!-- Payment History -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <i class="bi bi-clock-history mr-2 text-primary"></i>
+            Payment History
+        </h3>
+        
+        @if (Model.Payments.Any())
+        {
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Payment ID
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Amount
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Method
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Date & Time
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach (var payment in Model.Payments)
+                        {
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">#@payment.PaymentId</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">$@payment.Amount.ToString("N2")</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">@payment.Method</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">@payment.PaidAt.ToString("dd MMM yyyy, HH:mm")</div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-gray-500 italic">No payment history found for this booking.</p>
+        }
+    </div>
+}

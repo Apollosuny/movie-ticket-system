@@ -1,0 +1,328 @@
+@page
+@model MovieTicketSystem.Pages.Admin.BookingManagementModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Booking Management";
+}
+
+<div class="mb-8">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="/Admin/Dashboard" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                    <i class="bi bi-house-door mr-2"></i>
+                    Home
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="bi bi-chevron-right text-gray-400 mx-2 text-sm"></i>
+                    <span class="text-sm font-medium text-gray-500">@ViewData["Title"]</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800">Booking Management</h1>
+    </div>
+</div>
+
+<!-- Filter & Search -->
+<div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <form method="get" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+                <label for="SearchString" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                <input type="text" id="SearchString" name="SearchString" value="@Model.SearchString" placeholder="Booking ID, Email, Movie..."
+                       class="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-primary focus:border-primary">
+            </div>
+            
+            <div>
+                <label for="Status" class="block text-sm font-medium text-gray-700 mb-1">Booking Status</label>
+                <select id="Status" name="Status" class="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-primary focus:border-primary">
+                    @if (string.IsNullOrEmpty(Model.Status))
+                    {
+                        <option value="" selected>All Statuses</option>
+                    }
+                    else
+                    {
+                        <option value="">All Statuses</option>
+                    }
+                    
+                    @if (Model.Status == "Pending")
+                    {
+                        <option value="Pending" selected>Pending</option>
+                    }
+                    else
+                    {
+                        <option value="Pending">Pending</option>
+                    }
+                    
+                    @if (Model.Status == "Paid")
+                    {
+                        <option value="Paid" selected>Paid</option>
+                    }
+                    else
+                    {
+                        <option value="Paid">Paid</option>
+                    }
+                    
+                    @if (Model.Status == "Cancelled")
+                    {
+                        <option value="Cancelled" selected>Cancelled</option>
+                    }
+                    else
+                    {
+                        <option value="Cancelled">Cancelled</option>
+                    }
+                </select>
+            </div>
+            
+            <div>
+                <label for="StartDate" class="block text-sm font-medium text-gray-700 mb-1">From Date</label>
+                <input type="date" id="StartDate" name="StartDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")"
+                       class="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-primary focus:border-primary">
+            </div>
+            
+            <div>
+                <label for="EndDate" class="block text-sm font-medium text-gray-700 mb-1">To Date</label>
+                <input type="date" id="EndDate" name="EndDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")"
+                       class="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-primary focus:border-primary">
+            </div>
+        </div>
+        
+        <div class="flex justify-between">
+            <div>
+                <label for="PageSize" class="block text-sm font-medium text-gray-700 mb-1">Items per page</label>
+                <select id="PageSize" name="PageSize" onchange="this.form.submit()" 
+                        class="border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-primary focus:border-primary">
+                    @if (Model.PageSize == 10)
+                    {
+                        <option value="10" selected>10</option>
+                    }
+                    else
+                    {
+                        <option value="10">10</option>
+                    }
+                    
+                    @if (Model.PageSize == 25)
+                    {
+                        <option value="25" selected>25</option>
+                    }
+                    else
+                    {
+                        <option value="25">25</option>
+                    }
+                    
+                    @if (Model.PageSize == 50)
+                    {
+                        <option value="50" selected>50</option>
+                    }
+                    else
+                    {
+                        <option value="50">50</option>
+                    }
+                    
+                    @if (Model.PageSize == 100)
+                    {
+                        <option value="100" selected>100</option>
+                    }
+                    else
+                    {
+                        <option value="100">100</option>
+                    }
+                </select>
+            </div>
+            
+            <div class="flex space-x-2">
+                <button type="submit" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-dark">
+                    <i class="bi bi-search mr-1"></i> Search
+                </button>
+                <a href="/Admin/BookingManagement" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                    <i class="bi bi-x-circle mr-1"></i> Clear
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Bookings Table -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-700">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3">Booking ID</th>
+                    <th class="px-6 py-3">User</th>
+                    <th class="px-6 py-3">Movie</th>
+                    <th class="px-6 py-3">Date & Time</th>
+                    <th class="px-6 py-3">Booking Time</th>
+                    <th class="px-6 py-3">Status</th>
+                    <th class="px-6 py-3">Amount</th>
+                    <th class="px-6 py-3">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in Model.PaginatedBookings)
+                {
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 font-medium">@booking.BookingId</td>
+                        <td class="px-6 py-4">
+                            @if (booking.User != null)
+                            {
+                                <div>@booking.User.Email</div>
+                                <div class="text-xs text-gray-500">@booking.User.UserName</div>
+                            }
+                            else
+                            {
+                                <span class="text-gray-400">Unknown</span>
+                            }
+                        </td>
+                        <td class="px-6 py-4">
+                            @if (booking.Showtime?.Movie != null)
+                            {
+                                <div>@booking.Showtime.Movie.Title</div>
+                                <div class="text-xs text-gray-500">Screen: @booking.Showtime.Screen?.Name</div>
+                            }
+                            else
+                            {
+                                <span class="text-gray-400">Unknown</span>
+                            }
+                        </td>
+                        <td class="px-6 py-4">
+                            @if (booking.Showtime != null)
+                            {
+                                <div>@booking.Showtime.StartTime.ToString("dd/MM/yyyy")</div>
+                                <div class="text-xs text-gray-500">@booking.Showtime.StartTime.ToString("HH:mm")</div>
+                            }
+                            else
+                            {
+                                <span class="text-gray-400">Unknown</span>
+                            }
+                        </td>
+                        <td class="px-6 py-4">
+                            <div>@booking.BookingTime.ToString("dd/MM/yyyy")</div>
+                            <div class="text-xs text-gray-500">@booking.BookingTime.ToString("HH:mm")</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            @{
+                                string statusClass = booking.Status.ToLower() switch
+                                {
+                                    "paid" => "bg-green-100 text-green-800",
+                                    "pending" => "bg-yellow-100 text-yellow-800",
+                                    "cancelled" => "bg-red-100 text-red-800",
+                                    _ => "bg-gray-100 text-gray-800"
+                                };
+                            }
+                            <span class="px-2 py-1 text-xs font-semibold rounded-full @statusClass">
+                                @booking.Status
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 font-medium">
+                            $@booking.TotalPrice.ToString("N2")
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex space-x-2">
+                                <a href="/Admin/BookingDetails?id=@booking.BookingId" 
+                                   class="text-blue-600 hover:underline" title="View details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                
+                                @if (booking.Status != "Cancelled")
+                                {
+                                    <form method="post">
+                                        <button type="submit" asp-page-handler="CancelBooking" asp-route-id="@booking.BookingId"
+                                                class="text-red-600 hover:underline" title="Cancel booking"
+                                                onclick="return confirm('Are you sure you want to cancel this booking?');">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+                
+                @if (!Model.PaginatedBookings.Any())
+                {
+                    <tr>
+                        <td colspan="8" class="px-6 py-10 text-center text-gray-500">
+                            No bookings found matching your criteria.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Pagination -->
+@{
+    var prevDisabled = !Model.PaginatedBookings.HasPreviousPage ? "opacity-50 cursor-not-allowed" : "";
+    var nextDisabled = !Model.PaginatedBookings.HasNextPage ? "opacity-50 cursor-not-allowed" : "";
+    
+    // Create a dictionary of current query parameters
+    var routeData = new Dictionary<string, string>();
+    
+    if (!string.IsNullOrEmpty(Model.SearchString))
+        routeData["SearchString"] = Model.SearchString;
+    
+    if (!string.IsNullOrEmpty(Model.Status))
+        routeData["Status"] = Model.Status;
+    
+    if (Model.StartDate.HasValue)
+        routeData["StartDate"] = Model.StartDate.Value.ToString("yyyy-MM-dd");
+    
+    if (Model.EndDate.HasValue)
+        routeData["EndDate"] = Model.EndDate.Value.ToString("yyyy-MM-dd");
+    
+    if (Model.PageSize.HasValue)
+        routeData["PageSize"] = Model.PageSize.Value.ToString();
+}
+
+<div class="flex flex-col md:flex-row justify-between items-center bg-white rounded-lg shadow-md px-6 py-3">
+    <div class="text-sm text-gray-700 mb-4 md:mb-0">
+        Showing <span class="font-medium">
+            @(((Model.PaginatedBookings.PageIndex - 1) * Model.PageSize) + 1)
+        </span>
+        to <span class="font-medium">
+            @(((Model.PaginatedBookings.PageIndex - 1) * Model.PageSize) + Model.PaginatedBookings.Count)
+        </span>
+        of <span class="font-medium">@Model.PaginatedBookings.TotalItems</span> entries
+    </div>
+    
+    <div class="flex space-x-1">
+        @{
+            var firstPageRoute = new Dictionary<string, string>(routeData) { ["PageIndex"] = "1" };
+            var prevPageRoute = new Dictionary<string, string>(routeData) { ["PageIndex"] = (Model.PaginatedBookings.PageIndex - 1).ToString() };
+            var nextPageRoute = new Dictionary<string, string>(routeData) { ["PageIndex"] = (Model.PaginatedBookings.PageIndex + 1).ToString() };
+            var lastPageRoute = new Dictionary<string, string>(routeData) { ["PageIndex"] = Model.PaginatedBookings.TotalPages.ToString() };
+        }
+        
+        <a asp-page="./BookingManagement" asp-all-route-data="@firstPageRoute"
+           class="bg-white border border-gray-300 px-3 py-1 rounded-md hover:bg-gray-100 @prevDisabled">
+            <i class="bi bi-chevron-double-left"></i>
+        </a>
+        
+        <a asp-page="./BookingManagement" asp-all-route-data="@prevPageRoute"
+           class="bg-white border border-gray-300 px-3 py-1 rounded-md hover:bg-gray-100 @prevDisabled">
+            <i class="bi bi-chevron-left"></i>
+        </a>
+        
+        <span class="bg-primary text-white px-3 py-1 rounded-md">
+            @Model.PaginatedBookings.PageIndex
+        </span>
+        
+        <a asp-page="./BookingManagement" asp-all-route-data="@nextPageRoute"
+           class="bg-white border border-gray-300 px-3 py-1 rounded-md hover:bg-gray-100 @nextDisabled">
+            <i class="bi bi-chevron-right"></i>
+        </a>
+        
+        <a asp-page="./BookingManagement" asp-all-route-data="@lastPageRoute"
+           class="bg-white border border-gray-300 px-3 py-1 rounded-md hover:bg-gray-100 @nextDisabled">
+            <i class="bi bi-chevron-double-right"></i>
+        </a>
+    </div>
+</div>

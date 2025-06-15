@@ -58,6 +58,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWNjb3VudC9SZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/Admin/BookingDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va2luZ0RldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/Admin/BookingManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va2luZ01hbmFnZW1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/Admin/CreateUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQ3JlYXRlVXNlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -72,6 +80,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/Admin/EditUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRWRpdFVzZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/Admin/RevenueAnalytics.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vUmV2ZW51ZUFuYWx5dGljcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/trungtran/Workspace/movie-ticket-system/MovieTicketSystem/Pages/Admin/Users.cshtml]
