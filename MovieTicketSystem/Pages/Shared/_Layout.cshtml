@@ -109,16 +109,6 @@
                                     <i class="bi bi-calendar-event mr-2"></i> Showtimes
                                 </a>
                             </li>
-                            <li>
-                                <a class="text-gray-200 hover:text-white px-2 lg:px-3 py-2 rounded-md transition duration-300 flex items-center" href="#">
-                                    <i class="bi bi-ticket-perforated mr-2"></i> Promotions
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-gray-200 hover:text-white px-2 lg:px-3 py-2 rounded-md transition duration-300 flex items-center" href="#">
-                                    <i class="bi bi-info-circle mr-2"></i> About Us
-                                </a>
-                            </li>
                             @if (User.IsInRole("Administrator"))
                             {
                                 <li>
@@ -257,46 +247,53 @@
                         }
                     });
                 }
-            }
-            
-            // User dropdown toggle for desktop and mobile
+            }            // User dropdown toggle for desktop and mobile - Using both hover and click behavior
             const userMenuButtons = document.querySelectorAll('[id^="user-menu-button"]');
             
             userMenuButtons.forEach(userMenuButton => {
                 const userMenuDropdown = userMenuButton.nextElementSibling;
                 
                 if (userMenuButton && userMenuDropdown) {
-                    userMenuButton.addEventListener('click', function(event) {
-                        event.stopPropagation();
-                        userMenuDropdown.classList.toggle('hidden');
-                    });
+                    // For mobile - use click behavior
+                    if (window.innerWidth < 768) {
+                        userMenuButton.addEventListener('click', function(event) {
+                            event.stopPropagation();
+                            userMenuDropdown.classList.toggle('hidden');
+                        });
+                    }
+                    
+                    // Make button more obviously clickable with cursor style
+                    userMenuButton.style.cursor = 'pointer';
                 }
             });
             
-            // Close all dropdowns when clicking outside
+            // Close all mobile dropdowns when clicking outside
             document.addEventListener('click', function(event) {
-                const dropdowns = document.querySelectorAll('[role="menu"]');
-                const userMenuButtons = document.querySelectorAll('[id^="user-menu-button"]');
-                
-                let isClickInsideDropdown = false;
-                let isClickOnButton = false;
-                
-                dropdowns.forEach(dropdown => {
-                    if (dropdown.contains(event.target)) {
-                        isClickInsideDropdown = true;
-                    }
-                });
-                
-                userMenuButtons.forEach(button => {
-                    if (button.contains(event.target)) {
-                        isClickOnButton = true;
-                    }
-                });
-                
-                if (!isClickInsideDropdown && !isClickOnButton) {
+                // Only apply this to mobile view
+                if (window.innerWidth < 768) {
+                    const dropdowns = document.querySelectorAll('[role="menu"]');
+                    const userMenuButtons = document.querySelectorAll('[id^="user-menu-button"]');
+                    
+                    let isClickInsideDropdown = false;
+                    let isClickOnButton = false;
+                    
                     dropdowns.forEach(dropdown => {
-                        dropdown.classList.add('hidden');
+                        if (dropdown.contains(event.target)) {
+                            isClickInsideDropdown = true;
+                        }
                     });
+                    
+                    userMenuButtons.forEach(button => {
+                        if (button.contains(event.target)) {
+                            isClickOnButton = true;
+                        }
+                    });
+                    
+                    if (!isClickInsideDropdown && !isClickOnButton) {
+                        dropdowns.forEach(dropdown => {
+                            dropdown.classList.add('hidden');
+                        });
+                    }
                 }
             });
               

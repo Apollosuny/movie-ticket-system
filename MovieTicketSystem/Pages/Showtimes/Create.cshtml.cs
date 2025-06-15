@@ -18,10 +18,20 @@ namespace MovieTicketSystem.Pages.Showtimes
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int? screenId = null)
         {
             ViewData["MovieId"] = new SelectList(_context.Movies, "MovieId", "Title");
-            ViewData["ScreenId"] = new SelectList(_context.Screens, "ScreenId", "Name");
+            
+            if (screenId.HasValue)
+            {
+                ViewData["ScreenId"] = new SelectList(_context.Screens, "ScreenId", "Name", screenId.Value);
+                Showtime = new Showtime { ScreenId = screenId.Value };
+            }
+            else
+            {
+                ViewData["ScreenId"] = new SelectList(_context.Screens, "ScreenId", "Name");
+            }
+            
             return Page();
         }
 

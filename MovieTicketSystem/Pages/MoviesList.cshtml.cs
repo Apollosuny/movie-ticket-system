@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MovieTicketSystem.Data;
+using MovieTicketSystem.Helpers;
 using MovieTicketSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,10 @@ namespace MovieTicketSystem.Pages
         [BindProperty(SupportsGet = true)]
         public string? Rating { get; set; }
         
-        public List<string> AvailableRatings { get; private set; } = new List<string>();
+        [BindProperty(SupportsGet = true)]
+        public string? Status { get; set; }
+        
+        public List<string?> AvailableRatings { get; private set; } = new List<string?>();
         
         public int TotalMovies { get; private set; }
 
@@ -44,8 +48,8 @@ namespace MovieTicketSystem.Pages
                 .OrderBy(r => r)
                 .ToListAsync();
             
-            // Create base query
-            var moviesQuery = _context.Movies.AsQueryable();
+            // Create base query - include showtimes for categorization
+            var moviesQuery = _context.Movies.Include(m => m.Showtimes).AsQueryable();
             
             // Apply search filter if provided
             if (!string.IsNullOrEmpty(SearchTerm))
@@ -61,20 +65,43 @@ namespace MovieTicketSystem.Pages
                 moviesQuery = moviesQuery.Where(m => m.Rating == Rating);
             }
             
-            // Store total count for stats
-            TotalMovies = await moviesQuery.CountAsync();
+            // Get movies for filtering before applying showing status
+            var moviesForFiltering = await moviesQuery.ToListAsync();
             
-            // Apply sorting
-            moviesQuery = SortBy switch
+            // Apply status filter if provided
+            if (!string.IsNullOrEmpty(Status))
             {
-                "title_asc" => moviesQuery.OrderBy(m => m.Title),
-                "title_desc" => moviesQuery.OrderByDescending(m => m.Title),
-                "oldest" => moviesQuery.OrderBy(m => m.ReleaseDate),
-                _ => moviesQuery.OrderByDescending(m => m.ReleaseDate) // "newest" is default
-            };
+                switch (Status.ToLower())
+                {
+                    case "showing":
+                        // Use our helper method to filter for showing movies
+                        Movies = moviesForFiltering.GetNowShowingMovies();
+                        break;
+                    case "comingsoon":
+                        // Use our helper method to filter for coming soon movies
+                        Movies = moviesForFiltering.GetComingSoonMovies();
+                        break;
+                    default:
+                        Movies = moviesForFiltering;
+                        break;
+                }
+            }
+            else
+            {
+                Movies = moviesForFiltering;
+            }
             
-            // Get movies from the database
-            Movies = await moviesQuery.ToListAsync();
+            // Store total count for stats
+            TotalMovies = Movies.Count;
+            
+            // Apply sorting (now move this to the end since we've already fetched the movies)
+            Movies = SortBy switch
+            {
+                "title_asc" => Movies.OrderBy(m => m.Title).ToList(),
+                "title_desc" => Movies.OrderByDescending(m => m.Title).ToList(),
+                "oldest" => Movies.OrderBy(m => m.ReleaseDate).ToList(),
+                _ => Movies.OrderByDescending(m => m.ReleaseDate).ToList() // "newest" is default
+            };
         }
     }
 }

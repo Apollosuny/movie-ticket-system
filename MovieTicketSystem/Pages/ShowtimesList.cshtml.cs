@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MovieTicketSystem.Data;
+using MovieTicketSystem.Helpers;
 using MovieTicketSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -36,8 +37,8 @@ namespace MovieTicketSystem.Pages
                 SelectedDate = DateTime.Today;
             }
 
-            // Generate a list of dates for the date picker (today + next 6 days)
-            for (int i = 0; i < 7; i++)
+            // Generate a list of dates for the date picker based on our constant
+            for (int i = 0; i < DateConstants.MaxFutureDaysForShowtimes; i++)
             {
                 Dates.Add(DateTime.Today.AddDays(i));
             }

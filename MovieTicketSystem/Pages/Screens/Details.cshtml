@@ -102,13 +102,12 @@
                 <div class="p-6">
                     <p class="mb-4">
                         This screen can accommodate <strong>@Model.Screen.SeatCapacity</strong> viewers at once.
-                    </p>
-                    <p class="mb-4">Use the actions below to manage this screen:</p>
+                    </p>                    <p class="mb-4">Use the actions below to manage this screen:</p>
                     <div class="space-y-3">
-                        <a href="#" class="flex items-center justify-center px-4 py-2 border border-primary text-primary hover:bg-primary hover:text-white rounded-md transition-colors">
+                        <a asp-page="/Seats/Index" asp-route-screenId="@Model.Screen.ScreenId" class="flex items-center justify-center px-4 py-2 border border-primary text-primary hover:bg-primary hover:text-white rounded-md transition-colors">
                             <i class="bi bi-view-list mr-2"></i>View Seat Map
                         </a>
-                        <a href="#" class="flex items-center justify-center px-4 py-2 border border-green-600 text-green-600 hover:bg-green-600 hover:text-white rounded-md transition-colors">
+                        <a asp-page="/Showtimes/Create" asp-route-screenId="@Model.Screen.ScreenId" class="flex items-center justify-center px-4 py-2 border border-green-600 text-green-600 hover:bg-green-600 hover:text-white rounded-md transition-colors">
                             <i class="bi bi-calendar-plus mr-2"></i>Schedule New Showtime
                         </a>
                     </div>

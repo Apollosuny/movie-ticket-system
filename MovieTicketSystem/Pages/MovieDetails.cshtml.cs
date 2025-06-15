@@ -43,10 +43,12 @@ namespace MovieTicketSystem.Pages
             var defaultImage = ImageHelper.GetMoviePlaceholderUrl(Movie.Title ?? "Movie");
             MovieImageUrl = Movie.ImageBanner ?? defaultImage;
 
-            // Get upcoming showtimes for this movie
+            // Get upcoming showtimes for this movie with the same date limit as ShowtimesList
+            // MaxFutureDaysForShowtimes means today + the next X days, so we need to use <= to include the last day
+            var maxDate = DateTime.Today.AddDays(DateConstants.MaxFutureDaysForShowtimes - 1); // -1 because it's 0-indexed (today counts as day 1)
             Showtimes = await _context.Showtimes
                 .Include(s => s.Screen)
-                .Where(s => s.MovieId == id && s.StartTime > DateTime.Now)
+                .Where(s => s.MovieId == id && s.StartTime > DateTime.Now && s.StartTime.Date <= maxDate)
                 .OrderBy(s => s.StartTime)
                 .ToListAsync();
 

@@ -30,10 +30,28 @@ body {
   }
 }
 
-/* Fix for iOS hover behavior */
+/* Fix for dropdown hover behavior */
 @media (hover: hover) {
-  .group:hover .group-hover\:block {
-    display: block;
+  /* Ensure hover works properly for dropdown menus */
+  .group:hover .group-hover\:visible,
+  .group:hover .group-hover\:opacity-100 {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Add a small delay to prevent accidental hover-offs */
+  .group-hover\:visible {
+    transition: visibility 0s, opacity 0.3s ease;
+  }
+
+  /* Add a small buffer area to make navigation easier */
+  .group:hover::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
   }
 }
 

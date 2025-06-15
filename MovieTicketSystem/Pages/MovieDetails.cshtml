@@ -36,7 +36,10 @@
                 
                 <!-- Showtimes -->
                 <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Available Showtimes</h2>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Available Showtimes</h2>
+                        <span class="text-gray-500 text-sm">Next @DateConstants.MaxFutureDaysForShowtimes days only</span>
+                    </div>
                     
                     @if (Model.Showtimes.Any())
                     {

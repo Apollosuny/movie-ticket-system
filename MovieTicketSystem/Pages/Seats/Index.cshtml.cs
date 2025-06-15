@@ -20,12 +20,19 @@ namespace MovieTicketSystem.Pages.Seats
         }
 
         public IList<Seat> Seats { get; set; } = default!;
+        public Screen? CurrentScreen { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? screenId = null)
         {
-            Seats = await _context.Seats
-                .Include(s => s.Screen)
-                .ToListAsync();
+            var query = _context.Seats.Include(s => s.Screen).AsQueryable();
+            
+            if (screenId.HasValue)
+            {
+                CurrentScreen = await _context.Screens.FirstOrDefaultAsync(s => s.ScreenId == screenId);
+                query = query.Where(s => s.ScreenId == screenId);
+            }
+            
+            Seats = await query.ToListAsync();
         }
     }
 }

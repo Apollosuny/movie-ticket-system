@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MovieTicketSystem.Data;
+using MovieTicketSystem.Helpers;
 using MovieTicketSystem.Models;
 using System.Collections.Generic;
 
@@ -27,20 +28,19 @@ public class IndexModel : PageModel
         MovieCount = await _context.Movies.CountAsync();
         ScreenCount = await _context.Screens.CountAsync();
         ShowtimeCount = await _context.Showtimes.CountAsync();
+          // Try to get movies and showtimes from the database
+        var dbMovies = await _context.Movies.Include(m => m.Showtimes).ToListAsync();
         
-        // Try to get movies from the database
-        var dbMovies = await _context.Movies.ToListAsync();
-          // If no movies in the database, create mock data
+        // If no movies in the database, create mock data
         if (dbMovies == null || dbMovies.Count == 0)
         {
             Movies = CreateMockMovies();
             ComingSoonMovies = CreateMockComingSoonMovies();
         }
         else
-        {
-            // Use actual movies from database
-            Movies = dbMovies.Where(m => m.ReleaseDate <= DateTime.Now).ToList();
-            ComingSoonMovies = dbMovies.Where(m => m.ReleaseDate > DateTime.Now).ToList();
+        {            // Use our helper methods to categorize movies
+            Movies = dbMovies.GetNowShowingMovies();
+            ComingSoonMovies = dbMovies.GetComingSoonMovies();
         }
     }
     
