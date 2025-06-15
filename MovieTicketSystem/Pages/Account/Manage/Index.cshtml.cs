@@ -46,8 +46,8 @@ namespace MovieTicketSystem.Pages.Account.Manage
 
         private async Task LoadAsync(ApplicationUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var email = await _userManager.GetEmailAsync(user);
+            var userName = await _userManager.GetUserNameAsync(user) ?? string.Empty;
+            var email = await _userManager.GetEmailAsync(user) ?? string.Empty;
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
@@ -86,14 +86,25 @@ namespace MovieTicketSystem.Pages.Account.Manage
                 return Page();
             }
 
+            // Cập nhật FullName trước
+            if (Input.FullName != user.FullName)
+            {
+                user.FullName = Input.FullName;
+            }
+
+            // Cập nhật Email
             var email = await _userManager.GetEmailAsync(user);
             if (Input.Email != email)
             {
                 var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
                 if (!setEmailResult.Succeeded)
                 {
-                    StatusMessage = "Lỗi khi cập nhật email.";
-                    return RedirectToPage();
+                    foreach (var error in setEmailResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    await LoadAsync(user);
+                    return Page();
                 }
             }
 
@@ -103,24 +114,30 @@ namespace MovieTicketSystem.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Lỗi khi cập nhật số điện thoại.";
-                    return RedirectToPage();
+                    foreach (var error in setPhoneResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    await LoadAsync(user);
+                    return Page();
                 }
             }
 
-            if (Input.FullName != user.FullName)
+            // Lưu các thay đổi vào database
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
             {
-                user.FullName = Input.FullName;
-                var updateResult = await _userManager.UpdateAsync(user);
-                if (!updateResult.Succeeded)
+                foreach (var error in updateResult.Errors)
                 {
-                    StatusMessage = "Lỗi khi cập nhật họ tên.";
-                    return RedirectToPage();
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
+                await LoadAsync(user);
+                return Page();
             }
 
+            // Cập nhật session
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Hồ sơ của bạn đã được cập nhật";
+            StatusMessage = "Hồ sơ của bạn đã được cập nhật thành công";
             return RedirectToPage();
         }
     }

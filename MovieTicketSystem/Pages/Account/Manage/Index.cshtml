@@ -7,11 +7,18 @@
 <div class="container mx-auto px-4 py-8">
     <h2 class="text-2xl font-bold mb-6">@ViewData["Title"]</h2>
     
+    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+    {
+        <div class="mb-4 p-4 rounded-md bg-green-50 border border-green-200">
+            <p class="text-green-600">@Model.StatusMessage</p>
+        </div>
+    }
+    
     <div class="flex flex-col lg:flex-row">
         <div class="w-full lg:w-1/2">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <form id="profile-form" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+                    <div asp-validation-summary="All" class="text-danger mb-4"></div>
                     
                     <div class="mb-4">
                         <label asp-for="Username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>

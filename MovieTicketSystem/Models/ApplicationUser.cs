@@ -17,11 +17,7 @@ namespace MovieTicketSystem.Models
         [StringLength(255)]
         public string? Avatar { get; set; }
 
-    [PersonalData]
-    [StringLength(100)]
-        public string? Email { get; set; }
-
         // Mối quan hệ với bảng Booking hiện có
-    public virtual ICollection<Booking>? Bookings { get; set; }
+        public virtual ICollection<Booking>? Bookings { get; set; }
     }
 }
