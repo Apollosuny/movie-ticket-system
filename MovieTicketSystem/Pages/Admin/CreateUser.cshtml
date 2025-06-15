@@ -1,0 +1,98 @@
+@page
+@model MovieTicketSystem.Pages.Admin.CreateUserModel
+@{
+    ViewData["Title"] = "Create User";
+    Layout = "_AdminLayout";
+}
+
+<div class="mb-8">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="/Admin/Dashboard" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                    <i class="bi bi-house-door mr-2"></i>
+                    Home
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="bi bi-chevron-right text-gray-400 mx-2 text-sm"></i>
+                    <a href="/Admin/Users" class="text-sm font-medium text-gray-700 hover:text-blue-600">
+                        User Management
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="bi bi-chevron-right text-gray-400 mx-2 text-sm"></i>
+                    <span class="text-sm font-medium text-gray-500">Create User</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-xl font-semibold mb-6">Create New User</h2>
+        
+        <form method="post" class="space-y-6">
+            <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label asp-for="UserInput.FullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input asp-for="UserInput.FullName" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                    <span asp-validation-for="UserInput.FullName" class="text-sm text-red-600"></span>
+                </div>
+                <div>
+                    <label asp-for="UserInput.Email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input asp-for="UserInput.Email" type="email" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                    <span asp-validation-for="UserInput.Email" class="text-sm text-red-600"></span>
+                </div>
+                <div>
+                    <label asp-for="UserInput.Password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input asp-for="UserInput.Password" type="password" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                    <span asp-validation-for="UserInput.Password" class="text-sm text-red-600"></span>
+                </div>
+                <div>
+                    <label asp-for="UserInput.ConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                    <input asp-for="UserInput.ConfirmPassword" type="password" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                    <span asp-validation-for="UserInput.ConfirmPassword" class="text-sm text-red-600"></span>
+                </div>
+                <div>
+                    <label asp-for="UserInput.PhoneNumber" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input asp-for="UserInput.PhoneNumber" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                    <span asp-validation-for="UserInput.PhoneNumber" class="text-sm text-red-600"></span>
+                </div>
+                <div>
+                    <label asp-for="UserInput.Avatar" class="block text-sm font-medium text-gray-700 mb-1">Avatar URL</label>
+                    <input asp-for="UserInput.Avatar" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                    <span asp-validation-for="UserInput.Avatar" class="text-sm text-red-600"></span>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">User Roles</label>
+                <div class="space-y-2">
+                    @foreach (var role in Model.AvailableRoles)
+                    {
+                        <div class="flex items-center">
+                            <input type="checkbox" name="SelectedRoles" value="@role" id="role-@role" 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
+                            <label for="role-@role" class="ml-2 block text-sm text-gray-900">@role</label>
+                        </div>
+                    }
+                </div>
+            </div>
+            
+            <div class="flex justify-end gap-3 pt-5">
+                <a asp-page="Users" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Cancel
+                </a>
+                <button type="submit" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Create User
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
