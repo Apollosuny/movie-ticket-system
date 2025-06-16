@@ -6,10 +6,9 @@ namespace MovieTicketSystem.Helpers
     {
         public static string FormatPrice(decimal price)
         {
-            return price.ToString("#,### VNĐ", CultureInfo.InvariantCulture);
+            return price.ToString("0 VNĐ", CultureInfo.InvariantCulture);
         }
         
-        // Method specific for JavaScript values
         public static string FormatPriceForJavaScript(decimal price)
         {
             return price.ToString("#,###");

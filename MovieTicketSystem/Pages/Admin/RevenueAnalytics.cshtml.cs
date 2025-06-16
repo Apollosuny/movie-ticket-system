@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MovieTicketSystem.Data;
+using MovieTicketSystem.Helpers;
 using MovieTicketSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -32,8 +33,11 @@ namespace MovieTicketSystem.Pages.Admin
         public int DailyBookings { get; set; }
         
         public Dictionary<string, decimal> RevenueByMovie { get; set; } = new Dictionary<string, decimal>();
-        public Dictionary<string, decimal> MonthlyRevenueData { get; set; } = new Dictionary<string, decimal>();
-        public Dictionary<string, decimal> WeeklyRevenueData { get; set; } = new Dictionary<string, decimal>();
+        public Dictionary<string, string> FormattedRevenueByMovie { get; set; } = new Dictionary<string, string>();
+        
+        // Debug properties
+        public string DebugInfo { get; set; } = string.Empty;
+        public string QueryInfo { get; set; } = string.Empty;
         
         [BindProperty(SupportsGet = true)]
         public DateTime? StartDate { get; set; }
@@ -47,78 +51,130 @@ namespace MovieTicketSystem.Pages.Admin
             StartDate ??= now.AddDays(-30);
             EndDate ??= now;
 
-            // Get all bookings with their showtimes and movies
-            var bookings = await _context.Bookings
-                .Include(b => b.Showtime)
-                    .ThenInclude(s => s != null ? s.Movie : null)
-                .Where(b => b.BookingTime >= StartDate && b.BookingTime <= EndDate && b.Status == "Paid")
-                .ToListAsync();
+            // Debug info
+            QueryInfo = $"Query Parameters: StartDate={StartDate:yyyy-MM-dd}, EndDate={EndDate:yyyy-MM-dd}, Status='Paid'";
 
-            // Calculate total revenue
-            TotalRevenue = bookings.Sum(b => b.TotalPrice);
-            
-            // Today's revenue
-            var today = DateTime.Today;
-            DailyRevenue = bookings
-                .Where(b => b.BookingTime.Date == today)
-                .Sum(b => b.TotalPrice);
-                
-            // This week's revenue (last 7 days)
-            var weekStart = now.AddDays(-7);
-            WeeklyRevenue = bookings
-                .Where(b => b.BookingTime >= weekStart)
-                .Sum(b => b.TotalPrice);
-                
-            // This month's revenue
-            var monthStart = new DateTime(now.Year, now.Month, 1);
-            MonthlyRevenue = bookings
-                .Where(b => b.BookingTime >= monthStart)
-                .Sum(b => b.TotalPrice);
+            // Get current month's first day and last day
+            var currentMonth = new DateTime(now.Year, now.Month, 1);
+            var lastDayOfMonth = currentMonth.AddMonths(1).AddDays(-1);
 
-            // Calculate booking counts
-            TotalBookings = bookings.Count;
-            DailyBookings = bookings.Count(b => b.BookingTime.Date == today);
-            WeeklyBookings = bookings.Count(b => b.BookingTime >= weekStart);
-            MonthlyBookings = bookings.Count(b => b.BookingTime >= monthStart);
+            try 
+            {
+                // Get all bookings with their showtimes and movies for the current month
+                var query = _context.Bookings
+                    .Include(b => b.Showtime)
+                        .ThenInclude(s => s != null ? s.Movie : null)
+                    .Where(b => b.BookingTime >= StartDate && b.BookingTime <= EndDate && b.Status == "Completed");
+                
+                // Debug info to see the query SQL
+                QueryInfo += $"\nQuery SQL: {query.ToQueryString()}";
+                
+                var bookings = await query.ToListAsync();
+                
+                // Debug info for results
+                DebugInfo = $"Found {bookings?.Count ?? 0} bookings. ";
+                
+                if (bookings == null || !bookings.Any())
+                {
+                    // Check if there are any bookings at all (ignoring filters)
+                    var totalBookingsCount = await _context.Bookings.CountAsync();
+                    var completedBookingsCount = await _context.Bookings.CountAsync(b => b.Status == "Completed");
+                    var pendingBookingsCount = await _context.Bookings.CountAsync(b => b.Status == "Pending");
+                    var cancelledBookingsCount = await _context.Bookings.CountAsync(b => b.Status == "Cancelled");
+                    
+                    DebugInfo += $"Total bookings in DB: {totalBookingsCount}. " +
+                        $"Completed: {completedBookingsCount}, " +
+                        $"Pending: {pendingBookingsCount}, " +
+                        $"Cancelled: {cancelledBookingsCount}.\n";
+                    
+                    DebugInfo += $"Total bookings in DB: {totalBookingsCount}. " +
+                        $"Completed: {completedBookingsCount}, " +
+                        $"Pending: {pendingBookingsCount}, " +
+                        $"Cancelled: {cancelledBookingsCount}.\n";
+                    
+                    // Handle the case when no bookings are found
+                    TotalRevenue = 0;
+                    MonthlyRevenue = 0;
+                    WeeklyRevenue = 0;
+                    DailyRevenue = 0;
+                    TotalBookings = 0;
+                    MonthlyBookings = 0;
+                    WeeklyBookings = 0;
+                    DailyBookings = 0;
+                    return;
+                }
+                
+                DebugInfo += $"Valid bookings with proper relations: {bookings.Count(b => b.Showtime?.Movie != null)}";
+
+                // Calculate total revenue
+                TotalRevenue = bookings.Sum(b => b.TotalPrice);
+                
+                // Today's revenue
+                var today = DateTime.Today;
+                DailyRevenue = bookings
+                    .Where(b => b.BookingTime.Date == today)
+                    .Sum(b => b.TotalPrice);
+                    
+                // This week's revenue (last 7 days)
+                var weekStart = now.AddDays(-7);
+                WeeklyRevenue = bookings
+                    .Where(b => b.BookingTime >= weekStart)
+                    .Sum(b => b.TotalPrice);
+                    
+                // This month's revenue
+                var monthStart = new DateTime(now.Year, now.Month, 1);
+                MonthlyRevenue = bookings
+                    .Where(b => b.BookingTime >= monthStart)
+                    .Sum(b => b.TotalPrice);
+
+                // Calculate booking counts
+                TotalBookings = bookings.Count;
+                DailyBookings = bookings.Count(b => b.BookingTime.Date == today);
+                WeeklyBookings = bookings.Count(b => b.BookingTime >= weekStart);
+                MonthlyBookings = bookings.Count(b => b.BookingTime >= monthStart);
+                     // Get all movies from the database
+            var allMovies = await _context.Movies.ToListAsync();
             
-            // Revenue by movie
-            RevenueByMovie = bookings
-                .Where(b => b.Showtime?.Movie != null)
+            // Revenue by movie for the current month - include all movies in the database
+            var revenueData = bookings
+                .Where(b => b.Showtime?.Movie != null && b.BookingTime >= monthStart && b.BookingTime <= lastDayOfMonth)
                 .GroupBy(b => b.Showtime?.Movie?.Title ?? "Unknown")
                 .ToDictionary(
                     g => g.Key,
                     g => g.Sum(b => b.TotalPrice)
                 );
-                
-            // Monthly revenue data (last 6 months)
-            var monthNames = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-            for (int i = 5; i >= 0; i--)
+            
+            // Create a dictionary with all movies (including those with zero revenue)
+            RevenueByMovie = new Dictionary<string, decimal>();
+            
+            // First add all movies from bookings
+            foreach (var item in revenueData)
             {
-                var month = now.AddMonths(-i);
-                var monthName = monthNames[month.Month - 1];
-                var firstDay = new DateTime(month.Year, month.Month, 1);
-                var lastDay = firstDay.AddMonths(1).AddDays(-1);
-                
-                var revenue = bookings
-                    .Where(b => b.BookingTime >= firstDay && b.BookingTime <= lastDay)
-                    .Sum(b => b.TotalPrice);
-                    
-                MonthlyRevenueData[$"{monthName} {month.Year}"] = revenue;
+                RevenueByMovie[item.Key] = item.Value;
             }
             
-            // Weekly revenue data (last 7 days)
-            var dayNames = new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
-            for (int i = 6; i >= 0; i--)
+            // Then add any remaining movies from the database with zero revenue
+            foreach (var movie in allMovies)
             {
-                var date = now.Date.AddDays(-i);
-                var dayOfWeek = ((int)date.DayOfWeek + 6) % 7; // Convert to Mon=0, Sun=6
-                var dayName = dayNames[dayOfWeek];
+                if (!RevenueByMovie.ContainsKey(movie.Title))
+                {
+                    RevenueByMovie[movie.Title] = 0;
+                }
+            }
+
+            // Format the revenue in VND
+            FormattedRevenueByMovie = RevenueByMovie
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => PriceFormatHelper.FormatPrice(kvp.Value)
+                );
                 
-                var revenue = bookings
-                    .Where(b => b.BookingTime.Date == date)
-                    .Sum(b => b.TotalPrice);
-                    
-                WeeklyRevenueData[dayName] = revenue;
+            // Add debug info about filtered movies
+            DebugInfo += $"\nFound {RevenueByMovie.Count} movies in total, including {RevenueByMovie.Count(m => m.Value == 0)} with zero revenue";
+            }
+            catch (Exception ex)
+            {
+                DebugInfo = $"Error: {ex.Message}\n{ex.StackTrace}\nInner Exception: {ex.InnerException?.Message}";
             }
         }
     }
