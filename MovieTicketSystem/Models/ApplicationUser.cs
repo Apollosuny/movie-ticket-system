@@ -19,5 +19,8 @@ namespace MovieTicketSystem.Models
 
         // Mối quan hệ với bảng Booking hiện có
         public virtual ICollection<Booking>? Bookings { get; set; }
+        
+        // Mối quan hệ với bảng PaymentCard
+        public virtual ICollection<PaymentCard>? PaymentCards { get; set; }
     }
 }

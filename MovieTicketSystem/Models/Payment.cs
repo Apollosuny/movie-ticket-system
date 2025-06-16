@@ -21,7 +21,7 @@ namespace MovieTicketSystem.Models
 
         [Required]
         [Column("method")]
-        [StringLength(30)]
+        [StringLength(100)]
         public string Method { get; set; } = string.Empty;
 
         [Required]

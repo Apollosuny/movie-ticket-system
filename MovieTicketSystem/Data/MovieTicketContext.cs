@@ -14,14 +14,14 @@ namespace MovieTicketSystem.Data
         public MovieTicketContext (DbContextOptions<MovieTicketContext> options)
             : base(options)
         {
-        }
-        public DbSet<MovieTicketSystem.Models.Movie> Movies { get; set; } = default!;
+        }        public DbSet<MovieTicketSystem.Models.Movie> Movies { get; set; } = default!;
         public DbSet<MovieTicketSystem.Models.Screen> Screens { get; set; } = default!;
         public DbSet<MovieTicketSystem.Models.Showtime> Showtimes { get; set; } = default!;
         public DbSet<MovieTicketSystem.Models.Seat> Seats { get; set; } = default!;
         public DbSet<MovieTicketSystem.Models.Booking> Bookings { get; set; } = default!;
         public DbSet<MovieTicketSystem.Models.Ticket> Tickets { get; set; } = default!;
-        public DbSet<MovieTicketSystem.Models.Payment> Payments { get; set; } = default!;protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public DbSet<MovieTicketSystem.Models.Payment> Payments { get; set; } = default!;
+        public DbSet<MovieTicketSystem.Models.PaymentCard> PaymentCards { get; set; } = default!;protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
