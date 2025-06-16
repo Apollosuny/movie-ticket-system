@@ -158,27 +158,6 @@
                     </div>
                     <div class="px-5 py-3 bg-gray-50 border-t border-gray-200">
                         <div class="flex justify-between items-center">
-                            <a asp-page="./Details" asp-route-id="@booking.BookingId" 
-                               class="inline-flex items-center px-3 py-1.5 border border-blue-600 text-sm font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                Details
-                            </a>
-                            @if (booking.Status?.ToLower() == "pending")
-                            {
-                                <form method="post" class="inline">
-                                    <input type="hidden" name="bookingId" value="@booking.BookingId" />
-                                    <button type="submit" 
-                                            onclick="return confirm('Are you sure you want to cancel this booking?')"
-                                            class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
-                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                        Cancel Booking
-                                    </button>
-                                </form>
-                            }
                         </div>
                     </div>
                 </div>
